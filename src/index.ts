@@ -1,5 +1,4 @@
-import { COOKIE, HOST, ROUTES, PASSWORD, USERID, USERNAME, UA, CSRF_TOKEN } from './constant';
-import { throws } from 'assert';
+import { COOKIE, CSRF_TOKEN, HOST, ROUTES, USERID } from './constant';
 
 const axios = require('axios');
 
