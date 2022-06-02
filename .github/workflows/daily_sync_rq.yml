@@ -30,7 +30,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name:Use Node.js
+    name: Use Node.js
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
