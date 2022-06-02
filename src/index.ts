@@ -4,10 +4,11 @@ const axios = require('axios');
 const core = require('@actions/core');
 
 console.log("testing: >>", process.argv);
+console.log("testing: >>", process.env);
 
-const RQ_COOKIE = process.argv[2] ?? COOKIE
-const RQ_CSRF_TOKEN = process.argv[3] ?? CSRF_TOKEN
-const RQ_USERID = process.argv[4] ?? USERID
+const RQ_USERID = process.argv[2] ?? USERID
+const RQ_COOKIE = process.argv[3] ?? COOKIE
+const RQ_CSRF_TOKEN = process.argv[4] ?? CSRF_TOKEN
 
 export async function getOverView() {
     const url = `${HOST}${ROUTES.UPDATE}${RQ_USERID}`;
