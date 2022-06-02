@@ -1,19 +1,32 @@
-import { COOKIE, CSRF_TOKEN, HOST, ROUTES, USERID } from './constant';
+import {
+    COOKIE,
+    CSRF_TOKEN,
+    HOST,
+    ROUTES,
+    USERID,
+    G_API_CLIENT_EMAIL,
+    G_API_PRIVATE_KEY,
+    G_SHEET_ID,
+} from './constant';
 
 const axios = require('axios');
 const core = require('@actions/core');
+const { google } = require('googleapis');
+const { JWT } = require('google-auth-library');
 
-console.log('testing: >>', process.env);
+// console.log('testing: >>', process.env);
 
 const RQ_USERID = process.env.RQ_USERID ?? USERID;
 const RQ_COOKIE = process.env.RQ_COOKIE ?? COOKIE;
 const RQ_CSRF_TOKEN = process.env.RQ_CSRF_TOKEN ?? CSRF_TOKEN;
+const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID ?? G_SHEET_ID;
+const GOOGLE_API_CLIENT_EMAIL = process.env.GOOGLE_API_CLIENT_EMAIL ?? G_API_CLIENT_EMAIL;
+const GOOGLE_API_PRIVATE_KEY = process.env.GOOGLE_API_PRIVATE_KEY ?? G_API_PRIVATE_KEY;
 
 export async function getOverView() {
     const url = `${HOST}${ROUTES.UPDATE}${RQ_USERID}`;
 
     console.log('url', url);
-
     try {
         const res = await axios(url, {
             method: 'post',
@@ -36,12 +49,12 @@ export async function getOverView() {
 
         // console.log('getOverView ', res);
         if (res?.data?.data) {
-            regexp(res?.data?.data);
+            const rqdata = regexp(res?.data?.data);
+            await insertSheet(rqdata);
         } else {
             console.log('ERROR, 检查TOKEN');
         }
     } catch (e) {
-        // console.log(e);
         throw new Error(e);
     }
 
@@ -73,6 +86,43 @@ export const regexp = (htmlData) => {
     console.log('趋势', up[1]);
     console.log('趋势', upValue[1]);
 
+    return [
+        Date.now(),
+        time[1],
+        now[1],
+        load[1],
+        tired[1],
+        runLevel[1],
+        runLevelDesc[1],
+        up[1],
+        upValue[1],
+    ];
+
+};
+
+export const insertSheet = async (data) => {
+    const client = new JWT({
+        email: GOOGLE_API_CLIENT_EMAIL,
+        key: GOOGLE_API_PRIVATE_KEY,
+        scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    });
+    const sheets = google.sheets({
+        version: 'v4',
+        auth: client,
+    });
+    const response2 = await sheets.spreadsheets.values.append({
+        spreadsheetId: GOOGLE_SHEET_ID,
+        range: '工作表1!A1:I1',
+        valueInputOption: 'USER_ENTERED',
+        requestBody: {
+            values: [
+                // ['日期', '跑力更新时间', '即时跑力', '训练负荷', '疲劳', '跑力', '跑力说明', '趋势1', '趋势2'],
+                data,
+            ],
+        },
+    });
+    const posts2 = response2.data;
+    console.log(posts2);
 };
 
 try {

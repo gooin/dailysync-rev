@@ -10,3 +10,7 @@ export const ROUTES = {
     OVERVIEW: '/training/getOverView',
     UPDATE: 'training/update-overview?userId=',
 };
+
+export const G_API_CLIENT_EMAIL = '';
+export const G_API_PRIVATE_KEY = '';
+export const G_SHEET_ID = '';
