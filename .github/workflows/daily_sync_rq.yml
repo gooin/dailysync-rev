@@ -27,4 +27,4 @@ jobs:
           node-version: '14'
           cache: 'yarn'
       - run: yarn
-      - run: yarn start  ${{ secrets.RQ_USERID }} ${{ secrets.RQ_COOKIE }} ${{ secrets.RQ_CSRF_TOKEN }}
+      - run: yarn start
