@@ -34,7 +34,7 @@ export async function getOverView() {
             console.log('ERROR, 检查TOKEN');
         }
     } catch (e) {
-        console.log(e);
+        // console.log(e);
         throw new Error(e);
     }
 
@@ -67,7 +67,13 @@ export const regexp = (htmlData) => {
     console.log('趋势', upValue[1]);
 
 };
-getOverView();
+
+try {
+    getOverView();
+} catch (e) {
+    throw new Error(e);
+}
+
 
 
 
