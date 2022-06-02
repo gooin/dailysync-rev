@@ -16,6 +16,7 @@ env:
   GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
   GOOGLE_API_CLIENT_EMAIL: ${{ secrets.GOOGLE_API_CLIENT_EMAIL }}
   GOOGLE_API_PRIVATE_KEY: ${{ secrets.GOOGLE_API_PRIVATE_KEY }}
+  BARK_KEY: ${{ secrets.BARK_KEY }}
   GITHUB_NAME: gooin
   GITHUB_EMAIL: gooin@@outlook.com
 

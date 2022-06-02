@@ -7,6 +7,7 @@ import {
     G_API_CLIENT_EMAIL,
     G_API_PRIVATE_KEY,
     G_SHEET_ID,
+    BARK_KEY,
 } from './constant';
 
 const axios = require('axios');
@@ -22,6 +23,7 @@ const RQ_CSRF_TOKEN = process.env.RQ_CSRF_TOKEN ?? CSRF_TOKEN;
 const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID ?? G_SHEET_ID;
 const GOOGLE_API_CLIENT_EMAIL = process.env.GOOGLE_API_CLIENT_EMAIL ?? G_API_CLIENT_EMAIL;
 const GOOGLE_API_PRIVATE_KEY = process.env.GOOGLE_API_PRIVATE_KEY ?? G_API_PRIVATE_KEY;
+const BARK_MESSAGE_KEY = process.env.BARK_KEY ?? BARK_KEY;
 
 export async function getOverView() {
     const url = `${HOST}${ROUTES.UPDATE}${RQ_USERID}`;
@@ -52,9 +54,14 @@ export async function getOverView() {
             const rqdata = regexp(res?.data?.data);
             await insertSheet(rqdata);
         } else {
-            console.log('ERROR, 检查TOKEN');
+            console.error('ERROR at 0, 检查TOKEN');
+            await axios.get(
+                `https://api.day.app/${BARK_MESSAGE_KEY}/RQ运行失败了/ERROR检查TOKEN`);
         }
     } catch (e) {
+        console.error('ERROR, 检查TOKEN');
+        await axios.get(
+            `https://api.day.app/${BARK_MESSAGE_KEY}/RQ运行失败了/${e.message}`);
         throw new Error(e);
     }
 
@@ -128,6 +135,8 @@ export const insertSheet = async (data) => {
 try {
     getOverView();
 } catch (e) {
+    axios.get(
+        `https://api.day.app/${BARK_MESSAGE_KEY}/RQ运行失败了/${e.message}`);
     core.setFailed(e.message);
     throw new Error(e);
 }
