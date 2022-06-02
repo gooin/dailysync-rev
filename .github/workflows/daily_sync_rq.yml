@@ -3,7 +3,7 @@ name: get RQ data and write to google sheet
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "30 22 * * *"
   push:
     branches:
       - main
