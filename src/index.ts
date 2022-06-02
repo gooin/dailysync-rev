@@ -1,4 +1,5 @@
 import { COOKIE, HOST, ROUTES, PASSWORD, USERID, USERNAME, UA, CSRF_TOKEN } from './constant';
+import { throws } from 'assert';
 
 const axios = require('axios');
 
@@ -28,14 +29,14 @@ export async function getOverView() {
         });
 
         // console.log('getOverView ', res);
-        if(res?.data?.data){
+        if (res?.data?.data) {
             regexp(res?.data?.data);
-        }else{
+        } else {
             console.log('ERROR, 检查TOKEN');
         }
     } catch (e) {
         console.log(e);
-
+        throw new Error(e);
     }
 
 }
