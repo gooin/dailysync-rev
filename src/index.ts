@@ -1,9 +1,16 @@
 import { COOKIE, CSRF_TOKEN, HOST, ROUTES, USERID } from './constant';
 
 const axios = require('axios');
+const core = require('@actions/core');
+
+console.log("testing: >>", process.argv);
+
+const RQ_COOKIE = process.argv[2] ?? COOKIE
+const RQ_CSRF_TOKEN = process.argv[3] ?? CSRF_TOKEN
+const RQ_USERID = process.argv[4] ?? USERID
 
 export async function getOverView() {
-    const url = `${HOST}${ROUTES.UPDATE}${USERID}`;
+    const url = `${HOST}${ROUTES.UPDATE}${RQ_USERID}`;
 
     console.log('url', url);
 
@@ -19,9 +26,9 @@ export async function getOverView() {
                 'sec-fetch-dest': 'empty',
                 'sec-fetch-mode': 'cors',
                 'sec-fetch-site': 'same-origin',
-                'x-csrf-token': CSRF_TOKEN,
+                'x-csrf-token': RQ_CSRF_TOKEN,
                 'x-requested-with': 'XMLHttpRequest',
-                'cookie': COOKIE,
+                'cookie': RQ_COOKIE,
                 'Referer': 'https://www.runningquotient.cn/training/overview',
                 'Referrer-Policy': 'strict-origin-when-cross-origin',
             },
@@ -71,6 +78,7 @@ export const regexp = (htmlData) => {
 try {
     getOverView();
 } catch (e) {
+    core.setFailed(e.message);
     throw new Error(e);
 }
 
