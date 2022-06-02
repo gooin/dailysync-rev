@@ -7,8 +7,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - scripts/nike_sync.py
 
 env:
   # please change to your own config.
