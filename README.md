@@ -1,4 +1,4 @@
-# node-typescript-start-template
+# runningquotient 跑力分析每日采集数据到GoogleSheets
 
 ## How to use
 `yarn`

@@ -3,7 +3,8 @@ name: get RQ data and write to google sheet
 on:
   workflow_dispatch:
   schedule:
-    - cron: "30 22 * * *"
+#    schedule默认时区间是UTC+0， 对应北京时间22:30
+    - cron: "30 16 * * *"
   push:
     branches:
       - main
