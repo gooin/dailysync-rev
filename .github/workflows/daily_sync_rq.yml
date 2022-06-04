@@ -18,8 +18,8 @@ env:
   GOOGLE_API_CLIENT_EMAIL: ${{ secrets.GOOGLE_API_CLIENT_EMAIL }}
   GOOGLE_API_PRIVATE_KEY: ${{ secrets.GOOGLE_API_PRIVATE_KEY }}
   BARK_KEY: ${{ secrets.BARK_KEY }}
-  GITHUB_NAME: gooin
-  GITHUB_EMAIL: gooin@@outlook.com
+  GARMIN_USERNAME: ${{ secrets.GARMIN_USERNAME }}
+  GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
 
 jobs:
   build:

@@ -1,17 +1,27 @@
-export const COOKIE = '';
-export const CSRF_TOKEN = '';
-export const USERNAME = '';
-export const PASSWORD = '';
-export const USERID = '';
-export const HOST = 'https://www.runningquotient.cn/';
-export const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36';
-export const ROUTES = {
+export const RQ_USERID_DEFAULT = '';
+export const RQ_COOKIE_DEFAULT = '';
+export const RQ_USERNAME_DEFAULT = '';
+export const RQ_PASSWORD_DEFAULT = '';
+export const RQ_CSRF_TOKEN_DEFAULT = '';
+export const RQ_HOST_DEFAULT = 'https://www.runningquotient.cn/';
+export const UA_DEFAULT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36';
+export const RQ_ROUTES_DEFAULT = {
     LOGIN: '/user/login',
     OVERVIEW: '/training/getOverView',
     UPDATE: 'training/update-overview?userId=',
 };
+export const GARMIN_URL_DEFAULT = {
+    'BASE_URL': 'https://connect.garmin.cn',
+    'SSO_URL_ORIGIN': 'https://sso.garmin.com',
+    'SSO_URL': 'https://sso.garmin.cn/sso',
+    'MODERN_URL': 'https://connect.garmin.cn/modern',
+    'SIGNIN_URL': 'https://sso.garmin.cn/sso/signin',
+    'CSS_URL': 'https://static.garmincdn.cn/cn.garmin.connect/ui/css/gauth-custom-v1.2-min.css',
+};
 
-export const G_API_CLIENT_EMAIL = '';
-export const G_API_PRIVATE_KEY = '';
-export const G_SHEET_ID = '';
-export const BARK_KEY = '';
+export const GOOGLE_API_CLIENT_EMAIL_DEFAULT = '';
+export const GOOGLE_API_PRIVATE_KEY_DEFAULT = '';
+export const GOOGLE_SHEET_ID_DEFAULT = '';
+export const BARK_KEY_DEFAULT = '';
+export const GARMIN_USERNAME_DEFAULT = '';
+export const GARMIN_PASSWORD_DEFAULT = '';
