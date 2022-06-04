@@ -108,22 +108,11 @@ export const rqRegexp = (htmlData) => {
         rqTired: tired[1],
         rqRunLevelNow: now[1],
         rqRunLevel: runLevel[1],
+        runLevelDesc: runLevelDesc[1],
         rqTrend1: up[1],
         rqTrend2: upValue[1],
     };
     return result;
-    // return [
-    //     Date.now(),
-    //     time[1],
-    //     now[1],
-    //     load[1],
-    //     tired[1],
-    //     runLevel[1],
-    //     runLevelDesc[1],
-    //     up[1],
-    //     upValue[1],
-    // ];
-
 };
 
 export const insertSheet = async (data) => {
@@ -138,11 +127,11 @@ export const insertSheet = async (data) => {
     });
     const response2 = await sheets.spreadsheets.values.append({
         spreadsheetId: GOOGLE_SHEET_ID,
-        range: '工作表1!A1:I1',
+        range: '工作表1!A1:AD',
         valueInputOption: 'USER_ENTERED',
         requestBody: {
             values: [
-                // ['日期', '跑力更新时间', '即时跑力', '训练负荷', '疲劳', '跑力', '跑力说明', '趋势1', '趋势2'],
+                ['导入时间', '跑力更新时间', '训练负荷', '疲劳', '即时跑力', '跑力', '跑力说明', '趋势1', '趋势2', '活动id', '活动名称', '活动开始时间', '距离', '持续时间', '速度 m/s', '配速 min/km', '配速文字 min/km', '平均心率', '最大心率', '平均每分钟步频', '有氧效果', '无氧效果', '触地时间', '步幅', 'VO2Max', '垂直振幅', '垂直振幅比', '触地平衡', '训练效果', '训练负荷'],
                 data,
             ],
         },
@@ -247,7 +236,7 @@ export const run = async () => {
     // console.log('garminStatistics', garminStatistics);
     const data = _.assign(rqResult, garminStatistics);
 
-    // console.log('update all data', data);
+    console.log('update all data', data);
 
     const finalResult = _.values(data);
     // console.log('finalResult', finalResult);
