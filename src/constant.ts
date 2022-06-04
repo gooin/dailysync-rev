@@ -12,6 +12,7 @@ export const RQ_ROUTES_DEFAULT = {
 };
 export const GARMIN_URL_DEFAULT = {
     'BASE_URL': 'https://connect.garmin.cn',
+    'ACTIVITY_URL': 'https://connect.garmin.cn/modern/activity/',
     'SSO_URL_ORIGIN': 'https://sso.garmin.com',
     'SSO_URL': 'https://sso.garmin.cn/sso',
     'MODERN_URL': 'https://connect.garmin.cn/modern',

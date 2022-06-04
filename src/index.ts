@@ -225,6 +225,7 @@ export const getGarminStatistics = async () => {
         avgGroundContactBalance, // 触地平衡
         trainingEffectLabel, // 训练效果
         activityTrainingLoad, // 训练负荷
+        activityURL: GARMIN_URL_DEFAULT.ACTIVITY_URL + activityId, // 活动链接
     };
     // const detail = await GCClient.getActivity(recentRunningAct);
     // console.log('detail', detail);
