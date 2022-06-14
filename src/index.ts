@@ -10,7 +10,12 @@ import {
     BARK_KEY_DEFAULT,
     GARMIN_USERNAME_DEFAULT,
     GARMIN_PASSWORD_DEFAULT, GARMIN_URL_DEFAULT, UA_DEFAULT,
+    STRAVA_ACCESS_TOKEN_DEFAULT,
+    STRAVA_CLIENT_ID_DEFAULT,
+    STRAVA_CLIENT_SECRET_DEFAULT,
+    STRAVA_REDIRECT_URI_DEFAULT,
 } from './constant';
+import { getStravaUserInfo } from './utils/strava';
 
 const axios = require('axios');
 const qs = require('qs');
@@ -247,6 +252,7 @@ export const run = async () => {
 
 try {
     run();
+    // getStravaUserInfo();
 } catch (e) {
     axios.get(
         `https://api.day.app/${BARK_KEY}/RQ运行失败了/${e.message}`);
