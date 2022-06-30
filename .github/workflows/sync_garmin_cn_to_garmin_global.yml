@@ -1,10 +1,10 @@
-name: get RQ data and write to google sheet
+name: Sync Garmin CN to Garmin Global
 
 on:
   workflow_dispatch:
   schedule:
-#    schedule默认时区间是UTC+0， 对应北京时间22:30
-    - cron: "30 16 * * *"
+    #  每10分钟检查一次
+    - cron: "*/10 * * * *"
   push:
     branches:
       - main
@@ -26,7 +26,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: get RQ data and write to google sheet
+    name: Sync Garmin CN to Garmin Global
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -34,4 +34,4 @@ jobs:
           node-version: '14'
           cache: 'yarn'
       - run: yarn
-      - run: yarn start
+      - run: yarn sync
