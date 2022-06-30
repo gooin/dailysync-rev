@@ -175,7 +175,7 @@ export const syncGarminCN2GarminGlobal = async () => {
     const globalActs = await GCClientGlobal.getActivities(0, 1);
 
     const latestGlobalActStartTime = globalActs[0].startTimeLocal;
-    const latestCnActStartTime = globalActs[0].startTimeLocal;
+    const latestCnActStartTime = cnActs[0].startTimeLocal;
 
     if (latestCnActStartTime === latestGlobalActStartTime) {
         console.log(`no updates, latest act:  【 ${cnActs[0].activityName}】,start at: 【${latestCnActStartTime}】`);
