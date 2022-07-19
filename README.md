@@ -80,7 +80,7 @@ GARMIN_MIGRATE_START
 
 填完后确保如下图红框内的都填上了, 红框外的不用管
 
-![secrets](./assets/secrets_ok.png)
+![secrets](./assets/secrets_ok1.png)
 
 #### Step3: 手动迁移已有数据
 如下图，点击【Actions】--> 【 Migrate Garmin CN to Garmin 】 --> 【Run workflow】执行迁移数据
