@@ -55,7 +55,9 @@ GARMIN_MIGRATE_NUM
 > 迁移数据比较慢，请耐心等待，实测15分钟迁移200条左右
 > 
 #### Step4: 自动同步新的运动数据
-无需额外配置，每15分钟自动同步一次，一段时间后可以查看同步记录
+如图点击开启workflow
+![enable_workflow](./assets/enable_workflow.jpg)
+开启后无需额外配置，每15分钟自动同步一次，一段时间后可以查看同步记录
 如果有问题，请发邮件联系我
 ![sync](./assets/sync.jpg)
 
