@@ -21,12 +21,20 @@
 
 ## 如何使用？
 
+视频教程参考：【待录制】
 
 ### 同步到佳明国际区，同步Strava
 
+[佳明国际区网址](https://connect.garmin.com/signin/) 如果之前没有注册过，请用另外一个邮箱地址，不要和国区邮箱相同，不然会注册不成功
+
+[佳明国区网址](https://connect.garmin.cn/signin/)
+
+[Strava网址](https://www.strava.com/)
+
 前置条件：**注册好佳明国际区的帐号及Strava账号，并已经将Strava与佳明国际区账号关联，并开启Strava数据权限（下图）**
 
-![consent](./assets/consent.jpg)
+
+![consent](./assets/consent.png)
 
 思路： Strava仅支持关联国际区的佳明账号，所以需要提前自己创建国际区佳明账号，并用此账号关联绑定Strava
 
@@ -62,10 +70,13 @@ GARMIN_GLOBAL_PASSWORD
 
 请先在connect网站看看要迁移的活动，写一个大概的数量： https://connect.garmin.cn/modern/activities
 
-**要迁移的活动数量**:
+**要迁移的活动数量，先填1**:
 GARMIN_MIGRATE_NUM
 
-![secrets](./assets/secrets.jpg)
+**从第几个活动开始迁移，先填 0**:
+GARMIN_MIGRATE_START
+
+![secrets](./assets/secrets.jpg) 
 
 填完后确保如下图红框内的都填上了, 红框外的不用管
 
@@ -76,10 +87,27 @@ GARMIN_MIGRATE_NUM
 ![migrate](./assets/migrate.jpg)
 点击后刷新页面，可以看到正在执行的任务：
 ![migrating](./assets/migrating.jpg)
-点进去后可以查看日志，如果 Run yarn migrate：那一栏数据持续在滚动刷新，就说明正常在运行
+点进去后可以查看日志，如果 Run yarn migrate那一栏看到 userInfo cn 和 userInfo Global, 并且数据持续在滚动刷新，就说明正常运行
+![test_migrate](./assets/test_migrate.png)
 ![log](./assets/log.jpg)
-> 迁移数据比较慢，请耐心等待，实测15分钟迁移200条左右
-> 
+
+如果上面一切正常，运行结束后，前面会是一个绿色，代表运行完成，这个时候，去佳明国际区和strava看看，是否有1条数据迁移过来，如果没有，代表有问题，请联系我咨询，如果有，代表正常运行。
+
+上面正常的话开始迁移剩余数据
+
+回到 Step2 的地方，分别修改
+
+GARMIN_MIGRATE_NUM 为 100
+
+GARMIN_MIGRATE_START 为 1
+
+然后按照上面执行过的步骤，参照Step3再执行一次，执行成功后检查佳明国际区及Strava上是否迁移过来。如果成功，修改
+
+GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MIGRATE_START 的值 + 100，直到所有数据迁移完成。
+
+> 迁移数据比较慢，请耐心等待，实测8分钟迁移100条左右
+
+
 #### Step4: 自动同步新的运动数据
 如图点击开启workflow
 ![enable_workflow](./assets/enable_workflow.jpg)
@@ -87,6 +115,9 @@ GARMIN_MIGRATE_NUM
 如果有问题，请发邮件联系我
 ![sync](./assets/sync.jpg)
 
+#### FAQ:
+##### 需要每天都来同步数据吗？
+不用。上面的步骤执行过后，MIGRATE手动迁移已有数据，再有新跑的数据会在SYNC中每隔15分钟自动同步
 
 ### 采集RQ数据到GoogleSheets
 略麻烦，跑友们有需要再补充
