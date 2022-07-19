@@ -1,16 +1,39 @@
 # 佳明运动数据同步与采集工具
+
+<a style="display:inline-block;background-color:#FC5200;color:#fff;padding:5px 10px 5px 30px;font-size:11px;font-family:Helvetica, Arial, sans-serif;white-space:nowrap;text-decoration:none;background-repeat:no-repeat;background-position:10px center;border-radius:3px;background-image:url('https://badges.strava.com/logo-strava-echelon.png')" href='https://strava.com/athletes/84396978' target="_clean">
+  关注作者
+  <img src='https://badges.strava.com/logo-strava.png' alt='Strava' style='margin-left:2px;vertical-align:text-bottom' height=13 width=51 />
+</a>
+
 自动 安全 省心
 
 此工具实现了佳明国内版运动数据与国际区的同步，进而与国际接轨（笑），同步到Strava。
 
 额外还实现了RQ数据采集记录跑力的长期趋势
 
+
 安全：
 账号及密码保存在自己的 github secrets 中，不会泄露，运行代码均开放源码
 
+
+
+
 ## 如何使用？
 
+
 ### 同步到佳明国际区，同步Strava
+
+前置条件：**注册好佳明国际区的帐号及Strava账号，并已经将Strava与佳明国际区账号关联。**
+
+思路： Strava仅支持关联国际区的佳明账号，所以需要提前自己创建国际区佳明账号，并用此账号关联绑定Strava
+
+流程：
+
+【运动】--> GarminCN --> This Tool ⚡ --> Garmin Global --> Strava
+
+同步方法： 
+先迁移国区数据到国际区，然后开启同步数据，每15分钟自动同步一次数据，实现无缝与Strava同步数据
+
 #### Step1: fork 此工程
 点击【Fork】，fork到自己账号下
   ![fork](./assets/fork.jpg)
@@ -61,18 +84,13 @@ GARMIN_MIGRATE_NUM
 如果有问题，请发邮件联系我
 ![sync](./assets/sync.jpg)
 
+
 ### 采集RQ数据到GoogleSheets
 略麻烦，跑友们有需要再补充
 
 
 
 ## 同步到佳明国际区，同步Strava
-
-思路： Strava仅支持关联国际区的佳明账号，所以需要提前自己创建国际区佳明账号，并用此账号关联绑定Strava
-
-流程：
-
-【运动】--> GarminCN --> This Tool ⚡ --> GarminGlobal --> Strava
 
 ![garmin_global](./assets/garmin_global.png)
 ![strava](./assets/strava.png)
