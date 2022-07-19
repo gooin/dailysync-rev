@@ -24,7 +24,9 @@
 
 ### 同步到佳明国际区，同步Strava
 
-前置条件：**注册好佳明国际区的帐号及Strava账号，并已经将Strava与佳明国际区账号关联。**
+前置条件：**注册好佳明国际区的帐号及Strava账号，并已经将Strava与佳明国际区账号关联，并开启Strava数据权限（下图）**
+
+![consent](./assets/consent.jpg)
 
 思路： Strava仅支持关联国际区的佳明账号，所以需要提前自己创建国际区佳明账号，并用此账号关联绑定Strava
 
@@ -37,7 +39,7 @@
 
 #### Step1: fork 此工程
 点击【Fork】，fork到自己账号下
-  ![fork](./assets/fork.jpg)
+![fork](./assets/fork.jpg)
 
 #### Step2: 配置填入自己的佳明国内区、国际区账号及密码
 
@@ -46,21 +48,21 @@
 
 准备自己的帐号密码及要迁移的数据量
 
-佳明国内账号邮箱地址：
+**佳明国内账号邮箱地址**：
 GARMIN_USERNAME
 
-佳明国内账号密码：
+**佳明国内账号密码**：
 GARMIN_PASSWORD
 
-佳明国际账号邮箱地址：
+**佳明国际账号邮箱地址**：
 GARMIN_GLOBAL_USERNAME
 
-佳明国际账号密码：
+**佳明国际账号密码**：
 GARMIN_GLOBAL_PASSWORD
 
 请先在connect网站看看要迁移的活动，写一个大概的数量： https://connect.garmin.cn/modern/activities
 
-要迁移的活动数量:
+**要迁移的活动数量**:
 GARMIN_MIGRATE_NUM
 
 ![secrets](./assets/secrets.jpg)
@@ -74,7 +76,7 @@ GARMIN_MIGRATE_NUM
 ![migrate](./assets/migrate.jpg)
 点击后刷新页面，可以看到正在执行的任务：
 ![migrating](./assets/migrating.jpg)
-点进去后可以查看日志：
+点进去后可以查看日志，如果 Run yarn migrate：那一栏数据持续在滚动刷新，就说明正常在运行
 ![log](./assets/log.jpg)
 > 迁移数据比较慢，请耐心等待，实测15分钟迁移200条左右
 > 
