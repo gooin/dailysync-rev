@@ -35,6 +35,7 @@ GARMIN_GLOBAL_USERNAME
 GARMIN_GLOBAL_PASSWORD
 
 请先在connect网站看看要迁移的活动，写一个大概的数量： https://connect.garmin.cn/modern/activities
+
 要迁移的活动数量:
 GARMIN_MIGRATE_NUM
 
