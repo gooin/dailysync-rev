@@ -1,5 +1,10 @@
 import { getGaminGlobalClient, uploadGarminActivity } from './garmin_gobal';
-import { GARMIN_PASSWORD_DEFAULT, GARMIN_URL_DEFAULT, GARMIN_USERNAME_DEFAULT } from '../constant';
+import {
+    GARMIN_MIGRATE_NUM_DEFAULT,
+    GARMIN_PASSWORD_DEFAULT,
+    GARMIN_URL_DEFAULT,
+    GARMIN_USERNAME_DEFAULT,
+} from '../constant';
 
 const { GarminConnect } = require('@gooin/garmin-connect-cn');
 const { GarminConnect: GarminConnectGlobal } = require('@gooin/garmin-connect');
@@ -12,6 +17,7 @@ export const downloadDir = './garmin_fit_files';
 
 const GARMIN_USERNAME = process.env.GARMIN_USERNAME ?? GARMIN_USERNAME_DEFAULT;
 const GARMIN_PASSWORD = process.env.GARMIN_PASSWORD ?? GARMIN_PASSWORD_DEFAULT;
+const GARMIN_MIGRATE_NUM = process.env.GARMIN_MIGRATE_NUM ?? GARMIN_MIGRATE_NUM_DEFAULT;
 
 export const getGarminStatistics = async () => {
     const GCClient = new GarminConnect();
@@ -143,7 +149,7 @@ export const migrateGarminCN2GarminGlobal = async (count = 200) => {
     const waitTime = 2000; //ms
     const actIndex = 0;
     // const actPerGroup = 10;
-    const totalAct = count;
+    const totalAct = Number(GARMIN_MIGRATE_NUM) ?? count;
 
     const GCClient = await getGaminCNClient();
     const GCClientGlobal = await getGaminGlobalClient();
@@ -178,7 +184,7 @@ export const syncGarminCN2GarminGlobal = async () => {
     const latestCnActStartTime = cnActs[0].startTimeLocal;
 
     if (latestCnActStartTime === latestGlobalActStartTime) {
-        console.log(`no updates, latest act:  【 ${cnActs[0].activityName}】,start at: 【${latestCnActStartTime}】`);
+        console.log(`没有要同步的活动内容, 最近的活动:  【 ${cnActs[0].activityName} 】, 开始于: 【 ${latestCnActStartTime} 】`);
     } else {
         for (let i = 0; i < cnActs.length; i++) {
             const cnAct = cnActs[i];

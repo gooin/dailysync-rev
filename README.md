@@ -1,6 +1,79 @@
-# 每日采集跑步分析数据到GoogleSheets自动化工具
+# 佳明运动数据同步与采集工具
+自动 安全 省心
 
-## 动机：
+此工具实现了佳明国内版运动数据与国际区的同步，进而与国际接轨（笑），同步到Strava。
+
+额外还实现了RQ数据采集记录跑力的长期趋势
+
+安全：
+账号及密码保存在自己的 github secrets 中，不会泄露，运行代码均开放源码
+
+## 如何使用？
+
+### 同步到佳明国际区，同步Strava
+#### Step1: fork 此工程
+点击【Fork】，fork到自己账号下
+  ![fork](./assets/fork.jpg)
+
+#### Step2: 配置填入自己的佳明国内区、国际区账号及密码
+
+如下图打开Secrets配置，点击 【New repository secret】
+![settings](./assets/settings.jpg)
+
+准备自己的帐号密码及要迁移的数据量
+
+佳明国内账号邮箱地址：
+GARMIN_USERNAME
+
+佳明国内账号密码：
+GARMIN_PASSWORD
+
+佳明国际账号邮箱地址：
+GARMIN_GLOBAL_USERNAME
+
+佳明国际账号密码：
+GARMIN_GLOBAL_PASSWORD
+
+请先在connect网站看看要迁移的活动，写一个大概的数量： https://connect.garmin.cn/modern/activities
+要迁移的活动数量:
+GARMIN_MIGRATE_NUM
+
+![secrets](./assets/secrets.jpg)
+
+填完后确保如下图红框内的都填上了, 红框外的不用管
+
+![secrets](./assets/secrets_ok.png)
+
+#### Step3: 手动迁移已有数据
+如下图，点击【Actions】--> 【 Migrate Garmin CN to Garmin 】 --> 【Run workflow】执行迁移数据
+![migrate](./assets/migrate.jpg)
+点击后刷新页面，可以看到正在执行的任务：
+![migrating](./assets/migrating.jpg)
+点进去后可以查看日志：
+![log](./assets/log.jpg)
+> 迁移数据比较慢，请耐心等待，实测15分钟迁移200条左右
+> 
+#### Step4: 自动同步新的运动数据
+无需额外配置，每15分钟自动同步一次，一段时间后可以查看同步记录
+如果有问题，请发邮件联系我
+![sync](./assets/sync.jpg)
+
+### 采集RQ数据到GoogleSheets
+略麻烦，跑友们有需要再补充
+
+
+
+## 同步到佳明国际区，同步Strava
+
+思路： Strava仅支持关联国际区的佳明账号，所以需要提前自己创建国际区佳明账号，并用此账号关联绑定Strava
+流程：
+【运动】--> GarminCN --> This Tool ⚡ --> GarminGlobal --> Strava
+
+![garmin_global](./assets/garmin_global.png)
+![strava](./assets/strava.png)
+
+
+## 采集RQ数据：
 
 [https://www.runningquotient.cn/](https://www.runningquotient.cn/) 是一个专业的跑步数据分析网站，提供的对跑者的"跑力"分析对我来说相当准确。
 基本会员至多查詢42天內的跑力變化，更长时间（60，90，180）需要白金会员（RMB ¥60/月）才能看到， 故萌生了采集数据记录到表格自己统计到想法，配合Connect的详细统计数据，可以分析自己的跑步能力长期趋势。
@@ -26,18 +99,10 @@
 ![connect](./assets/connect.png)
 ![sheet](./assets/sheet.png)
 
-## 同步到佳明国际区，同步Strava
+分享我自己的跑步数据：
+![点击打开表格查看](https://docs.google.com/spreadsheets/d/e/2PACX-1vRSk3aD6T3tFM-OA7Cl5BmFMJ7mdKriFgYvNQA6f5b8K6F_-CadaGa8TEjMmy-sIpOPfmdN1ktkhXxt/pubhtml?gid=0&single=true)
 
-> 如有需要我可以单独弄一个仓库，只留下同步国区到国际区的功能 fork 后配置个人账号信息就能用
-> 如有人正好有同样需求并看到这个repo可以email我，我再来弄这个仓库哈，折腾一晚上，睡觉了先～
 
-![garmin_global](./assets/garmin_global.png)
-![strava](./assets/strava.png)
-
-## How to use
-
-`yarn`
-
-`yarn start`
-
-Modify `src/index.ts`, then observe the running results in the console.
+## Buy Me a Coffee
+如果你觉得我的工作帮到了你，可赠予我一杯咖啡，感谢~
+![wechat](./assets/wechat.jpg)

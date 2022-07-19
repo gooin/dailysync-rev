@@ -2,9 +2,6 @@ name: Migrate Garmin CN to Garmin Global
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'src/migrate.ts'
 
 env:
   BARK_KEY: ${{ secrets.BARK_KEY }}
@@ -12,6 +9,7 @@ env:
   GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
   GARMIN_GLOBAL_USERNAME: ${{ secrets.GARMIN_GLOBAL_USERNAME }}
   GARMIN_GLOBAL_PASSWORD: ${{ secrets.GARMIN_GLOBAL_PASSWORD }}
+  GARMIN_MIGRATE_NUM: ${{ secrets.GARMIN_MIGRATE_NUM }}
 
 jobs:
   build:
