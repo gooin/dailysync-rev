@@ -21,7 +21,7 @@
 
 ## 如何使用？
 
-视频教程参考：【待录制】
+视频教程参考： [中国区佳明运动数据同步Strava视频教程](https://www.bilibili.com/video/BV1v94y1Q7oR/)
 
 ### 同步到佳明国际区，同步Strava
 
