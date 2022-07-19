@@ -66,7 +66,9 @@ GARMIN_MIGRATE_NUM
 ## 同步到佳明国际区，同步Strava
 
 思路： Strava仅支持关联国际区的佳明账号，所以需要提前自己创建国际区佳明账号，并用此账号关联绑定Strava
+
 流程：
+
 【运动】--> GarminCN --> This Tool ⚡ --> GarminGlobal --> Strava
 
 ![garmin_global](./assets/garmin_global.png)
@@ -100,7 +102,7 @@ GARMIN_MIGRATE_NUM
 ![sheet](./assets/sheet.png)
 
 分享我自己的跑步数据：
-![点击打开表格查看](https://docs.google.com/spreadsheets/d/e/2PACX-1vRSk3aD6T3tFM-OA7Cl5BmFMJ7mdKriFgYvNQA6f5b8K6F_-CadaGa8TEjMmy-sIpOPfmdN1ktkhXxt/pubhtml?gid=0&single=true)
+[点击打开表格查看](https://docs.google.com/spreadsheets/d/e/2PACX-1vRSk3aD6T3tFM-OA7Cl5BmFMJ7mdKriFgYvNQA6f5b8K6F_-CadaGa8TEjMmy-sIpOPfmdN1ktkhXxt/pubhtml?gid=0&single=true)
 
 
 ## Buy Me a Coffee
