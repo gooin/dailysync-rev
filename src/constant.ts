@@ -35,4 +35,5 @@ export const STRAVA_CLIENT_ID_DEFAULT = '';
 export const STRAVA_CLIENT_SECRET_DEFAULT = '';
 export const STRAVA_REDIRECT_URI_DEFAULT = '';
 export const GARMIN_MIGRATE_NUM_DEFAULT = '';
+export const GARMIN_MIGRATE_START_DEFAULT = '';
 

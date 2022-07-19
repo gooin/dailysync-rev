@@ -4,6 +4,7 @@ import {
     GARMIN_PASSWORD_DEFAULT,
     GARMIN_URL_DEFAULT,
     GARMIN_USERNAME_DEFAULT,
+    GARMIN_MIGRATE_START_DEFAULT,
 } from '../constant';
 
 const { GarminConnect } = require('@gooin/garmin-connect-cn');
@@ -18,6 +19,7 @@ export const downloadDir = './garmin_fit_files';
 const GARMIN_USERNAME = process.env.GARMIN_USERNAME ?? GARMIN_USERNAME_DEFAULT;
 const GARMIN_PASSWORD = process.env.GARMIN_PASSWORD ?? GARMIN_PASSWORD_DEFAULT;
 const GARMIN_MIGRATE_NUM = process.env.GARMIN_MIGRATE_NUM ?? GARMIN_MIGRATE_NUM_DEFAULT;
+const GARMIN_MIGRATE_START = process.env.GARMIN_MIGRATE_START ?? GARMIN_MIGRATE_START_DEFAULT;
 
 export const getGarminStatistics = async () => {
     const GCClient = new GarminConnect();
@@ -147,7 +149,7 @@ export const getGaminCNClient = async () => {
 
 export const migrateGarminCN2GarminGlobal = async (count = 200) => {
     const waitTime = 2000; //ms
-    const actIndex = 0;
+    const actIndex = Number(GARMIN_MIGRATE_START) ?? 0;
     // const actPerGroup = 10;
     const totalAct = Number(GARMIN_MIGRATE_NUM) ?? count;
 
