@@ -53,7 +53,7 @@
 先迁移国区数据到国际区，然后开启同步数据，每15分钟自动同步一次数据，实现无缝与Strava同步数据
 
 #### Step1: fork 此工程
-点击【Fork】，fork到自己账号下
+点击【Fork】，**也请顺手点一下【Fork】旁边的【Star】，支持一下作者** ，fork到自己账号下。
 ![fork](./assets/fork.jpg)
 
 #### Step2: 配置填入自己的佳明国内区、国际区账号及密码
@@ -102,7 +102,7 @@ GARMIN_MIGRATE_START
 
 上面正常的话开始迁移剩余数据
 
-回到 Step2 的地方，分别修改
+**回到 Step2 的地方，分别修改**
 
 GARMIN_MIGRATE_NUM 为 100
 
