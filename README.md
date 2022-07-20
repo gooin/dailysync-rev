@@ -109,7 +109,7 @@ GARMIN_MIGRATE_START 为 1
 
 GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MIGRATE_START 的值 + 100，直到所有数据迁移完成。
 
-> 迁移数据比较慢，请耐心等待，实测8分钟迁移100条左右
+> 迁移数据比较慢，请耐心等待，实测30分钟迁移70条左右
 
 
 #### Step4: 自动同步新的运动数据
