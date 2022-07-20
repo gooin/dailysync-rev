@@ -12,17 +12,12 @@
 
 额外还实现了RQ数据采集记录跑力的长期趋势
 
-
 安全：
 账号及密码保存在自己的 github secrets 中，不会泄露，运行代码均开放源码
 
 如遇到问题加我wechat： nononopass 我拉你进群讨论。也可私聊我付费咨询，提供我账号密码帮你处理，按工时30min/100rmb收费，成功后再付款。
 
-
 如果帮助到了你，右上角的【Star】给我支持~ ，也可以 [Buy Me a Coffee](#buy-me-a-coffee)
-
-
-
 
 ## 如何使用？
 
@@ -40,7 +35,6 @@
 
 前置条件：**注册好佳明国际区的帐号及Strava账号，并已经将Strava与佳明国际区账号关联，并开启Strava数据权限（下图）**
 
-
 ![consent](./assets/consent.png)
 
 思路： Strava仅支持关联国际区的佳明账号，所以需要提前自己创建国际区佳明账号，并用此账号关联绑定Strava
@@ -49,10 +43,11 @@
 
 【运动】--> GarminCN --> This Tool ⚡ --> Garmin Global --> Strava
 
-同步方法： 
+同步方法：
 先迁移国区数据到国际区，然后开启同步数据，每15分钟自动同步一次数据，实现无缝与Strava同步数据
 
 #### Step1: fork 此工程
+
 点击【Fork】，**也请顺手点一下【Fork】旁边的【Star】，支持一下作者** ，fork到自己账号下。
 ![fork](./assets/fork.jpg)
 
@@ -83,13 +78,14 @@ GARMIN_MIGRATE_NUM
 **从第几个活动开始迁移，先填 0**:
 GARMIN_MIGRATE_START
 
-![secrets](./assets/secrets.jpg) 
+![secrets](./assets/secrets.jpg)
 
 填完后确保如下图红框内的都填上了, 红框外的不用管
 
 ![secrets](./assets/secrets_ok1.png)
 
 #### Step3: 手动迁移已有数据
+
 如下图，点击【Actions】--> 【 Migrate Garmin CN to Garmin 】 --> 【Run workflow】执行迁移数据
 ![migrate](./assets/migrate.jpg)
 点击后刷新页面，可以看到正在执行的任务：
@@ -114,8 +110,8 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 
 > 迁移数据比较慢，请耐心等待，实测30分钟迁移70条左右
 
-
 #### Step4: 自动同步新的运动数据
+
 如图点击开启workflow
 ![enable_workflow](./assets/enable_workflow.jpg)
 开启后无需额外配置，每15分钟自动同步一次，一段时间后可以查看同步记录
@@ -123,19 +119,19 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 ![sync](./assets/sync.jpg)
 
 #### FAQ:
+
 ##### 需要每天都来同步数据吗？
+
 不用。上面的步骤执行过后，MIGRATE手动迁移已有数据，再有新跑的数据会在SYNC中每隔15分钟自动同步
 
 ### 采集RQ数据到GoogleSheets
+
 略麻烦，跑友们有需要再补充
-
-
 
 ## 同步到佳明国际区，同步Strava
 
 ![garmin_global](./assets/garmin_global.png)
 ![strava](./assets/strava.png)
-
 
 ## 采集RQ数据：
 
@@ -154,10 +150,10 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 ## 采集的数据：
 
 - RQ：
-  - '跑力更新时间', '训练负荷', '疲劳', '即时跑力', '跑力', '跑力说明', '趋势1', '趋势2',
+    - '跑力更新时间', '训练负荷', '疲劳', '即时跑力', '跑力', '跑力说明', '趋势1', '趋势2',
 - Garmin Connect
-  - '活动id', '活动名称', '活动开始时间', '距离', '持续时间', '速度 m/s', '配速 min/km', '配速文字 min/km', '平均心率', '最大心率', '平均每分钟步频', '有氧效果', '
-    无氧效果', '触地时间', '步幅', 'VO2Max', '垂直振幅', '垂直振幅比', '触地平衡', '训练效果', '训练负荷'
+    - '活动id', '活动名称', '活动开始时间', '距离', '持续时间', '速度 m/s', '配速 min/km', '配速文字 min/km', '平均心率', '最大心率', '平均每分钟步频', '有氧效果', '
+      无氧效果', '触地时间', '步幅', 'VO2Max', '垂直振幅', '垂直振幅比', '触地平衡', '训练效果', '训练负荷'
 
 ![rq](./assets/rq.png)
 ![connect](./assets/connect.png)
@@ -170,7 +166,13 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 
 [![Star History Chart](https://api.star-history.com/svg?repos=gooin/DailySync&type=Date)](https://star-history.com/#gooin/DailySync&Date)
 
-
 ## Buy Me a Coffee
+
 如果你觉得我的工作帮到了你，可赠予我一杯咖啡，感谢~
 ![wechat](./assets/wechat.jpg)
+
+### 支持者记录
+
+|     姓名     | 金额(￥) |
+|:----------:|:-----:|
+| Monk****IN |  50   |
