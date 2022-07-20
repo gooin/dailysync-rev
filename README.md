@@ -16,7 +16,7 @@
 安全：
 账号及密码保存在自己的 github secrets 中，不会泄露，运行代码均开放源码
 
-如遇到问题加我wechat： nononopass 我拉你进群讨论。也可私聊我付费咨询，提供我账号密码帮你处理，按工时30min/100rmb收费。
+如遇到问题加我wechat： nononopass 我拉你进群讨论。也可私聊我付费咨询，提供我账号密码帮你处理，按工时30min/100rmb收费，成功后再付款。
 
 如果帮助到了你，右上角的【Star】给我支持~ ，也可以 [Buy Me a Coffee](#buy-me-a-coffee)
 
