@@ -18,6 +18,7 @@
 
 如遇到问题加我wechat： nononopass 我拉你进群讨论。也可私聊我付费咨询，提供我账号密码帮你处理，按工时30min/100rmb收费，成功后再付款。
 
+
 如果帮助到了你，右上角的【Star】给我支持~ ，也可以 [Buy Me a Coffee](#buy-me-a-coffee)
 
 
@@ -26,6 +27,8 @@
 ## 如何使用？
 
 视频教程参考： [中国区佳明运动数据同步Strava视频教程](https://www.bilibili.com/video/BV1v94y1Q7oR/)
+
+如果参考视频还是不会操作或者嫌麻烦，为节省各自的宝贵时间，提供VIP服务，可私聊我提供账号密码付费帮你处理，成功再付款。
 
 ### 同步到佳明国际区，同步Strava
 
@@ -162,6 +165,10 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 
 分享我自己的跑步数据：
 [点击打开表格查看](https://docs.google.com/spreadsheets/d/e/2PACX-1vRSk3aD6T3tFM-OA7Cl5BmFMJ7mdKriFgYvNQA6f5b8K6F_-CadaGa8TEjMmy-sIpOPfmdN1ktkhXxt/pubhtml?gid=0&single=true)
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=gooin/DailySync&type=Date)](https://star-history.com/#gooin/DailySync&Date)
 
 
 ## Buy Me a Coffee
