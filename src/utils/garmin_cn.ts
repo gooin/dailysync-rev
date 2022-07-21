@@ -194,7 +194,7 @@ export const syncGarminCN2GarminGlobal = async () => {
                 // 下载佳明原始数据
                 const filePath = await downloadGarminActivity(cnAct.activityId, GCClient);
                 // 上传到佳明国际区
-                console.log('upload to garmin global : ', cnAct.activityName, cnAct.activityId, cnAct.startTimeLocal);
+                console.log(`本次开始上传第 ${i} 条数据，【 ${cnAct.activityName} 】，开始于 【 ${cnAct.startTimeLocal} 】，活动ID: 【 ${cnAct.activityId} 】`);
                 await uploadGarminActivity(filePath, GCClientGlobal);
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }
