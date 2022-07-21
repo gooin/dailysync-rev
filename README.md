@@ -119,6 +119,11 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 ![sync](./assets/sync.jpg)
 
 #### FAQ:
+##### 数据没有同步成功？
+
+第一步请先检查手机connect，确保运动在connect看到才能进行后续的同步工作。
+
+还有可能是定时执行没有执行，可以像执行MIGRATE那样手动执行SYNC脚本手动触发同步。
 
 ##### 需要每天都来同步数据吗？
 
