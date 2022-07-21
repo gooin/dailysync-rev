@@ -31,7 +31,7 @@
 
 ### 同步到佳明国际区，同步Strava
 
-[佳明国际区网址](https://connect.garmin.com/signin/) 如果之前没有注册过，请用另外一个邮箱地址，不要和国区邮箱相同，不然会注册不成功
+[佳明国际区网址](https://connect.garmin.com/signin/)
 
 [佳明国区网址](https://connect.garmin.cn/signin/)
 
