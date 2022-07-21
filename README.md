@@ -118,7 +118,7 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 
 如图点击开启workflow
 ![enable_workflow](./assets/enable_workflow.jpg)
-开启后无需额外配置，每15分钟自动同步一次，一段时间后可以查看同步记录
+开启后无需额外配置，大约每20分钟左右自动同步一次数据，一段时间后可以查看同步记录
 如果有问题，请发邮件联系我
 ![sync](./assets/sync.jpg)
 
@@ -133,7 +133,11 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 
 参考： [Schedule every 5 mins but runs a bit randomly](https://github.community/t/schedule-every-5-mins-but-runs-a-bit-randomly/159355/2)
 
-原因： github的定时计划任务以尽力而为的策略运行。文中建议改为每5分钟一次，但是如果这样的话会超出每月的免费可用额度。如果您急切的想同步数据，建议上来手动操作一下。
+原因： github的定时计划任务以尽力而为的策略运行。
+
+**我代码中写的是每10分钟执行一次，实际情况是大约每20分钟执行一次。**
+
+文中建议改为每5分钟一次，但是如果这样的话会超出每月的免费可用额度。如果您急切的想同步数据，建议上来手动操作一下。
 
 翻译：
 >
@@ -143,7 +147,7 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 > 
 ##### 需要每天都来同步数据吗？
 
-不用。上面的步骤执行过后，MIGRATE手动迁移已有数据，再有新跑的数据会在SYNC中每隔15分钟自动同步
+不用。上面的步骤执行过后，MIGRATE手动迁移已有数据，再有新跑的数据会在SYNC中大约每20分钟左右自动同步一次数据
 
 ##### 同步最新的代码库
 
