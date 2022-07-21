@@ -133,6 +133,11 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 
 不用。上面的步骤执行过后，MIGRATE手动迁移已有数据，再有新跑的数据会在SYNC中每隔15分钟自动同步
 
+##### 同步最新的代码库
+
+代码可能有优化更新，如看到下图的情况，请点击下图红框更新到最新的代码，
+![update_code](./assets/update_code.jpg)
+
 ### 采集RQ数据到GoogleSheets
 
 略麻烦，跑友们有需要再补充

@@ -1,8 +1,8 @@
 {
-  "name": "node-typescript-start-template",
+  "name": "daily-sync-garmin",
   "version": "1.0.0",
-  "description": "run typescript file in node environment",
-  "main": "index.js",
+  "description": "中国区佳明自动同步运动数据到国际区与Strava",
+  "main": "index.ts",
   "scripts": {
     "start": "ts-node src/index.ts",
     "sync": "ts-node src/sync.ts",
@@ -12,7 +12,7 @@
     "dev2": "nodemon --exec ts-node src/index.ts",
     "watch": "tsc -w"
   },
-  "author": "",
+  "author": "yanzhitao",
   "license": "ISC",
   "dependencies": {
     "@actions/core": "^1.8.2",
