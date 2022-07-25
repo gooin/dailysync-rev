@@ -115,8 +115,8 @@ export const downloadGarminActivity = async (activityId, client = null): Promise
     const originZipFile = downloadDir + '/' + activityId + '.zip';
     await fs.createReadStream(originZipFile)
         .pipe(unzipper.Extract({ path: downloadDir }));
-    // waiting 3s for extract zip file
-    await new Promise(resolve => setTimeout(resolve, 30000));
+    // waiting 5s for extract zip file
+    await new Promise(resolve => setTimeout(resolve, 5000));
     const fitFilePath = `${downloadDir}/${activityId}_ACTIVITY.fit`;
     try {
         if (fs.existsSync(fitFilePath)) {
