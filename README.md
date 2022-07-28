@@ -15,7 +15,7 @@
 安全：
 账号及密码保存在自己的 github secrets 中，不会泄露，运行代码均开放源码
 
-为方便讨论，请加我 wechat:nononopass 我拉你进群。
+为方便讨论，请加我绿色软件：nononopass （[二维码扫码](./assets/wechat_qr.png)） 我拉你进群。
 
 如果帮助到了你，右上角的【Star】给我支持~ ，也可以 [Buy Me a Coffee](#buy-me-a-coffee)
 
