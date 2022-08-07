@@ -120,10 +120,10 @@ export const migrateGarminGlobal2GarminCN = async (count = 200) => {
         // console.log({ act });
 
         // 下载佳明原始数据
-        const filePath = await downloadGarminActivity(act.activityId, GCClient);
+        const filePath = await downloadGarminActivity(act.activityId, GCClientGlobal);
         // 上传到佳明中国区
         console.log(`本次开始向中国区上传第 ${j} 条数据，相对总数上传到 ${ j + actIndex } 条，  【 ${act.activityName} 】，开始于 【 ${act.startTimeLocal} 】，活动ID: 【 ${act.activityId} 】`);
-        await uploadGarminActivity(filePath, GCClientGlobal);
+        await uploadGarminActivity(filePath, GCClient);
         await new Promise(resolve => setTimeout(resolve, waitTime));
     }
 };
