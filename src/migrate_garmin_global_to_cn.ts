@@ -1,20 +1,12 @@
 import { BARK_KEY_DEFAULT } from './constant';
-import { migrateGarminCN2GarminGlobal } from './utils/garmin_cn';
+import { migrateGarminGlobal2GarminCN } from './utils/garmin_gobal';
 
 const axios = require('axios');
 const core = require('@actions/core');
 const BARK_KEY = process.env.BARK_KEY ?? BARK_KEY_DEFAULT;
 
-
-
 try {
-    migrateGarminCN2GarminGlobal()
-    // downloadGarminActivity('190727967').then(res => {
-    //     console.log(res);
-    //     uploadGarminActivity(res);
-    // });
-    // uploadGarminActivity('./garmin_fit_files/191409924_ACTIVITY.fit');
-
+    migrateGarminGlobal2GarminCN();
 } catch (e) {
     axios.get(
         `https://api.day.app/${BARK_KEY}/Garmin CN -> Garmin Global 同步数据运行失败了，快去检查！/${e.message}`);

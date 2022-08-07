@@ -4,12 +4,13 @@
   "description": "中国区佳明自动同步运动数据到国际区与Strava",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "rq": "ts-node src/rq.ts",
     "sync": "ts-node src/sync.ts",
-    "migrate": "ts-node src/migrate.ts",
+    "migrate_garmin_global_to_cn": "ts-node src/migrate_garmin_global_to_cn.ts",
+    "migrate_garmin_cn_to_global": "ts-node src/migrate_garmin_cn_to_global.ts",
     "start2": "node dist/index.js",
     "dev": "nodemon dist/index.js",
-    "dev2": "nodemon --exec ts-node src/index.ts",
+    "dev2": "nodemon --exec ts-node src/rq.ts",
     "watch": "tsc -w"
   },
   "author": "yanzhitao",

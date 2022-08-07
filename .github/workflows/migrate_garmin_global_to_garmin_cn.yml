@@ -1,4 +1,4 @@
-name: Migrate Garmin CN to Garmin Global
+name: Migrate Garmin Global to Garmin CN
 
 on:
   workflow_dispatch:
@@ -15,7 +15,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Migrate Garmin CN to Garmin Global
+    name: Migrate Garmin Global to Garmin CN
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -23,4 +23,4 @@ jobs:
           node-version: '14'
           cache: 'yarn'
       - run: yarn
-      - run: yarn migrate_garmin_cn_to_global
+      - run: yarn migrate_garmin_global_to_cn

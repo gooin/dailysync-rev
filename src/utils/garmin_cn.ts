@@ -1,16 +1,15 @@
 import { getGaminGlobalClient, uploadGarminActivity } from './garmin_gobal';
 import {
     GARMIN_MIGRATE_NUM_DEFAULT,
+    GARMIN_MIGRATE_START_DEFAULT,
     GARMIN_PASSWORD_DEFAULT,
     GARMIN_URL_DEFAULT,
     GARMIN_USERNAME_DEFAULT,
-    GARMIN_MIGRATE_START_DEFAULT,
 } from '../constant';
 
 const { GarminConnect } = require('@gooin/garmin-connect-cn');
 const { GarminConnect: GarminConnectGlobal } = require('@gooin/garmin-connect');
 const core = require('@actions/core');
-const axios = require('axios');
 const _ = require('lodash');
 const fs = require('fs');
 const unzipper = require('unzipper');
@@ -168,7 +167,7 @@ export const migrateGarminCN2GarminGlobal = async (count = 200) => {
         // 下载佳明原始数据
         const filePath = await downloadGarminActivity(act.activityId, GCClient);
         // 上传到佳明国际区
-        console.log(`本次开始上传第 ${j} 条数据，相对总数上传到 ${ j + actIndex } 条，  【 ${act.activityName} 】，开始于 【 ${act.startTimeLocal} 】，活动ID: 【 ${act.activityId} 】`);
+        console.log(`本次开始向国际区上传第 ${j} 条数据，相对总数上传到 ${j + actIndex} 条，  【 ${act.activityName} 】，开始于 【 ${act.startTimeLocal} 】，活动ID: 【 ${act.activityId} 】`);
         await uploadGarminActivity(filePath, GCClientGlobal);
         await new Promise(resolve => setTimeout(resolve, waitTime));
     }
