@@ -1,15 +1,23 @@
 import {
-    GARMIN_USERNAME_DEFAULT,
-    GARMIN_PASSWORD_DEFAULT, GARMIN_GLOBAL_USERNAME_DEFAULT, GARMIN_GLOBAL_PASSWORD_DEFAULT,
-
+    GARMIN_GLOBAL_PASSWORD_DEFAULT,
+    GARMIN_GLOBAL_USERNAME_DEFAULT,
+    GARMIN_MIGRATE_NUM_DEFAULT,
+    GARMIN_MIGRATE_START_DEFAULT,
 } from '../constant';
 import fs from 'fs';
-import { downloadDir } from './garmin_cn';
+import { downloadDir, getGaminCNClient } from './garmin_cn';
+import core from '@actions/core';
+
+
+const unzipper = require('unzipper');
 
 const { GarminConnect } = require('@gooin/garmin-connect');
 
 const GARMIN_GLOBAL_USERNAME = process.env.GARMIN_GLOBAL_USERNAME ?? GARMIN_GLOBAL_USERNAME_DEFAULT;
 const GARMIN_GLOBAL_PASSWORD = process.env.GARMIN_GLOBAL_PASSWORD ?? GARMIN_GLOBAL_PASSWORD_DEFAULT;
+const GARMIN_MIGRATE_NUM = process.env.GARMIN_MIGRATE_NUM ?? GARMIN_MIGRATE_NUM_DEFAULT;
+const GARMIN_MIGRATE_START = process.env.GARMIN_MIGRATE_START ?? GARMIN_MIGRATE_START_DEFAULT;
+
 
 /**
  *  // fix: 上传功能以修正，但会报个异常，不用管可以上传上去的。
@@ -37,11 +45,85 @@ export const uploadGarminActivity = async (fitFilePath: string, client = null): 
     // console.log('upload to garmin global activityId', activityId);
 };
 
-export const getGaminGlobalClient = async ()=>{
+export const getGaminGlobalClient = async () => {
     const GCClient = new GarminConnect();
 // Uses credentials from garmin.config.json or uses supplied params
     await GCClient.login(GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
     const userInfo = await GCClient.getUserInfo();
     console.log('userInfo global', userInfo);
     return GCClient;
-}
+};
+
+/**
+ * 下载 garmin 活动原始数据，并解压保存到本地
+ * @param activityId
+ * @param client clientInstance
+ */
+export const downloadGarminActivity = async (activityId, client = null): Promise<string> => {
+    if (!fs.existsSync(downloadDir)) {
+        fs.mkdirSync(downloadDir);
+    }
+    let GCClient = client ?? new GarminConnect();
+    if (!client) {
+        await GCClient.login(GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
+        const userInfo = await GCClient.getUserInfo();
+        // console.log('userInfo', userInfo);
+    }
+
+    // Use the id as a parameter
+    const activity = await GCClient.getActivity({ activityId: activityId });
+    await GCClient.downloadOriginalActivityData(activity, downloadDir);
+    // console.log('userInfo', userInfo);
+    const originZipFile = downloadDir + '/' + activityId + '.zip';
+    await fs.createReadStream(originZipFile)
+        .pipe(unzipper.Extract({ path: downloadDir }));
+    // waiting 5s for extract zip file
+    await new Promise(resolve => setTimeout(resolve, 5000));
+    const fitFilePath = `${downloadDir}/${activityId}_ACTIVITY.fit`;
+    try {
+        if (fs.existsSync(fitFilePath)) {
+            console.log('saved fitFilePath', fitFilePath);
+            //file exists
+            return fitFilePath;
+        } else {
+            const existFiles = fs.readdirSync(downloadDir, { withFileTypes: true })
+                .filter(item => !item.isDirectory())
+                .map(item => item.name);
+            console.log('fitFilePath', fitFilePath);
+            console.log('fitFilePath not exist, curr existFiles', existFiles);
+            return Promise.reject('file not exist ' + fitFilePath);
+        }
+    } catch (err) {
+        console.error(err);
+        core.setFailed(err);
+    }
+    return fitFilePath;
+};
+
+
+export const migrateGarminGlobal2GarminCN = async (count = 200) => {
+    const waitTime = 2000; //ms
+    const actIndex = Number(GARMIN_MIGRATE_START) ?? 0;
+    // const actPerGroup = 10;
+    const totalAct = Number(GARMIN_MIGRATE_NUM) ?? count;
+
+    const GCClient = await getGaminCNClient();
+    const GCClientGlobal = await getGaminGlobalClient();
+
+    const actSlices = await GCClient.getActivities(actIndex, totalAct);
+    // only running
+    // const runningActs = _.filter(actSlices, { activityType: { typeKey: 'running' } });
+
+    const runningActs = actSlices;
+    for (let j = 0; j < runningActs.length; j++) {
+        const act = runningActs[j];
+        // console.log({ act });
+
+        // 下载佳明原始数据
+        const filePath = await downloadGarminActivity(act.activityId, GCClient);
+        // 上传到佳明中国区
+        console.log(`本次开始向中国区上传第 ${j} 条数据，相对总数上传到 ${ j + actIndex } 条，  【 ${act.activityName} 】，开始于 【 ${act.startTimeLocal} 】，活动ID: 【 ${act.activityId} 】`);
+        await uploadGarminActivity(filePath, GCClientGlobal);
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+    }
+};

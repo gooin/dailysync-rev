@@ -34,4 +34,4 @@ jobs:
           node-version: '14'
           cache: 'yarn'
       - run: yarn
-      - run: yarn start
+      - run: yarn rq
