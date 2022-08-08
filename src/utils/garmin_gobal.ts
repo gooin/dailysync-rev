@@ -110,7 +110,7 @@ export const migrateGarminGlobal2GarminCN = async (count = 200) => {
     const GCClient = await getGaminCNClient();
     const GCClientGlobal = await getGaminGlobalClient();
 
-    const actSlices = await GCClient.getActivities(actIndex, totalAct);
+    const actSlices = await GCClientGlobal.getActivities(actIndex, totalAct);
     // only running
     // const runningActs = _.filter(actSlices, { activityType: { typeKey: 'running' } });
 
