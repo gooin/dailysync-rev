@@ -35,7 +35,7 @@
 
 为方便讨论，请加我绿色软件：`nononopass` （[二维码扫码](./assets/wechat_qr.png)） 我拉你进群。
 
-#### Buy Me a Coffee
+#### 支持作者
 
 如果帮助到了你，可以 [Buy Me a Coffee](#buy-me-a-coffee)，赞助者会在文章下方留下ID表示感谢🙏。
 
