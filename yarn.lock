@@ -16,10 +16,10 @@
   dependencies:
     tunnel "^0.0.6"
 
-"@gooin/garmin-connect-cn@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@gooin/garmin-connect-cn/-/garmin-connect-cn-1.0.0.tgz#f5382894f03219385536ac92fe45807e61a5ded5"
-  integrity sha512-1KPobprGO+nj/t3PM7Bl1QT0LceZQm3sRd+E78S+7WQVIx4FX/ncl4pbsQpToqeh1mtOUW7Ed/BGIEsDrZVAjg==
+"@gooin/garmin-connect-cn@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@gooin/garmin-connect-cn/-/garmin-connect-cn-1.0.2.tgz#ffcc1a1c1c431fdad44f2d3cc82657ce2a3c0ec3"
+  integrity sha512-C+zsUmpNcSnLncGNlTCRtKUQdSymBjJZjstOdMJOL6ON5Pv3aqKSiyzVREPBUnaqaaGasI/QWZI6jdw2t89mcg==
   dependencies:
     app-root-path "^3.0.0"
     axios "^0.26.1"
