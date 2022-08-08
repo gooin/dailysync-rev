@@ -41,7 +41,7 @@ export const uploadGarminActivity = async (fitFilePath: string, client = null): 
 
     const upload = await GCClient.uploadActivity(fitFilePath);
     // const activityId = upload.detailedImportResult.successes[0].internalId;
-    console.log('upload to garmin global activity', upload);
+    console.log('upload to garmin activity', upload);
     // console.log('upload to garmin global activityId', activityId);
 };
 
