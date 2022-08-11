@@ -48,14 +48,16 @@
 - 2022-06-06: 采集RQ统计数据到Google表格
 
 #### 在用这个工具的朋友们 （[填写您的链接](https://wj.qq.com/s2/10633783/a1ef/)）
+
 | 名称          | Strava运动员链接                               |             |
 |:------------|:------------------------------------------|:------------|
 | Zhitao Yan  | https://www.strava.com/athletes/84396978  | ‍💻Author   |
 | Clown jiang | https://www.strava.com/athletes/105952743 | ✨Sponsor    |
-| 老弟 | https://www.strava.com/athletes/91478457 | ✨Sponsor    |
-| Zax Wen | https://www.strava.com/athletes/91553718 | ✨Sponsor    |
-| 围脖B站@我是冯瑞恒 | https://www.strava.com/athletes/34349982 |    |
-| hua xu | https://www.strava.com/athletes/40855048 |    |
+| 老弟          | https://www.strava.com/athletes/91478457  | ✨Sponsor    |
+| Zax Wen     | https://www.strava.com/athletes/91553718  | ✨Sponsor    |
+| 李二牛         | https://www.strava.com/athletes/43684509  | ✨Sponsor    |
+| 围脖B站@我是冯瑞恒  | https://www.strava.com/athletes/34349982  |    |
+| hua xu      | https://www.strava.com/athletes/40855048  |    |
 
 
 ## 如何使用？
@@ -263,4 +265,5 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 |   S**en    |  66   |
 |    C**2    | 8.88  |
 |    星**烂    |  30   |
+|    李*牛     |  15   |
 
