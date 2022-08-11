@@ -127,3 +127,30 @@ export const migrateGarminGlobal2GarminCN = async (count = 200) => {
         await new Promise(resolve => setTimeout(resolve, waitTime));
     }
 };
+
+export const syncGarminGlobal2GarminCN= async () => {
+    const GCClientCN = await getGaminCNClient();
+    const GCClientGlobal = await getGaminGlobalClient();
+
+    const cnActs = await GCClientCN.getActivities(0, 1);
+    const globalActs = await GCClientGlobal.getActivities(0, 10);
+
+    const latestGlobalActStartTime = globalActs[0].startTimeLocal;
+    const latestCnActStartTime = cnActs[0].startTimeLocal;
+
+    if (latestCnActStartTime === latestGlobalActStartTime) {
+        console.log(`没有要同步的活动内容, 最近的活动:  【 ${globalActs[0].activityName} 】, 开始于: 【 ${latestGlobalActStartTime} 】`);
+    } else {
+        for (let i = 0; i < globalActs.length; i++) {
+            const globalAct = globalActs[i];
+            if (globalAct.startTimeLocal > latestCnActStartTime) {
+                // 下载佳明原始数据
+                const filePath = await downloadGarminActivity(globalAct.activityId, GCClientGlobal);
+                // 上传到佳明中国区的
+                console.log(`本次开始上传第 ${i} 条数据，【 ${globalAct.activityName} 】，开始于 【 ${globalAct.startTimeLocal} 】，活动ID: 【 ${globalAct.activityId} 】`);
+                await uploadGarminActivity(filePath, GCClientCN);
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+        }
+    }
+};
