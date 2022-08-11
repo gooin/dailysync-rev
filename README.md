@@ -8,7 +8,7 @@
 
 **自动 安全 省心**
 
-此工具实现了佳明运动活动数据（生理数据如睡眠，身体电量等除外）的一次性迁移与日常运动数据与国际区的同步，实现同步运动数据到到Strava。 额外还实现了RQ数据采集记录跑力的长期趋势。
+此工具实现了佳明运动活动数据（生理数据如睡眠，身体电量等除外）的一次性迁移与日常运动数据与国际区的同步，实现同步运动数据到到Strava [Strava全球热图](https://www.strava.com/athlete/heatmaps)。 额外还实现了RQ数据采集记录跑力的长期趋势。
 
 ## 功能
 
@@ -20,6 +20,7 @@
 ### 同步数据
 
 - 约每20分钟左右检查当前中国区账号中是否有新的运动数据，如有则自动下载上传到国际区，并同步到Strava。
+- 如果您常用的是国际区，想要在微信运动中显示 【Garmin手表 骑行xx分钟】（[微信运动效果](./assets/wx_sport.jpg)），此工具可以实现自动反向同步中国区，因为使用人数很少，功能没有放出来，有需要可以单独联系我。
 
 ### 采集数据
 
@@ -46,11 +47,22 @@
 - 2022-06-15: 增加佳明中国区迁移及同步国际区数据功能，同步strava
 - 2022-06-06: 采集RQ统计数据到Google表格
 
+#### 在用这个工具的朋友们 （[填写您的链接](https://wj.qq.com/s2/10633783/a1ef/)）
+| 名称          | Strava运动员链接                               |             |
+|:------------|:------------------------------------------|:------------|
+| Zhitao Yan  | https://www.strava.com/athletes/84396978  | ‍💻Author   |
+| Clown jiang | https://www.strava.com/athletes/105952743 | ✨Sponsor    |
+| 老弟 | https://www.strava.com/athletes/91478457 | ✨Sponsor    |
+| Zax Wen | https://www.strava.com/athletes/91553718 | ✨Sponsor    |
+| 围脖B站@我是冯瑞恒 | https://www.strava.com/athletes/34349982 |    |
+| hua xu | https://www.strava.com/athletes/40855048 |    |
+
+
 ## 如何使用？
 
 视频教程参考： [中国区佳明运动数据同步Strava视频教程](https://www.bilibili.com/video/BV1v94y1Q7oR/)
 
-如果按照视频还是无法达到预期的效果(包括佳明国际区点不进去，github添加secrets没有反应等)，请自行解决网络问题(wall)。
+如果按照视频还是无法达到预期的效果(包括佳明国际区点不进去，github添加secrets没有反应等)，请自行解决不可描述的网络问题。
 
 ### 迁移已有运动数据，并开启自动同步功能
 
@@ -189,6 +201,14 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 
 略麻烦，跑友们有需要再补充
 
+## 数据同步到佳明国际区后，其他的一些可关联的运动分析平台
+
+[https://app.trainingpeaks.com/#home](https://app.trainingpeaks.com/#home)
+
+[https://runalyze.com/dashboard](https://runalyze.com/dashboard)
+
+[https://intervals.icu/](https://intervals.icu/)
+
 ## 同步到佳明国际区，同步Strava
 
 ![garmin_global](./assets/garmin_global.png)
@@ -241,5 +261,6 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 |   無敵**十    |  50   |
 |     *弟     |  50   |
 |   S**en    |  66   |
-|   C**2   |  8.88   |
+|    C**2    | 8.88  |
+|    星**烂    |  30   |
 
