@@ -57,6 +57,8 @@
 | Zax Wen     | https://www.strava.com/athletes/91553718  | ✨Sponsor    |
 | 李二牛         | https://www.strava.com/athletes/43684509  | ✨Sponsor    |
 | 围脖B站@我是冯瑞恒  | https://www.strava.com/athletes/34349982  | ✨Sponsor   |
+| 刘           | https://www.strava.com/athletes/67222235  | ✨Sponsor   |
+| 狼朗          | https://www.strava.com/athletes/43107517  | ✨Sponsor   |
 | hua xu      | https://www.strava.com/athletes/40855048  |    |
 
 
@@ -64,7 +66,7 @@
 
 视频教程参考： [中国区佳明运动数据同步Strava视频教程](https://www.bilibili.com/video/BV1v94y1Q7oR/)
 
-如果按照视频还是无法达到预期的效果(包括佳明国际区点不进去，github添加secrets没有反应等)，请自行解决不可描述的网络问题。
+如果按照视频还是无法达到预期的效果(包括佳明国际区点不进去，跳转到com.cn、github 添加 secrets 没有反应等)，请自行解决不可描述的网络问题。
 
 ### 迁移已有运动数据，并开启自动同步功能
 
@@ -86,6 +88,8 @@
 
 ![consent](./assets/consent.png)
 
+如果是新注册的国际区账号，请确保账号隐私设置中的`存储和处理` 是 `同意`状态，`设备上传`是`已启用` 状态(下图)，否则上传数据会报`412`错误码：`User explicity revoked consent for uploading files.`
+![connect_permission](./assets/connect_permission.png)
 
 #### Step1: fork 此工程
 
@@ -266,4 +270,7 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 |    C**2    | 8.88  |
 |    星**烂    |  30   |
 |    李*牛     |  15   |
+|     狼*     | 16.18 |
+|     刘      |  50   |
+|    A*w     |  50   |
 
