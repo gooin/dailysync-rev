@@ -117,12 +117,18 @@ export const downloadGarminActivity = async (activityId, client = null): Promise
     // waiting 5s for extract zip file
     await new Promise(resolve => setTimeout(resolve, 5000));
     const fitFilePath = `${downloadDir}/${activityId}_ACTIVITY.fit`;
+    const gpxFilePath = `${downloadDir}/${activityId}_ACTIVITY.gpx`;
     try {
         if (fs.existsSync(fitFilePath)) {
             console.log('saved fitFilePath', fitFilePath);
             //file exists
             return fitFilePath;
-        } else {
+        }
+        else if(fs.existsSync(fitFilePath)){
+            console.log('saved gpxFilePath', gpxFilePath);
+            //file exists
+            return gpxFilePath;
+        }
             const existFiles = fs.readdirSync(downloadDir, { withFileTypes: true })
                 .filter(item => !item.isDirectory())
                 .map(item => item.name);
