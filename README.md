@@ -56,7 +56,7 @@
 | 老弟          | https://www.strava.com/athletes/91478457  | ✨Sponsor    |
 | Zax Wen     | https://www.strava.com/athletes/91553718  | ✨Sponsor    |
 | 李二牛         | https://www.strava.com/athletes/43684509  | ✨Sponsor    |
-| 围脖B站@我是冯瑞恒  | https://www.strava.com/athletes/34349982  | ✨Sponsor  |
+| 围脖B站@我是冯瑞恒  | https://www.strava.com/athletes/34349982  | ✨Sponsor   |
 | hua xu      | https://www.strava.com/athletes/40855048  |    |
 
 
