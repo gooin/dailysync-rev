@@ -87,7 +87,7 @@ export const downloadGarminActivity = async (activityId, client = null): Promise
             //file exists
             return fitFilePath;
         }
-        else if(fs.existsSync(fitFilePath)){
+        else if(fs.existsSync(gpxFilePath)){
             console.log('saved gpxFilePath', gpxFilePath);
             //file exists
             return gpxFilePath;
