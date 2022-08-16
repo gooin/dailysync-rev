@@ -23,7 +23,6 @@ const BARK_KEY = process.env.BARK_KEY ?? BARK_KEY_DEFAULT;
 const GARMIN_USERNAME = process.env.GARMIN_USERNAME ?? GARMIN_USERNAME_DEFAULT;
 const GARMIN_PASSWORD = process.env.GARMIN_PASSWORD ?? GARMIN_PASSWORD_DEFAULT;
 
-
 export async function getRQOverView() {
     const url = `${RQ_HOST_DEFAULT}${RQ_ROUTES_DEFAULT.UPDATE}${RQ_USERID}`;
 
@@ -59,7 +58,7 @@ export async function getRQOverView() {
             return {};
         }
     } catch (e) {
-        console.error('ERROR, 检查TOKEN');
+        console.error('ERROR, 检查TOKEN', e);
         await axios.get(
             `https://api.day.app/${BARK_KEY}/RQ运行失败了/${e.message}`);
         throw new Error(e);
@@ -84,13 +83,16 @@ export const rqRegexp = (htmlData) => {
     console.log('疲劳', tired[1]);
 
     const runLevel = /<span class.*myrunlevel[^>]*>(.*?)<\/span>/.exec(runlevelHtml) as RegExpExecArray;
-    const up = /<font [^>]*>(.*?)<\/font>/.exec(runlevelHtml) as RegExpExecArray;
-    const upValue = /<\/font[^>]*>(.*?)<\/small>/.exec(runlevelHtml) as RegExpExecArray;
+    // 20220816 RQ web页面更新，没有下面的两项了。
+
+    // const up = /<font [^>]*>(.*?)<\/font>/.exec(runlevelHtml) as RegExpExecArray;
+    // const upValue = /<\/font[^>]*>(.*?)<\/small>/.exec(runlevelHtml) as RegExpExecArray;
     const runLevelDesc = /<div class.*col-xs-12 [^>]*>(.*?)<\/div>/.exec(runlevelHtml) as RegExpExecArray;
     console.log('跑力', runLevel[1]);
     console.log('跑力说明', runLevelDesc[1]);
-    console.log('趋势', up[1]);
-    console.log('趋势', upValue[1]);
+
+    // console.log('趋势', up[1]);
+    // console.log('趋势', upValue[1]);
 
     const result = {
         updateAt: Date.now(),
@@ -100,8 +102,8 @@ export const rqRegexp = (htmlData) => {
         rqRunLevelNow: now[1],
         rqRunLevel: runLevel[1],
         runLevelDesc: runLevelDesc[1],
-        rqTrend1: up[1],
-        rqTrend2: upValue[1],
+        rqTrend1: '',
+        rqTrend2: '',
     };
     return result;
 };
