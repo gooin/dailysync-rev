@@ -40,12 +40,12 @@ export const migrateGarminGlobal2GarminCN = async (count = 200) => {
     // const runningActs = _.filter(actSlices, { activityType: { typeKey: 'running' } });
 
     const runningActs = actSlices;
-    for (let j = 1; j < runningActs.length + 1; j++) {
+    for (let j = 0; j < runningActs.length; j++) {
         const act = runningActs[j];
         // 下载佳明原始数据
         const filePath = await downloadGarminActivity(act.activityId, clientGlobal);
         // 上传到佳明中国区
-        console.log(`本次开始向中国区上传第 ${j} 条数据，相对总数上传到 ${j + actIndex} 条，  【 ${act.activityName} 】，开始于 【 ${act.startTimeLocal} 】，活动ID: 【 ${act.activityId} 】`);
+        console.log(`本次开始向中国区上传第 ${j + 1} 条数据，相对总数上传到 ${j + 1 + actIndex} 条，  【 ${act.activityName} 】，开始于 【 ${act.startTimeLocal} 】，活动ID: 【 ${act.activityId} 】`);
         await uploadGarminActivity(filePath, clientCn);
         // 等待2秒，避免API请求太过频繁
         await new Promise(resolve => setTimeout(resolve, 2000));
@@ -65,13 +65,13 @@ export const syncGarminGlobal2GarminCN= async () => {
     if (latestCnActStartTime === latestGlobalActStartTime) {
         console.log(`没有要同步的活动内容, 最近的活动:  【 ${globalActs[0].activityName} 】, 开始于: 【 ${latestGlobalActStartTime} 】`);
     } else {
-        for (let i = 1; i < globalActs.length + 1; i++) {
+        for (let i = 0; i < globalActs.length; i++) {
             const globalAct = globalActs[i];
             if (globalAct.startTimeLocal > latestCnActStartTime) {
                 // 下载佳明原始数据
                 const filePath = await downloadGarminActivity(globalAct.activityId, clientGlobal);
                 // 上传到佳明中国区的
-                console.log(`本次开始向中国区上传第 ${i} 条数据，【 ${globalAct.activityName} 】，开始于 【 ${globalAct.startTimeLocal} 】，活动ID: 【 ${globalAct.activityId} 】`);
+                console.log(`本次开始向中国区上传第 ${i + 1} 条数据，【 ${globalAct.activityName} 】，开始于 【 ${globalAct.startTimeLocal} 】，活动ID: 【 ${globalAct.activityId} 】`);
                 await uploadGarminActivity(filePath, clientCN);
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }

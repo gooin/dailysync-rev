@@ -39,13 +39,13 @@ export const migrateGarminCN2GarminGlobal = async (count = 200) => {
     // const runningActs = _.filter(actSlices, { activityType: { typeKey: 'running' } });
 
     const runningActs = actSlices;
-    for (let j = 1; j < runningActs.length + 1; j++) {
+    for (let j = 0; j < runningActs.length; j++) {
         const act = runningActs[j];
         // console.log({ act });
         // 下载佳明原始数据
         const filePath = await downloadGarminActivity(act.activityId, clientCN);
         // 上传到佳明国际区
-        console.log(`本次开始向国际区上传第 ${j} 条数据，相对总数上传到 ${j + actIndex} 条，  【 ${act.activityName} 】，开始于 【 ${act.startTimeLocal} 】，活动ID: 【 ${act.activityId} 】`);
+        console.log(`本次开始向国际区上传第 ${j + 1} 条数据，相对总数上传到 ${j + 1 + actIndex} 条，  【 ${act.activityName} 】，开始于 【 ${act.startTimeLocal} 】，活动ID: 【 ${act.activityId} 】`);
         await uploadGarminActivity(filePath, clientGlobal);
         await new Promise(resolve => setTimeout(resolve, 2000));
     }
@@ -64,13 +64,13 @@ export const syncGarminCN2GarminGlobal = async () => {
     if (latestCnActStartTime === latestGlobalActStartTime) {
         console.log(`没有要同步的活动内容, 最近的活动:  【 ${cnActs[0].activityName} 】, 开始于: 【 ${latestCnActStartTime} 】`);
     } else {
-        for (let i = 1; i < cnActs.length + 1; i++) {
+        for (let i = 0; i < cnActs.length; i++) {
             const cnAct = cnActs[i];
             if (cnAct.startTimeLocal > latestGlobalActStartTime) {
                 // 下载佳明原始数据
                 const filePath = await downloadGarminActivity(cnAct.activityId, clientCN);
                 // 上传到佳明国际区
-                console.log(`本次开始向国际区上传第 ${i} 条数据，【 ${cnAct.activityName} 】，开始于 【 ${cnAct.startTimeLocal} 】，活动ID: 【 ${cnAct.activityId} 】`);
+                console.log(`本次开始向国际区上传第 ${i + 1} 条数据，【 ${cnAct.activityName} 】，开始于 【 ${cnAct.startTimeLocal} 】，活动ID: 【 ${cnAct.activityId} 】`);
                 await uploadGarminActivity(filePath, clientGlobal);
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }
