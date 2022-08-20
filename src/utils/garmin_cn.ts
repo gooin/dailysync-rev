@@ -7,6 +7,7 @@ import {
 } from '../constant';
 import { downloadGarminActivity, uploadGarminActivity } from './garmin_common';
 import { GarminClientType } from './type';
+import { number2emoji } from './number2emoji';
 
 const { GarminConnect } = require('@gooin/garmin-connect-cn');
 export const downloadDir = './garmin_fit_files';
@@ -45,7 +46,7 @@ export const migrateGarminCN2GarminGlobal = async (count = 200) => {
         // 下载佳明原始数据
         const filePath = await downloadGarminActivity(act.activityId, clientCN);
         // 上传到佳明国际区
-        console.log(`本次开始向国际区上传第 ${j + 1} 条数据，相对总数上传到 ${j + 1 + actIndex} 条，  【 ${act.activityName} 】，开始于 【 ${act.startTimeLocal} 】，活动ID: 【 ${act.activityId} 】`);
+        console.log(`本次开始向国际区上传第 ${number2emoji(j + 1)} 条数据，相对总数上传到 ${number2emoji(j + 1 + actIndex)} 条，  【 ${act.activityName} 】，开始于 【 ${act.startTimeLocal} 】，活动ID: 【 ${act.activityId} 】`);
         await uploadGarminActivity(filePath, clientGlobal);
         await new Promise(resolve => setTimeout(resolve, 2000));
     }
@@ -70,7 +71,7 @@ export const syncGarminCN2GarminGlobal = async () => {
                 // 下载佳明原始数据
                 const filePath = await downloadGarminActivity(cnAct.activityId, clientCN);
                 // 上传到佳明国际区
-                console.log(`本次开始向国际区上传第 ${i + 1} 条数据，【 ${cnAct.activityName} 】，开始于 【 ${cnAct.startTimeLocal} 】，活动ID: 【 ${cnAct.activityId} 】`);
+                console.log(`本次开始向国际区上传第 ${number2emoji(i + 1)} 条数据，【 ${cnAct.activityName} 】，开始于 【 ${cnAct.startTimeLocal} 】，活动ID: 【 ${cnAct.activityId} 】`);
                 await uploadGarminActivity(filePath, clientGlobal);
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }
