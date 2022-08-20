@@ -1,7 +1,8 @@
 import { BARK_KEY_DEFAULT } from './constant';
 import { getLatestActivityIdInSheets, insertDataToSheets } from './utils/google_sheets';
-import { getGarminStatistics } from './utils/garmin_cn';
 import { getRQOverView } from './utils/runningquotient';
+import { getGarminStatistics } from './utils/garmin_common';
+import { getGaminCNClient } from './utils/garmin_cn';
 
 const axios = require('axios');
 const core = require('@actions/core');
@@ -11,7 +12,8 @@ const BARK_KEY = process.env.BARK_KEY ?? BARK_KEY_DEFAULT;
 
 export const run = async () => {
     const rqResult = await getRQOverView();
-    const garminStatistics = await getGarminStatistics();
+    const clientCN = await getGaminCNClient();
+    const garminStatistics = await getGarminStatistics(clientCN);
     const activityId = garminStatistics.activityId;
     const data = _.assign(rqResult, garminStatistics);
     console.log('update all data', data);

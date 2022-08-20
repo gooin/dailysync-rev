@@ -20,7 +20,6 @@ export const insertDataToSheets = async (data) => {
         version: 'v4',
         auth: client,
     });
-
     try {
         const response2 = await sheets.spreadsheets.values.append({
             spreadsheetId: GOOGLE_SHEET_ID,
