@@ -7,11 +7,8 @@ import {
 } from '../constant';
 
 /**
- *
  *  strava关联佳明国际区账号后可以由佳明国际区同步到strava，此方法暂时废弃
- *
  */
-
 
 const STRAVA_ACCESS_TOKEN = process.env.STRAVA_ACCESS_TOKEN ?? STRAVA_ACCESS_TOKEN_DEFAULT;
 const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID ?? STRAVA_CLIENT_ID_DEFAULT;
