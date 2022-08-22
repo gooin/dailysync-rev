@@ -1,3 +1,8 @@
+export const FILE_SUFFIX = {
+    FIT: 'fit',
+    GPX: 'gpx',
+    TCX: 'tcx'
+}
 export const RQ_USERID_DEFAULT = '';
 export const RQ_COOKIE_DEFAULT = '';
 export const RQ_USERNAME_DEFAULT = '';

@@ -1,6 +1,7 @@
 import fs from 'fs';
 import core from '@actions/core';
 import {
+    FILE_SUFFIX,
     GARMIN_MIGRATE_NUM_DEFAULT,
     GARMIN_MIGRATE_START_DEFAULT,
     GARMIN_PASSWORD_DEFAULT,
@@ -36,34 +37,31 @@ export const downloadGarminActivity = async (activityId, client: GarminClientTyp
     if (!fs.existsSync(downloadDir)) {
         fs.mkdirSync(downloadDir);
     }
-
-// Use the id as a parameter
     const activity = await client.getActivity({ activityId: activityId });
     await client.downloadOriginalActivityData(activity, downloadDir);
-    // console.log('userInfo', userInfo);
     const originZipFile = downloadDir + '/' + activityId + '.zip';
     await fs.createReadStream(originZipFile)
         .pipe(unzipper.Extract({ path: downloadDir }));
     // waiting 4s for extract zip file
     await new Promise(resolve => setTimeout(resolve, 4000));
-    const fitFilePath = `${downloadDir}/${activityId}_ACTIVITY.fit`;
-    const gpxFilePath = `${downloadDir}/${activityId}_ACTIVITY.gpx`;
+    const baseFilePath = `${downloadDir}/${activityId}_ACTIVITY`;
+    console.log('saved origin FilePath', baseFilePath);
+    const fitFilePath = `${baseFilePath}.${FILE_SUFFIX.FIT}`;
+    const gpxFilePath = `${baseFilePath}.${FILE_SUFFIX.GPX}`;
+    const tcxFilePath = `${baseFilePath}.${FILE_SUFFIX.TCX}`;
     try {
         if (fs.existsSync(fitFilePath)) {
-            console.log('saved fitFilePath', fitFilePath);
-            //file exists
             return fitFilePath;
         } else if (fs.existsSync(gpxFilePath)) {
-            console.log('saved gpxFilePath', gpxFilePath);
-            //file exists
             return gpxFilePath;
+        } else if (fs.existsSync(tcxFilePath)) {
+            return tcxFilePath;
         } else {
             const existFiles = fs.readdirSync(downloadDir, { withFileTypes: true })
                 .filter(item => !item.isDirectory())
                 .map(item => item.name);
-            console.log('fitFilePath', fitFilePath);
             console.log('fitFilePath not exist, curr existFiles', existFiles);
-            core.setFailed('file not exist ' + fitFilePath);
+            core.setFailed('file not exist ' + baseFilePath);
             return Promise.reject('file not exist ' + fitFilePath);
         }
     } catch (err) {
