@@ -8,6 +8,7 @@ import { getGaminCNClient } from './garmin_cn';
 import { GarminClientType } from './type';
 import { downloadGarminActivity, uploadGarminActivity } from './garmin_common';
 import { number2emoji } from './number2emoji';
+import core from '@actions/core';
 
 const { GarminConnect } = require('@gooin/garmin-connect');
 
@@ -18,14 +19,17 @@ const GARMIN_MIGRATE_START = process.env.GARMIN_MIGRATE_START ?? GARMIN_MIGRATE_
 
 export const getGaminGlobalClient = async (): Promise<GarminClientType> => {
     const GCClient = new GarminConnect();
-// Uses credentials from garmin.config.json or uses supplied params
-    await GCClient.login(GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
-    const userInfo = await GCClient.getUserInfo();
-    const { username, emailAddress, locale } = userInfo;
-    console.log('userInfo global', { username, emailAddress, locale });
-    return GCClient;
+    try {
+        await GCClient.login(GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
+        const userInfo = await GCClient.getUserInfo();
+        const { username, emailAddress, locale } = userInfo;
+        console.log('userInfo global', { username, emailAddress, locale });
+        return GCClient;
+    } catch (err) {
+        console.error(err);
+        core.setFailed(err);
+    }
 };
-
 
 export const migrateGarminGlobal2GarminCN = async (count = 200) => {
     const actIndex = Number(GARMIN_MIGRATE_START) ?? 0;
@@ -53,7 +57,7 @@ export const migrateGarminGlobal2GarminCN = async (count = 200) => {
     }
 };
 
-export const syncGarminGlobal2GarminCN= async () => {
+export const syncGarminGlobal2GarminCN = async () => {
     const clientCN = await getGaminCNClient();
     const clientGlobal = await getGaminGlobalClient();
 
