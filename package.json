@@ -16,7 +16,7 @@
   "author": "yanzhitao",
   "license": "ISC",
   "dependencies": {
-    "@actions/core": "^1.8.2",
+    "@actions/core": "^1.9.1",
     "@gooin/garmin-connect": "^1.4.4",
     "@gooin/garmin-connect-cn": "^1.0.2",
     "axios": "^0.24.0",
