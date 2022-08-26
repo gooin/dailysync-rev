@@ -1,4 +1,4 @@
-import { getGaminGlobalClient } from './garmin_gobal';
+import { getGaminGlobalClient } from './garmin_global';
 import {
     GARMIN_MIGRATE_NUM_DEFAULT,
     GARMIN_MIGRATE_START_DEFAULT,

@@ -1,5 +1,5 @@
 import { BARK_KEY_DEFAULT } from './constant';
-import { migrateGarminGlobal2GarminCN } from './utils/garmin_gobal';
+import { migrateGarminGlobal2GarminCN } from './utils/garmin_global';
 
 const axios = require('axios');
 const core = require('@actions/core');
