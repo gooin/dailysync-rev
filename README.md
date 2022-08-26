@@ -61,6 +61,8 @@
 | 刘           | https://www.strava.com/athletes/67222235  | ✨Sponsor   |
 | 狼朗          | https://www.strava.com/athletes/43107517  | ✨Sponsor   |
 | hua xu      | https://www.strava.com/athletes/40855048  |    |
+| L.X    | https://www.strava.com/athletes/86727066  |    |
+| 姜宁     | https://www.strava.com/athletes/54001163 |    |
 
 
 ## 如何使用？
@@ -275,4 +277,8 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 |     刘      |  50   |
 |    A*w     |  50   |
 |     *昱     |  20   |
+|     *仔     | 8.88  |
+|     *飞     |  50   |
+|    ZKY     |  50   |
+|    L**n    |  40   |
 
