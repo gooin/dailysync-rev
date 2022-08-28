@@ -26,7 +26,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: get RQ data and write to google sheet
+    name: Gather RQ statistical data and write it to google sheet
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
