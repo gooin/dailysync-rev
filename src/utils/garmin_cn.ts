@@ -24,7 +24,7 @@ export const getGaminCNClient = async (): Promise<GarminClientType> => {
         await GCClient.login(GARMIN_USERNAME, GARMIN_PASSWORD);
         const userInfo = await GCClient.getUserInfo();
         const { username, emailAddress, locale } = userInfo;
-        console.log('userInfo cn', { username, emailAddress, locale });
+        console.log('Garmin userInfo CN: ', { username, emailAddress, locale });
         return GCClient;
     } catch (err) {
         console.error(err);

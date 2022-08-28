@@ -1,33 +1,14 @@
 import { BARK_KEY_DEFAULT } from './constant';
-import { getLatestActivityIdInSheets, insertDataToSheets } from './utils/google_sheets';
-import { getRQOverView } from './utils/runningquotient';
-import { getGarminStatistics } from './utils/garmin_common';
-import { getGaminCNClient } from './utils/garmin_cn';
+import { doRQGoogleSheets } from './utils/runningquotient';
 
 const axios = require('axios');
 const core = require('@actions/core');
-const _ = require('lodash');
 
 const BARK_KEY = process.env.BARK_KEY ?? BARK_KEY_DEFAULT;
 
-export const run = async () => {
-    const rqResult = await getRQOverView();
-    const clientCN = await getGaminCNClient();
-    const garminStatistics = await getGarminStatistics(clientCN);
-    const activityId = garminStatistics.activityId;
-    const data = _.assign(rqResult, garminStatistics);
-    console.log('update all data', data);
-    const finalResult = _.values(data);
-    const latestActivityIdInSheets = await getLatestActivityIdInSheets();
-    if (latestActivityIdInSheets === String(activityId)) {
-        console.log('=== 没有需要更新的数据！，快去跑步！===');
-    } else {
-        await insertDataToSheets(finalResult);
-    }
-};
 
 try {
-    run();
+    doRQGoogleSheets();
 } catch (e) {
     axios.get(
         `https://api.day.app/${BARK_KEY}/同步数据运行失败了，快去检查！/${e.message}`);
