@@ -1,4 +1,4 @@
-name: get RQ data and write to google sheet
+name: Gather RQ statistical data and write it to google sheet
 
 on:
   workflow_dispatch:
