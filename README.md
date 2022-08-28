@@ -226,7 +226,7 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 
 ## 采集RQ数据教程：
 
-点击跳转：[RQ数据采集到GoogleSheets教程]()
+点击跳转：[RQ数据采集到GoogleSheets教程](RQ_GoogleSheets.md)
 
 ## Star History
 
