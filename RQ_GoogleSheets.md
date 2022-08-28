@@ -37,7 +37,7 @@
 
 文章只留下几个视频中用到网址供点击跳转
 
-视频地址： 待添加
+视频地址：[RQ佳明跑步统计数据采集到GoogleSheets视频教程](https://www.bilibili.com/video/BV1MY4y1u7NF/)
 
 ## Step1: 开启 Google Sheets API 并新建表格
 
@@ -66,6 +66,8 @@ RQ 请求 COOKIE：`RQ_COOKIE`
 RQ 请求 TOKEN：`RQ_CSRF_TOKEN`
 
 **预留：**
+
+计划在最后增加一列当时的天气信息，但是还没写，有能力的大佬可以提交一下哦。。
 
 和风天气 API KEY: `WEATHER_KEY`
 
