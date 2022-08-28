@@ -207,10 +207,6 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 代码可能有优化更新，如看到下图的情况，请点击下图红框更新到最新的代码，
 ![update_code](./assets/update_code.jpg)
 
-### 采集RQ数据到GoogleSheets
-
-略麻烦，跑友们有需要再补充
-
 ## 数据同步到佳明国际区后，其他的一些可关联的运动分析平台
 
 [https://app.trainingpeaks.com/#home](https://app.trainingpeaks.com/#home)
