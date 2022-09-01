@@ -231,6 +231,17 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 
 点击跳转：[RQ数据采集到GoogleSheets教程](RQ_GoogleSheets.md)
 
+## TODO
+- [x] 采集RQ统计数据到Google表格
+- [x] 一次性批量迁移已有活动数据到国际区
+- [x] 自动同步新的活动数据到数据到国际区
+- [x] 从国际区反向迁移同步到中国区功能
+- [ ] Docker本地部署运行版本，不依赖GitHub Action，避免自动运行间隔不固定的问题
+- [ ] WebUI 管理同步及迁移任务
+- [ ] 乳酸阈值长期趋势读取与分析页面
+  - 参考帖子 https://www.reddit.com/r/Garmin/comments/x2mad3/lactate_threshold_accuracy_test_from_052019_to/
+      
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=gooin/DailySync&type=Date)](https://star-history.com/#gooin/DailySync&Date)
