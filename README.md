@@ -64,6 +64,10 @@
 | hua xu      | https://www.strava.com/athletes/40855048  |    |
 | L.X    | https://www.strava.com/athletes/86727066  |    |
 | 姜宁     | https://www.strava.com/athletes/54001163 |    |
+| jogging tiger     | https://www.strava.com/athletes/105416045 |    |
+| Eph     | https://www.strava.com/athletes/8376311 |    |
+| YunBond     | https://www.strava.com/athletes/33650658 |    |
+| ygnnbpkn     | https://www.strava.com/athletes/107433069 |    |
 
 
 ## 如何使用？
@@ -253,5 +257,10 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 |     *飞     |  50   |
 |    ZKY     |  50   |
 |    L**n    |  40   |
-|    微醺漂移   |  25   |
-
+|    微**移    |  25   |
+|     *宫     |  100  |
+|    无**空    |  50   |
+|    解*n     |  30   |
+|     *亮     |  15   |
+|    lr*s    |  50   |
+|    S*e     |  8.8  |
