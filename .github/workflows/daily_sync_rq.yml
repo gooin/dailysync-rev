@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "30 17 * * *"
-  push:
-    branches:
-      - main
+#  push:
+#    branches:
+#      - main
 
 env:
   # please change to your own config.

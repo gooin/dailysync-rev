@@ -6,7 +6,7 @@
   "scripts": {
     "rq": "ts-node src/rq.ts",
     "sync_cn": "ts-node src/sync_garmin_cn_to_global.ts",
-    "sync_global": "ts-node src/sync_garmin_cn_to_global.ts",
+    "sync_global": "ts-node src/sync_garmin_global_to_cn.ts",
     "migrate_garmin_global_to_cn": "ts-node src/migrate_garmin_global_to_cn.ts",
     "migrate_garmin_cn_to_global": "ts-node src/migrate_garmin_cn_to_global.ts",
     "start2": "node dist/index.js",
