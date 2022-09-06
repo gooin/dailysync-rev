@@ -3,3 +3,29 @@ node_modules
 *.log
 garmin_fit_files
 ./src/constant.my.ts
+
+# Virtual environment
+bin/
+include/
+lib/
+pyvenv.cfg
+
+.cache
+*.pyc
+node_modules
+yarn-error.log
+
+/public
+# Build directory
+/build
+.DS_Store
+.sass-cache/
+_posts/
+_site/
+
+.mypy_cache
+
+/.vscode
+.idea
+
+config.yaml
