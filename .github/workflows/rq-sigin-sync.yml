@@ -5,8 +5,8 @@ on:
   schedule:
     - cron: '30 9,10,16 * * *'
 env:
-  GITHUB_NAME: ${{ secrets.GITHUB_NAME }}
-  GITHUB_EMAIL: ${{ secrets.GITHUB_EMAIL }}
+  GITHUB_NAME: ${{ secrets.GITHUBS_NAME }}
+  GITHUB_EMAIL: ${{ secrets.GITHUBS_EMAIL }}
 jobs:
   build:
 
