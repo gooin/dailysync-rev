@@ -9,6 +9,7 @@ import { downloadGarminActivity, uploadGarminActivity } from './garmin_common';
 import { GarminClientType } from './type';
 import { number2capital } from './number_tricks';
 import core from '@actions/core';
+import _ from 'lodash';
 
 const { GarminConnect } = require('@gooin/garmin-connect-cn');
 export const downloadDir = './garmin_fit_files';
@@ -61,7 +62,9 @@ export const syncGarminCN2GarminGlobal = async () => {
     const clientCN = await getGaminCNClient();
     const clientGlobal = await getGaminGlobalClient();
 
-    const cnActs = await clientCN.getActivities(0, 10);
+    let cnActs = await clientCN.getActivities(0, 10);
+    // fix: #18
+    _.reverse(cnActs);
     const globalActs = await clientGlobal.getActivities(0, 1);
 
     const latestGlobalActStartTime = globalActs[0].startTimeLocal ?? '0';
