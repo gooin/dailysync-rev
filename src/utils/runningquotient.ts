@@ -1,10 +1,5 @@
 import {
     BARK_KEY_DEFAULT,
-    GARMIN_PASSWORD_DEFAULT,
-    GARMIN_USERNAME_DEFAULT,
-    GOOGLE_API_CLIENT_EMAIL_DEFAULT,
-    GOOGLE_API_PRIVATE_KEY_DEFAULT,
-    GOOGLE_SHEET_ID_DEFAULT,
     RQ_COOKIE_DEFAULT,
     RQ_CSRF_TOKEN_DEFAULT,
     RQ_HOST_DEFAULT,
@@ -12,16 +7,32 @@ import {
     RQ_USERID_DEFAULT,
 } from '../constant';
 import axios from 'axios';
+import { getGaminCNClient } from './garmin_cn';
+import { getGarminStatistics } from './garmin_common';
+import { getLatestActivityIdInSheets, insertDataToSheets } from './google_sheets';
+import _ from 'lodash';
+import core from '@actions/core';
 
 const RQ_USERID = process.env.RQ_USERID ?? RQ_USERID_DEFAULT;
 const RQ_COOKIE = process.env.RQ_COOKIE ?? RQ_COOKIE_DEFAULT;
 const RQ_CSRF_TOKEN = process.env.RQ_CSRF_TOKEN ?? RQ_CSRF_TOKEN_DEFAULT;
-const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID ?? GOOGLE_SHEET_ID_DEFAULT;
-const GOOGLE_API_CLIENT_EMAIL = process.env.GOOGLE_API_CLIENT_EMAIL ?? GOOGLE_API_CLIENT_EMAIL_DEFAULT;
-const GOOGLE_API_PRIVATE_KEY = process.env.GOOGLE_API_PRIVATE_KEY ?? GOOGLE_API_PRIVATE_KEY_DEFAULT;
 const BARK_KEY = process.env.BARK_KEY ?? BARK_KEY_DEFAULT;
-const GARMIN_USERNAME = process.env.GARMIN_USERNAME ?? GARMIN_USERNAME_DEFAULT;
-const GARMIN_PASSWORD = process.env.GARMIN_PASSWORD ?? GARMIN_PASSWORD_DEFAULT;
+
+export const doRQGoogleSheets = async () => {
+    const rqResult = await getRQOverView();
+    const clientCN = await getGaminCNClient();
+    const garminStatistics = await getGarminStatistics(clientCN);
+    const activityId = garminStatistics.activityId;
+    const data = _.assign(rqResult, garminStatistics);
+    console.log('update all data', data);
+    const finalResult = _.values(data);
+    const latestActivityIdInSheets = await getLatestActivityIdInSheets();
+    if (latestActivityIdInSheets === String(activityId)) {
+        console.log('=== 没有需要更新的数据！快去跑步！===');
+    } else {
+        await insertDataToSheets(finalResult);
+    }
+};
 
 export async function getRQOverView() {
     const url = `${RQ_HOST_DEFAULT}${RQ_ROUTES_DEFAULT.UPDATE}${RQ_USERID}`;
@@ -53,12 +64,14 @@ export async function getRQOverView() {
             return rqdata;
         } else {
             console.error('ERROR at 0, 检查TOKEN');
+            core.setFailed('检查 RQ TOKEN');
             await axios.get(
                 `https://api.day.app/${BARK_KEY}/RQ运行失败了/ERROR检查TOKEN`);
             return {};
         }
     } catch (e) {
         console.error('ERROR, 检查TOKEN', e);
+        core.setFailed('检查 RQ TOKEN');
         await axios.get(
             `https://api.day.app/${BARK_KEY}/RQ运行失败了/${e.message}`);
         throw new Error(e);

@@ -75,8 +75,16 @@ export const getGarminStatistics = async (client: GarminClientType): Promise<Rec
     // Get a list of default length with most recent activities
     const acts = await client.getActivities(0, 10);
     // console.log('acts', acts);
-    const recentRunningAct = _.filter(acts, { activityType: { typeKey: 'running' } })[0];
-    // console.log('recentRunningAct', recentRunningAct);
+
+    
+    //  跑步 typeKey: 'running' 
+    //  操场跑步 typeKey: 'track_running'
+    //  跑步机跑步 typeKey: 'treadmill_running'
+    //  沿街跑步 typeKey: 'street_running'
+
+    // 包含running关键字的都算
+    const recentRunningAct = _.filter(acts, act => act?.activityType?.typeKey?.includes('running'))[0];
+    console.log('recentRunningAct type: ', recentRunningAct.activityType?.typeKey);
 
     const {
         activityId, // 活动id

@@ -8,20 +8,21 @@
 
 **自动 安全 省心**
 
-此工具实现了佳明运动活动数据（生理数据如睡眠，身体电量等除外）的一次性迁移与日常运动数据与国际区的同步，实现同步运动数据到到Strava [Strava全球热图](https://www.strava.com/heatmap) 。
+此工具实现了佳明运动活动数据（生理数据如睡眠，身体电量，**步数**等除外）的一次性迁移与日常运动数据同步，实现同步运动数据到到Strava [Strava全球热图](https://www.strava.com/heatmap) 。
 额外还实现了RQ数据采集记录跑力的长期趋势。
 
 ## 功能
 
 ### 迁移数据
 
-- 支持佳明账号中已有的运动数据从中国区一次性迁移到国际区
-- 支持佳明账号中已有的运动数据从国际区一次性迁移到中国区
+- 支持佳明账号中已有的运动数据从中国区一次性迁移到国际区。对应 `Action`: `Migrate Garmin CN to Garmin Global`
+- 支持佳明账号中已有的运动数据从国际区一次性迁移到中国区。对应 `Action`: `Migrate Garmin Global to Garmin CN`
 
 ### 同步数据
 
-- 约每20分钟左右检查当前中国区账号中是否有新的运动数据，如有则自动下载上传到国际区，并同步到Strava。
-- 如果您常用的是国际区，想要在微信运动中显示 【Garmin手表 骑行xx分钟】（[微信运动效果](./assets/wx_sport.jpg)），此工具可以实现自动反向同步中国区，因为使用人数很少，功能没有放出来，有需要可以单独联系我。
+- 约每20分钟左右检查当前中国区账号中是否有新的运动数据，如有则自动下载上传到国际区，并同步到Strava。 对应 `Action`: `Sync Garmin CN to Garmin Global`
+- 如果您常用的是国际区，想要在微信运动中显示 【Garmin手表 骑行xx分钟】（[微信运动效果](./assets/wx_sport.jpg)） 此工具可以实现自动反向同步中国区。
+  ~~因为使用人数很少，功能没有放出来，有需要可以单独联系我~~。 【2022-9-1】 已验证完成并开放出来，感谢 @南宫 支持开发！**如无特殊需求，强烈建议不要将两个同步脚本同时打开，按需开启一个即可！** 对应 `Action`: `Sync Garmin Global to Garmin CN`
 
 ### 采集数据
 
@@ -43,8 +44,10 @@
 
 #### 关键更新日志
 
+- 2022-09-01: 新增支持国际区同步新数据到中国区（ 特别感谢 @南宫 支持开发！）
+  - 新增一个`action`：`Sync Garmin Global to Garmin CN`，开启后自动执行。与同步中国区到国际区操作一致。
 - 2022-08-07: 支持国际区迁移数据到中国区
-    - 新增一个`action`：`Migrate Garmin Global to Garmin CN`，手动执行。与迁移中国区到国际区操作一致。
+  - 新增一个`action`：`Migrate Garmin Global to Garmin CN`，手动执行。与迁移中国区到国际区操作一致。
 - 2022-06-15: 增加佳明中国区迁移及同步国际区数据功能，同步strava
 - 2022-06-06: 采集RQ统计数据到Google表格
 
@@ -64,6 +67,10 @@
 | hua xu      | https://www.strava.com/athletes/40855048  |    |
 | L.X    | https://www.strava.com/athletes/86727066  |    |
 | 姜宁     | https://www.strava.com/athletes/54001163 |    |
+| jogging tiger     | https://www.strava.com/athletes/105416045 |    |
+| Eph     | https://www.strava.com/athletes/8376311 |    |
+| YunBond     | https://www.strava.com/athletes/33650658 |    |
+| ygnnbpkn     | https://www.strava.com/athletes/107433069 |    |
 
 
 ## 如何使用？
@@ -207,10 +214,6 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 代码可能有优化更新，如看到下图的情况，请点击下图红框更新到最新的代码，
 ![update_code](./assets/update_code.jpg)
 
-### 采集RQ数据到GoogleSheets
-
-略麻烦，跑友们有需要再补充
-
 ## 数据同步到佳明国际区后，其他的一些可关联的运动分析平台
 
 [https://app.trainingpeaks.com/#home](https://app.trainingpeaks.com/#home)
@@ -224,34 +227,20 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 ![garmin_global](./assets/garmin_global.png)
 ![strava](./assets/strava.png)
 
-## 采集RQ数据：
+## 采集RQ数据教程：
 
-[https://www.runningquotient.cn/](https://www.runningquotient.cn/) 是一个专业的跑步数据分析网站，提供的对跑者的"跑力"分析对我来说相当准确。
-基本会员至多查詢42天內的跑力變化，更长时间（60，90，180）需要白金会员（RMB ¥60/月）才能看到， 故萌生了采集数据记录到表格自己统计到想法，配合Connect的详细统计数据，可以分析自己的跑步能力长期趋势。
+点击跳转：[RQ数据采集到GoogleSheets教程](RQ_GoogleSheets.md)
 
-同步佳明中国区运动数据到佳明国际区，Strava关联佳明国际区账号，进而实现strava跑步数据同步更新。
-
-## 前置条件：
-
-- runningquotient 已关联运动手表的账号
-- 佳明手表 （如果仅采集跑力数据，其他能关联到rq的手表都行，华为/高驰/...）
-- 二代跑步数据 (触地时间，步幅，垂直震幅，功率) 采集设备（Garmin RDP/HRM-PRO/HRM-RUN）
-- Google Sheets（记录数据）/ Google Cloud Platform API (用于写入表格数据)
-
-## 采集的数据：
-
-- RQ：
-    - '跑力更新时间', '训练负荷', '疲劳', '即时跑力', '跑力', '跑力说明', '趋势1', '趋势2',
-- Garmin Connect
-    - '活动id', '活动名称', '活动开始时间', '距离', '持续时间', '速度 m/s', '配速 min/km', '配速文字 min/km', '平均心率', '最大心率', '平均每分钟步频', '有氧效果', '
-      无氧效果', '触地时间', '步幅', 'VO2Max', '垂直振幅', '垂直振幅比', '触地平衡', '训练效果', '训练负荷'
-
-![rq](./assets/rq.png)
-![connect](./assets/connect.png)
-![sheet](./assets/sheet.png)
-
-分享我自己的跑步数据：
-[点击打开表格查看](https://docs.google.com/spreadsheets/d/e/2PACX-1vRSk3aD6T3tFM-OA7Cl5BmFMJ7mdKriFgYvNQA6f5b8K6F_-CadaGa8TEjMmy-sIpOPfmdN1ktkhXxt/pubhtml?gid=0&single=true)
+## TODO
+- [x] 采集RQ统计数据到Google表格
+- [x] 一次性批量迁移已有活动数据到国际区
+- [x] 自动同步新的活动数据到数据到国际区
+- [x] 从国际区反向迁移同步到中国区功能
+- [ ] Docker本地部署运行版本，不依赖GitHub Action，避免自动运行间隔不固定的问题
+- [ ] WebUI 管理同步及迁移任务
+- [ ] 乳酸阈值长期趋势读取与分析页面
+  - 参考帖子 https://www.reddit.com/r/Garmin/comments/x2mad3/lactate_threshold_accuracy_test_from_052019_to/
+      
 
 ## Star History
 
@@ -282,5 +271,10 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 |     *飞     |  50   |
 |    ZKY     |  50   |
 |    L**n    |  40   |
-|    微醺漂移   |  25   |
-
+|    微**移    |  25   |
+|     *宫     |  100  |
+|    无**空    |  50   |
+|    解*n     |  30   |
+|     *亮     |  15   |
+|    lr*s    |  50   |
+|    S*e     |  8.8  |

@@ -1,13 +1,10 @@
-name: Sync Garmin CN to Garmin Global
+name: Sync Garmin Global to Garmin CN
 
 on:
   workflow_dispatch:
   schedule:
-    #  每10分钟检查一次
-    - cron: "*/10 * * * *"
-  push:
-    branches:
-      - main
+    #  每15分钟检查一次
+    - cron: "*/15 * * * *"
 
 env:
   # please change to your own config.
@@ -26,7 +23,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Sync Garmin CN to Garmin Global
+    name: Sync Garmin Global to Garmin CN
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -34,4 +31,4 @@ jobs:
           node-version: '14'
           cache: 'yarn'
       - run: yarn
-      - run: yarn sync_cn
+      - run: yarn sync_global

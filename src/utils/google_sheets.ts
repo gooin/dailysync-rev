@@ -7,7 +7,7 @@ import _ from 'lodash';
 
 const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID ?? GOOGLE_SHEET_ID_DEFAULT;
 const GOOGLE_API_CLIENT_EMAIL = process.env.GOOGLE_API_CLIENT_EMAIL ?? GOOGLE_API_CLIENT_EMAIL_DEFAULT;
-const GOOGLE_API_PRIVATE_KEY = process.env.GOOGLE_API_PRIVATE_KEY ?? GOOGLE_API_PRIVATE_KEY_DEFAULT;
+const GOOGLE_API_PRIVATE_KEY = process.env.GOOGLE_API_PRIVATE_KEY?.replace(/\\n/gm, '\n') ?? GOOGLE_API_PRIVATE_KEY_DEFAULT;
 
 export const insertDataToSheets = async (data) => {
     const client = new JWT({
@@ -65,14 +65,14 @@ export const getLatestSheetsData = async (): Promise<string[]> => {
         // console.log(response2.data);
         // console.log(sheetsData);
     } catch (e) {
-        // core.setFailed(e.message);
+        core.setFailed(e);
         throw new Error(e);
     }
 };
 
 export const getLatestActivityIdInSheets = async () => {
     const data = await getLatestSheetsData();
-    const id = data[9];
+    const id = data[9] ?? 0;
     console.log('LatestActivityIdInSheets: ', id);
     return id;
 };

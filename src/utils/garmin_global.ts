@@ -23,7 +23,7 @@ export const getGaminGlobalClient = async (): Promise<GarminClientType> => {
         await GCClient.login(GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
         const userInfo = await GCClient.getUserInfo();
         const { username, emailAddress, locale } = userInfo;
-        console.log('userInfo global', { username, emailAddress, locale });
+        console.log('Garmin userInfo global', { username, emailAddress, locale });
         return GCClient;
     } catch (err) {
         console.error(err);

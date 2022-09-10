@@ -1,13 +1,12 @@
-name: get RQ data and write to google sheet
+name: Gather RQ statistical data and write it to google sheet
 
 on:
   workflow_dispatch:
   schedule:
-#    schedule默认时区间是UTC+0， 对应北京时间22:30
-    - cron: "30 16 * * *"
-  push:
-    branches:
-      - main
+    - cron: "30 17 * * *"
+#  push:
+#    branches:
+#      - main
 
 env:
   # please change to your own config.
@@ -26,7 +25,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: get RQ data and write to google sheet
+    name: Gather RQ statistical data and write it to google sheet
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
