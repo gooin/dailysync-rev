@@ -8,7 +8,8 @@
 
 **自动 安全 省心**
 
-此工具实现了佳明运动活动数据（生理数据如睡眠，身体电量，**步数**等除外）的一次性迁移与日常运动数据同步，实现同步运动数据到到Strava [Strava全球热图](https://www.strava.com/heatmap) 。
+此工具实现了佳明运动活动数据（生理数据如睡眠，身体电量，**步数**
+等除外）的一次性迁移与日常运动数据同步，实现同步运动数据到到Strava [Strava全球热图](https://www.strava.com/heatmap) 。
 额外还实现了RQ数据采集记录跑力的长期趋势。
 
 ## 功能
@@ -20,9 +21,12 @@
 
 ### 同步数据
 
-- 约每20分钟左右检查当前中国区账号中是否有新的运动数据，如有则自动下载上传到国际区，并同步到Strava。 对应 `Action`: `Sync Garmin CN to Garmin Global`
-- 如果您常用的是国际区，想要在微信运动中显示 【Garmin手表 骑行xx分钟】（[微信运动效果](./assets/wx_sport.jpg)） 此工具可以实现自动反向同步中国区。
-  ~~因为使用人数很少，功能没有放出来，有需要可以单独联系我~~。 【2022-9-1】 已验证完成并开放出来，感谢 @南宫 支持开发！**如无特殊需求，强烈建议不要将两个同步脚本同时打开，按需开启一个即可！** 对应 `Action`: `Sync Garmin Global to Garmin CN`
+- 约每20分钟左右检查当前中国区账号中是否有新的运动数据，如有则自动下载上传到国际区，并同步到Strava。
+  对应 `Action`: `Sync Garmin CN to Garmin Global`
+- 如果您常用的是国际区，想要在微信运动中显示 【Garmin手表 骑行xx分钟】（[微信运动效果](./assets/wx_sport.jpg)）
+  此工具可以实现自动反向同步中国区。
+  ~~因为使用人数很少，功能没有放出来，有需要可以单独联系我~~。 【2022-9-1】 已验证完成并开放出来，感谢 @南宫 支持开发！**
+  如无特殊需求，强烈建议不要将两个同步脚本同时打开，按需开启一个即可！** 对应 `Action`: `Sync Garmin Global to Garmin CN`
 
 ### 采集数据
 
@@ -45,33 +49,41 @@
 #### 关键更新日志
 
 - 2022-09-01: 新增支持国际区同步新数据到中国区（ 特别感谢 @南宫 支持开发！）
-  - 新增一个`action`：`Sync Garmin Global to Garmin CN`，开启后自动执行。与同步中国区到国际区操作一致。
+    - 新增一个`action`：`Sync Garmin Global to Garmin CN`，开启后自动执行。与同步中国区到国际区操作一致。
 - 2022-08-07: 支持国际区迁移数据到中国区
-  - 新增一个`action`：`Migrate Garmin Global to Garmin CN`，手动执行。与迁移中国区到国际区操作一致。
+    - 新增一个`action`：`Migrate Garmin Global to Garmin CN`，手动执行。与迁移中国区到国际区操作一致。
 - 2022-06-15: 增加佳明中国区迁移及同步国际区数据功能，同步strava
 - 2022-06-06: 采集RQ统计数据到Google表格
 
 #### 在用这个工具的朋友们 （[填写您的链接](https://wj.qq.com/s2/10633783/a1ef/)）
 
-| 名称          | Strava运动员链接                               |             |
-|:------------|:------------------------------------------|:------------|
-| Zhitao Yan  | https://www.strava.com/athletes/84396978  | ‍💻Author   |
-| Clown jiang | https://www.strava.com/athletes/105952743 | ✨Sponsor    |
-| 老弟          | https://www.strava.com/athletes/91478457  | ✨Sponsor    |
-| Zax Wen     | https://www.strava.com/athletes/91553718  | ✨Sponsor    |
-| 李二牛         | https://www.strava.com/athletes/43684509  | ✨Sponsor    |
-| 围脖B站@我是冯瑞恒  | https://www.strava.com/athletes/34349982  | ✨Sponsor   |
-| 刘           | https://www.strava.com/athletes/67222235  | ✨Sponsor   |
-| 狼朗          | https://www.strava.com/athletes/43107517  | ✨Sponsor   |
-| 微醺漂移          | https://www.strava.com/athletes/19108713  | ✨Sponsor   |
-| hua xu      | https://www.strava.com/athletes/40855048  |    |
-| L.X    | https://www.strava.com/athletes/86727066  |    |
-| 姜宁     | https://www.strava.com/athletes/54001163 |    |
-| jogging tiger     | https://www.strava.com/athletes/105416045 |    |
-| Eph     | https://www.strava.com/athletes/8376311 |    |
-| YunBond     | https://www.strava.com/athletes/33650658 |    |
-| ygnnbpkn     | https://www.strava.com/athletes/107433069 |    |
-
+| 名称            | Strava运动员链接                                 |           |
+|:--------------|:--------------------------------------------|:----------|
+| Zhitao Yan    | https://www.strava.com/athletes/84396978    | ‍💻Author |
+| Clown jiang   | https://www.strava.com/athletes/105952743   | ✨Sponsor  |
+| 老弟            | https://www.strava.com/athletes/91478457    | ✨Sponsor  |
+| Zax Wen       | https://www.strava.com/athletes/91553718    | ✨Sponsor  |
+| 李二牛           | https://www.strava.com/athletes/43684509    | ✨Sponsor  |
+| 围脖B站@我是冯瑞恒    | https://www.strava.com/athletes/34349982    | ✨Sponsor  |
+| 刘             | https://www.strava.com/athletes/67222235    | ✨Sponsor  |
+| 狼朗            | https://www.strava.com/athletes/43107517    | ✨Sponsor  |
+| 微醺漂移          | https://www.strava.com/athletes/19108713    | ✨Sponsor  |
+| hua xu        | https://www.strava.com/athletes/40855048    |           |
+| L.X           | https://www.strava.com/athletes/86727066    |           |
+| 姜宁            | https://www.strava.com/athletes/54001163    |           |
+| jogging tiger | https://www.strava.com/athletes/105416045   |           |
+| Eph           | https://www.strava.com/athletes/8376311     |           |
+| YunBond       | https://www.strava.com/athletes/33650658    |           |
+| ygnnbpkn      | https://www.strava.com/athletes/107433069   |           |
+| HY.Dong       | https://www.strava.com/athletes/8901566     |    ✨Sponsor       |
+| 陆凡            | https://www.strava.com/athletes/48067019    |      ✨Sponsor     |
+| JiaJian He    |     https://www.strava.com/athletes/13495215|     ✨Sponsor      |
+| 生如胡杨          | https://www.strava.com/athletes/107773658   | ✨Sponsor          |
+| doudouhuang   | https://www.strava.com/athletes/107830101   |           |
+| 解凌曦           | https://www.strava.com/athletes/62080682    |   ✨Sponsor        |
+| 欢乐铁三陈琨        | https://www.strava.com/athletes/107733443   |           |
+| Fseeeee       | https://www.strava.com/athletes/45675087    |           |
+| 神月            | https://www.strava.com/athletes/69135349    |           |
 
 ## 如何使用？
 
@@ -99,8 +111,16 @@
 
 ![consent](./assets/consent.png)
 
-如果是新注册的国际区账号，请确保账号隐私设置中的`存储和处理` 是 `同意`状态，`设备上传`是`已启用` 状态(下图)，否则上传数据会报`412`错误码：`User explicity revoked consent for uploading files.`
+如果是新注册的国际区账号，请确保账号隐私设置中的`存储和处理` 是 `同意`状态，`设备上传`是`已启用` 状态(下图)
+，否则上传数据会报`412`错误码：`User explicity revoked consent for uploading files.`
 ![connect_permission](./assets/connect_permission.png)
+
+如果你的中国区账号开启了两步验证，登录时需要验证码，请按照图中设置关闭
+
+[https://www.garmin.cn/zh-CN/account/security/mfa](https://www.garmin.cn/zh-CN/account/security/mfa)
+![mfa](./assets/mfa.jpg)
+
+------
 
 #### Step1: fork 此工程
 
@@ -180,6 +200,7 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 ![sync](./assets/sync.jpg)
 
 #### FAQ:
+
 ##### 数据没有同步成功？
 
 第一步请先检查手机connect，确保运动在connect看到才能进行后续的同步工作。
@@ -194,15 +215,18 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 
 **我代码中写的是每10分钟执行一次，实际情况是大约每20分钟执行一次。**
 
-尤其是早上8点左右，几乎都会延迟很久执行，原因是大概我们8点对应美国0点，其他很多程序的定时任务在0点执行，导致我们的任务抢不到计算资源，导致延迟执行。 着急的话上来手动执行一下就好。
+尤其是早上8点左右，几乎都会延迟很久执行，原因是大概我们8点对应美国0点，其他很多程序的定时任务在0点执行，导致我们的任务抢不到计算资源，导致延迟执行。
+着急的话上来手动执行一下就好。
 
 文中建议改为每5分钟一次，但是如果这样的话会超出每月的免费可用额度。如果您急切的想同步数据，建议上来手动操作一下。
 
 翻译：
 >
-> 欢迎来到 GitHub 支持社区！计划的操作工作流以尽力而为的策略运行。当您的计划到期时，您的工作流将添加到池中并在资源可用时运行。这意味着您可能会看到与您的计划时间和工作流运行的实际时间相比有所延迟，尽管这可能会导致更长的延迟，具体取决于当时可用的资源。
+> 欢迎来到 GitHub
+> 支持社区！计划的操作工作流以尽力而为的策略运行。当您的计划到期时，您的工作流将添加到池中并在资源可用时运行。这意味着您可能会看到与您的计划时间和工作流运行的实际时间相比有所延迟，尽管这可能会导致更长的延迟，具体取决于当时可用的资源。
 > 您可以安排工作流运行的最短时间为每 5 分钟一次。由于这种池化，如果在您的下一个计划设置为运行时，池中已经有运行等待，您可能会看到运行被“跳过”。
-> 工程团队正在研究提高调度的可用性、扩展性和响应时间，但如果您需要精确的调度操作，那么您可能会更好地寻找替代解决方案，例如在您自己的 VPS 上运行 cron。
+> 工程团队正在研究提高调度的可用性、扩展性和响应时间，但如果您需要精确的调度操作，那么您可能会更好地寻找替代解决方案，例如在您自己的
+> VPS 上运行 cron。
 >
 
 ##### 需要每天都来同步数据吗？
@@ -232,6 +256,7 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 点击跳转：[RQ数据采集到GoogleSheets教程](RQ_GoogleSheets.md)
 
 ## TODO
+
 - [x] 采集RQ统计数据到Google表格
 - [x] 一次性批量迁移已有活动数据到国际区
 - [x] 自动同步新的活动数据到数据到国际区
@@ -239,8 +264,7 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 - [ ] Docker本地部署运行版本，不依赖GitHub Action，避免自动运行间隔不固定的问题
 - [ ] WebUI 管理同步及迁移任务
 - [ ] 乳酸阈值长期趋势读取与分析页面
-  - 参考帖子 https://www.reddit.com/r/Garmin/comments/x2mad3/lactate_threshold_accuracy_test_from_052019_to/
-      
+    - 参考帖子 https://www.reddit.com/r/Garmin/comments/x2mad3/lactate_threshold_accuracy_test_from_052019_to/
 
 ## Star History
 
