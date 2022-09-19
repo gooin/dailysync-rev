@@ -65,13 +65,13 @@ export const syncGarminCN2GarminGlobal = async () => {
     let cnActs = await clientCN.getActivities(0, 10);
     const globalActs = await clientGlobal.getActivities(0, 1);
 
-    const latestGlobalActStartTime = globalActs[0].startTimeLocal ?? '0';
-    const latestCnActStartTime = cnActs[0].startTimeLocal ?? '0';
-    // fix: #18
-    _.reverse(cnActs);
+    const latestGlobalActStartTime = globalActs[0]?.startTimeLocal ?? '0';
+    const latestCnActStartTime = cnActs[0]?.startTimeLocal ?? '0';
     if (latestCnActStartTime === latestGlobalActStartTime) {
         console.log(`没有要同步的活动内容, 最近的活动:  【 ${cnActs[0].activityName} 】, 开始于: 【 ${latestCnActStartTime} 】`);
     } else {
+        // fix: #18
+        _.reverse(cnActs);
         for (let i = 0; i < cnActs.length; i++) {
             const cnAct = cnActs[i];
             if (cnAct.startTimeLocal > latestGlobalActStartTime) {
