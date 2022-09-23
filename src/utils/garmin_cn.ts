@@ -72,15 +72,17 @@ export const syncGarminCN2GarminGlobal = async () => {
     } else {
         // fix: #18
         _.reverse(cnActs);
+        let actualNewActivityCount = 1;
         for (let i = 0; i < cnActs.length; i++) {
             const cnAct = cnActs[i];
             if (cnAct.startTimeLocal > latestGlobalActStartTime) {
                 // 下载佳明原始数据
                 const filePath = await downloadGarminActivity(cnAct.activityId, clientCN);
                 // 上传到佳明国际区
-                console.log(`本次开始向国际区上传第 ${number2capital(i + 1)} 条数据，【 ${cnAct.activityName} 】，开始于 【 ${cnAct.startTimeLocal} 】，活动ID: 【 ${cnAct.activityId} 】`);
+                console.log(`本次开始向国际区上传第 ${number2capital(actualNewActivityCount)} 条数据，【 ${cnAct.activityName} 】，开始于 【 ${cnAct.startTimeLocal} 】，活动ID: 【 ${cnAct.activityId} 】`);
                 await uploadGarminActivity(filePath, clientGlobal);
                 await new Promise(resolve => setTimeout(resolve, 1000));
+                actualNewActivityCount++;
             }
         }
     }

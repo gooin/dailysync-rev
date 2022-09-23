@@ -9,8 +9,7 @@
 **自动 安全 省心**
 
 此工具实现了佳明运动活动数据（生理数据如睡眠，身体电量，**步数**
-等除外）的一次性迁移与日常运动数据同步，实现同步运动数据到到Strava [Strava全球热图](https://www.strava.com/heatmap) 。
-额外还实现了RQ数据采集记录跑力的长期趋势。
+等除外）的一次性迁移与日常运动数据同步，实现同步运动数据到到Strava [Strava全球热图](https://www.strava.com/heatmap) 。 额外还实现了RQ数据采集记录跑力的长期趋势及自动签到。
 
 ## 功能
 
@@ -21,18 +20,22 @@
 
 ### 同步数据
 
-- 约每20分钟左右检查当前中国区账号中是否有新的运动数据，如有则自动下载上传到国际区，并同步到Strava。
-  对应 `Action`: `Sync Garmin CN to Garmin Global`
-- 如果您常用的是国际区，想要在微信运动中显示 【Garmin手表 骑行xx分钟】（[微信运动效果](./assets/wx_sport.jpg)）
+- 约每20分钟左右检查当前中国区账号中是否有新的运动数据，如有则自动下载上传到国际区，并同步到Strava。 对应 `Action`: `Sync Garmin CN to Garmin Global`
+- 如果您常用的是国际区，想要在国内运动软件（悦跑圈/咕咚/keep/郁金香等等）同步运动数据及微信运动中显示 【Garmin手表 骑行xx分钟】（[微信运动效果](./assets/wx_sport.jpg)）
   此工具可以实现自动反向同步中国区。
   ~~因为使用人数很少，功能没有放出来，有需要可以单独联系我~~。 【2022-9-1】 已验证完成并开放出来，感谢 @南宫 支持开发！**
   如无特殊需求，强烈建议不要将两个同步脚本同时打开，按需开启一个即可！** 对应 `Action`: `Sync Garmin Global to Garmin CN`
 
 ### 采集数据
 
-- 采集RQ统计数据到GoogleSheets，记录跑力的长期趋势
+- 采集RQ统计数据到GoogleSheets，记录跑力的长期趋势。参见： [RQ数据采集到GoogleSheets教程](RQ_GoogleSheets.md)
+- RQ自动签到。参见：[RQ自动签到](RQ_Sign.md)
 
 ## 说明
+
+#### 免责声明：
+
+本工具仅限用于学习和研究使用，不得用于商业或者非法用途。如有任何问题可联系本人删除。
 
 #### 账号安全：
 
@@ -49,13 +52,18 @@
 #### 关键更新日志
 
 - 2022-09-01: 新增支持国际区同步新数据到中国区（ 特别感谢 @南宫 支持开发！）
-    - 新增一个`action`：`Sync Garmin Global to Garmin CN`，开启后自动执行。与同步中国区到国际区操作一致。
+  - 新增一个`action`：`Sync Garmin Global to Garmin CN`，开启后自动执行。与同步中国区到国际区操作一致。
 - 2022-08-07: 支持国际区迁移数据到中国区
-    - 新增一个`action`：`Migrate Garmin Global to Garmin CN`，手动执行。与迁移中国区到国际区操作一致。
+  - 新增一个`action`：`Migrate Garmin Global to Garmin CN`，手动执行。与迁移中国区到国际区操作一致。
 - 2022-06-15: 增加佳明中国区迁移及同步国际区数据功能，同步strava
 - 2022-06-06: 采集RQ统计数据到Google表格
 
-#### 在用这个工具的朋友们 （[填写您的链接](https://wj.qq.com/s2/10633783/a1ef/)）
+<details>
+<summary>
+
+#### 在用这个工具的朋友们(点击展开) （[填写您的链接](https://wj.qq.com/s2/10633783/a1ef/)）
+
+</summary>
 
 | 名称            | Strava运动员链接                                 |           |
 |:--------------|:--------------------------------------------|:----------|
@@ -84,12 +92,30 @@
 | 欢乐铁三陈琨        | https://www.strava.com/athletes/107733443   |           |
 | Fseeeee       | https://www.strava.com/athletes/45675087    |           |
 | 神月            | https://www.strava.com/athletes/69135349    |           |
+|清风故人 | https://www.strava.com/athletes/105799254| |
+|lu_yuanyuan | https://www.strava.com/athletes/lu_yuanyuan| |
+|axiuff | https://www.strava.com/athletes/107599333| |
+|iceirislei | https://www.strava.com/athletes/84396978| |
+|江小鱼 | https://www.strava.com/athletes/29648564| |
+|作樂 | https://www.strava.com/athletes/102557902| |
+|Ink Jiang | https://www.strava.com/athletes/107398383| |
+|kk | https://www.strava.com/athletes/108302326| |
+|Kailin Aogu | https://www.strava.com/athletes/108426264| |
+|Jason | https://www.strava.com/athletes/78018552| |
+|七叔uncle | https://www.strava.com/athletes/100219084| |
+|lenmio | https://www.strava.com/athletes/23144564| |
+|王冰 | https://www.strava.com/athletes/96827296| |
+|AndrewRen | https://www.strava.com/athletes/47354232| |
+|湖南吴彦祖 | https://www.strava.com/athletes/27560743| |
+
+</details>
 
 ## 如何使用？
 
 视频教程参考： [中国区佳明运动数据同步Strava视频教程](https://www.bilibili.com/video/BV1v94y1Q7oR/)
 
-如果按照视频还是无法达到预期的效果(包括佳明国际区点不进去，跳转到com.cn、github 添加 secrets 没有反应等)，请自行解决不可描述的网络问题。
+如果按照视频还是无法达到预期的效果(包括佳明国际区点不进去，跳转到com.cn、github 添加 secrets 没有反应等)，请自行解决不可描述的网络问题。 如果`github`
+上的图片看不到，那大概率是被墙了，看图请移步 [知乎链接](https://zhuanlan.zhihu.com/p/543799435), 文档内容以`github` 版本为准，其他地方可能不是最新的。
 
 ### 迁移已有运动数据，并开启自动同步功能
 
@@ -261,10 +287,12 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 - [x] 一次性批量迁移已有活动数据到国际区
 - [x] 自动同步新的活动数据到数据到国际区
 - [x] 从国际区反向迁移同步到中国区功能
-- [ ] Docker本地部署运行版本，不依赖GitHub Action，避免自动运行间隔不固定的问题
+- [ ] Strava数据导出上传Garmin
+- [ ] Connect API 异常出错时抛出`github actions`错误，避免内部运行失败但是外部显示成功的问题。
+- [ ] Docker本地部署运行版本，不依赖GitHub Action，避免自动运行间隔不固定的问题。
 - [ ] WebUI 管理同步及迁移任务
 - [ ] 乳酸阈值长期趋势读取与分析页面
-    - 参考帖子 https://www.reddit.com/r/Garmin/comments/x2mad3/lactate_threshold_accuracy_test_from_052019_to/
+  - 参考帖子 https://www.reddit.com/r/Garmin/comments/x2mad3/lactate_threshold_accuracy_test_from_052019_to/
 
 ## Star History
 
