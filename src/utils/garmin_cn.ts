@@ -54,7 +54,7 @@ export const migrateGarminCN2GarminGlobal = async (count = 200) => {
         // 上传到佳明国际区
         console.log(`本次开始向国际区上传第 ${number2capital(j + 1)} 条数据，相对总数上传到 ${number2capital(j + 1 + actIndex)} 条，  【 ${act.activityName} 】，开始于 【 ${act.startTimeLocal} 】，活动ID: 【 ${act.activityId} 】`);
         await uploadGarminActivity(filePath, clientGlobal);
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // await new Promise(resolve => setTimeout(resolve, 2000));
     }
 };
 

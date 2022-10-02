@@ -54,7 +54,7 @@ export const migrateGarminGlobal2GarminCN = async (count = 200) => {
         console.log(`本次开始向中国区上传第 ${number2capital(j + 1)} 条数据，相对总数上传到 ${number2capital(j + 1 + actIndex)} 条，  【 ${act.activityName} 】，开始于 【 ${act.startTimeLocal} 】，活动ID: 【 ${act.activityId} 】`);
         await uploadGarminActivity(filePath, clientCn);
         // 等待2秒，避免API请求太过频繁
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // await new Promise(resolve => setTimeout(resolve, 2000));
     }
 };
 

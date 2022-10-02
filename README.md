@@ -1,5 +1,7 @@
 # 佳明运动数据同步与采集工具
 
+![workflow](./assets/workflow.png)
+
 <a style="display:inline-block;background-color:#FC5200;color:#fff;padding:5px 10px 5px 30px;font-size:11px;font-family:Helvetica, Arial, sans-serif;white-space:nowrap;text-decoration:none;background-repeat:no-repeat;background-position:10px center;border-radius:3px;background-image:url('https://badges.strava.com/logo-strava-echelon.png')" href='https://strava.com/athletes/84396978' target="_clean">
   关注作者Strava
   <img src='https://badges.strava.com/logo-strava.png' alt='Strava' style='margin-left:2px;vertical-align:text-bottom' height=13 width=51 />
@@ -21,10 +23,14 @@
 ### 同步数据
 
 - 约每20分钟左右检查当前中国区账号中是否有新的运动数据，如有则自动下载上传到国际区，并同步到Strava。 对应 `Action`: `Sync Garmin CN to Garmin Global`
+- 
 - 如果您常用的是国际区，想要在国内运动软件（悦跑圈/咕咚/keep/郁金香等等）同步运动数据及微信运动中显示 【Garmin手表 骑行xx分钟】（[微信运动效果](./assets/wx_sport.jpg)）
   此工具可以实现自动反向同步中国区。
-  ~~因为使用人数很少，功能没有放出来，有需要可以单独联系我~~。 【2022-9-1】 已验证完成并开放出来，感谢 @南宫 支持开发！**
-  如无特殊需求，强烈建议不要将两个同步脚本同时打开，按需开启一个即可！** 对应 `Action`: `Sync Garmin Global to Garmin CN`
+  - 微信步数同步：
+    - `iOS`: 佳明爱运动小程序绑定后，国际区->中国区同步仅能同步活动数据。出去运动不带手机的话，步数会记录在手表中，活动同步后，`Connect`会将步数上传到`健康` App 中，微信与健康应用链接，即可在微信运动中看到步数。
+    - `Android`: 暂无可行方法。
+- 
+-如无特殊需求，强烈建议不要将两个同步脚本同时打开，按需开启一个即可！ 对应 `Action`: `Sync Garmin Global to Garmin CN`
 
 ### 采集数据
 
@@ -51,7 +57,7 @@
 
 #### 关键更新日志
 
-- 2022-09-01: 新增支持国际区同步新数据到中国区（ 特别感谢 @南宫 支持开发！）
+- 2022-09-01: 新增支持国际区同步新数据到中国区
   - 新增一个`action`：`Sync Garmin Global to Garmin CN`，开启后自动执行。与同步中国区到国际区操作一致。
 - 2022-08-07: 支持国际区迁移数据到中国区
   - 新增一个`action`：`Migrate Garmin Global to Garmin CN`，手动执行。与迁移中国区到国际区操作一致。
@@ -61,7 +67,7 @@
 <details>
 <summary>
 
-#### 在用这个工具的朋友们(点击展开) （[填写您的链接](https://wj.qq.com/s2/10633783/a1ef/)）
+#### 在用这个工具的大佬(除了作者)们(点击展开) （[填写您的链接](https://wj.qq.com/s2/10633783/a1ef/)）
 
 </summary>
 
@@ -107,6 +113,7 @@
 |王冰 | https://www.strava.com/athletes/96827296| |
 |AndrewRen | https://www.strava.com/athletes/47354232| |
 |湖南吴彦祖 | https://www.strava.com/athletes/27560743| |
+|古玉沁心 | https://www.strava.com/athletes/guyuqinxin|✨Sponsor |
 
 </details>
 
@@ -207,21 +214,44 @@ GARMIN_MIGRATE_START
 
 **回到 Step2 的地方，分别修改**
 
-GARMIN_MIGRATE_NUM 为 100
+`GARMIN_MIGRATE_NUM` 为 `500`
 
-GARMIN_MIGRATE_START 为 1
+`GARMIN_MIGRATE_START` 为 `1`
 
-然后按照上面执行过的步骤，参照Step3再执行一次，执行成功后检查佳明国际区及Strava上是否迁移过来。如果成功，修改
+然后按照上面执行过的步骤，参照Step3再执行一次，执行成功后检查佳明国际区及Strava上是否迁移过来。
 
-GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MIGRATE_START 的值 + 100，直到所有数据迁移完成。
+执行迁移的时候，请不要在web端再登录connect账号，同时请**打开日志观察执行情况，中间极有可能佳明的接口出异常导致任务失败**，如果遇到失败的情况，检查日志，看失败的时候`相对总数`是多少条
 
-> 迁移数据比较慢，请耐心等待，实测30分钟迁移100条左右
+```
+本次开始向国际区上传第 一 条数据，【相对总数】上传到 七零一 条，  【 xx市 公路自行车 】，开始于 【 20xx-x-x 19:11:10 】，活动ID: 【 0000000 】
+upload to garmin activity {
+  detailedImportResult: {
+    uploadId: 155871498739,
+    uploadUuid: { uuid: '0a80bfce-f94c-4ced-8fdd-8c3075032018' },
+    owner: 107917164,
+    fileSize: 29087,
+    processingTime: 49,
+    creationDate: '2022-10-01 12:51:18.931 GMT',
+    ipAddress: null,
+    fileName: '44055967_ACTIVITY.fit',
+    report: null,
+    successes: [],
+    failures: []
+  }
+}
+```
+
+然后将 `GARMIN_MIGRATE_START` 修改为失败时的`相对总数`，是数字，如`701`，不是上边日志里的文字数字。然后重新执行，直到所有数据迁移完成。
+
+
+> 迁移数据比较慢，请耐心等待，实测15分钟迁移100条左右
 
 #### Step4: 自动同步新的运动数据
 
 如图点击开启workflow
 ![enable_workflow](./assets/enable_workflow.jpg)
-开启后无需额外配置，大约每20分钟左右自动同步一次数据，一段时间后可以查看同步记录
+开启后无需额外配置，除早上外，其他时候大约每30分钟左右自动同步一次数据，一段时间后可以查看同步记录.
+邮件偶尔会收到执行失败的通知，不用管哈
 如果有问题，请发邮件联系我
 ![sync](./assets/sync.jpg)
 
@@ -266,11 +296,12 @@ GARMIN_MIGRATE_START 为 100，再次执行，确认成功后，每次 GARMIN_MI
 
 ## 数据同步到佳明国际区后，其他的一些可关联的运动分析平台
 
+[https://intervals.icu/ （强烈推荐！！）](https://intervals.icu/)
+
 [https://app.trainingpeaks.com/#home](https://app.trainingpeaks.com/#home)
 
 [https://runalyze.com/dashboard](https://runalyze.com/dashboard)
 
-[https://intervals.icu/](https://intervals.icu/)
 
 ## 同步到佳明国际区，同步Strava
 
