@@ -1,5 +1,6 @@
 import { getGaminGlobalClient } from './garmin_global';
 import {
+    AESKEY_DEFAULT,
     GARMIN_MIGRATE_NUM_DEFAULT,
     GARMIN_MIGRATE_START_DEFAULT,
     GARMIN_PASSWORD_DEFAULT,
@@ -10,9 +11,12 @@ import { GarminClientType } from './type';
 import { number2capital } from './number_tricks';
 import core from '@actions/core';
 import _ from 'lodash';
+import { getSessionFromDB, initDB, saveSessionToDB, updateSessionToDB } from './sqlite';
+
+const CryptoJS = require('crypto-js');
+const fs = require('fs');
 
 const { GarminConnect } = require('@gooin/garmin-connect-cn');
-export const downloadDir = './garmin_fit_files';
 
 const GARMIN_USERNAME = process.env.GARMIN_USERNAME ?? GARMIN_USERNAME_DEFAULT;
 const GARMIN_PASSWORD = process.env.GARMIN_PASSWORD ?? GARMIN_PASSWORD_DEFAULT;
@@ -21,11 +25,35 @@ const GARMIN_MIGRATE_START = process.env.GARMIN_MIGRATE_START ?? GARMIN_MIGRATE_
 
 export const getGaminCNClient = async (): Promise<GarminClientType> => {
     const GCClient = new GarminConnect();
+
     try {
-        await GCClient.login(GARMIN_USERNAME, GARMIN_PASSWORD);
+        await initDB();
+
+        const currentSession = await getSessionFromDB('CN');
+        if (!currentSession) {
+            await GCClient.login(GARMIN_USERNAME, GARMIN_PASSWORD);
+            await saveSessionToDB('CN', GCClient.sessionJson);
+        } else {
+            //  Wrap error message in GCClient, prevent terminate in github actions.
+            try {
+                // await GCClient.restore(currentSession);
+                console.log('GarminCN: login by saved session');
+                await GCClient.restoreOrLogin(currentSession, GARMIN_USERNAME, GARMIN_PASSWORD);
+                GCClient.on('sessionChange', async (session) => {
+                    // console.log('session changeed')
+                    await updateSessionToDB('CN', session);
+                })
+            } catch (e) {
+                console.log('Warn: renew  GarminCN Session..');
+            }
+
+        }
+
         const userInfo = await GCClient.getUserInfo();
         const { username, emailAddress, locale } = userInfo;
         console.log('Garmin userInfo CN: ', { username, emailAddress, locale });
+
+
         return GCClient;
     } catch (err) {
         console.error(err);

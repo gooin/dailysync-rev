@@ -21,6 +21,7 @@
     "@gooin/garmin-connect": "^1.4.4",
     "@gooin/garmin-connect-cn": "^1.0.2",
     "axios": "^0.24.0",
+    "crypto-js": "^4.1.1",
     "express": "^4.17.1",
     "form-data": "^4.0.0",
     "garmin-connect": "^1.4.3",
@@ -29,6 +30,8 @@
     "lodash": "^4.17.21",
     "node-fetch": "^3.2.5",
     "qs": "^6.10.3",
+    "sqlite": "^4.1.2",
+    "sqlite3": "^5.1.2",
     "strava-v3": "^2.1.0",
     "unzipper": "^0.10.11"
   },

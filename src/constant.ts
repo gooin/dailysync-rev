@@ -3,6 +3,9 @@ export const FILE_SUFFIX = {
     GPX: 'gpx',
     TCX: 'tcx',
 };
+export const DOWNLOAD_DIR = './garmin_fit_files';
+export const DB_FILE_PATH = './db/garmin.db';
+export const AESKEY_DEFAULT = 'LSKDAJALSD';
 /**
  * GARMIN ACCOUNT
  */
