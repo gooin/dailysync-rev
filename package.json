@@ -1,7 +1,7 @@
 {
-  "name": "daily-sync-garmin",
+  "name": "garmin-daily-sync",
   "version": "1.0.1",
-  "description": "中国区佳明自动同步运动数据到国际区与Strava",
+  "description": "Migrate, gather, synchronize your Garmin fitness data between China server and Global server.",
   "main": "index.ts",
   "scripts": {
     "rq": "ts-node src/rq.ts",
@@ -15,7 +15,7 @@
     "watch": "tsc -w"
   },
   "author": "yanzhitao",
-  "license": "ISC",
+  "license": "GPL 3.0",
   "dependencies": {
     "@actions/core": "^1.9.1",
     "@gooin/garmin-connect": "^1.4.4",
