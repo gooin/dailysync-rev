@@ -1,5 +1,6 @@
 import { getGaminGlobalClient } from './garmin_global';
 import {
+    AESKEY_DEFAULT,
     GARMIN_MIGRATE_NUM_DEFAULT,
     GARMIN_MIGRATE_START_DEFAULT,
     GARMIN_PASSWORD_DEFAULT,
@@ -10,22 +11,43 @@ import { GarminClientType } from './type';
 import { number2capital } from './number_tricks';
 import core from '@actions/core';
 import _ from 'lodash';
+import { initDB, saveSessionToDB } from './sqlite';
+
+const CryptoJS = require('crypto-js');
+const fs = require('fs');
 
 const { GarminConnect } = require('@gooin/garmin-connect-cn');
-export const downloadDir = './garmin_fit_files';
 
 const GARMIN_USERNAME = process.env.GARMIN_USERNAME ?? GARMIN_USERNAME_DEFAULT;
 const GARMIN_PASSWORD = process.env.GARMIN_PASSWORD ?? GARMIN_PASSWORD_DEFAULT;
 const GARMIN_MIGRATE_NUM = process.env.GARMIN_MIGRATE_NUM ?? GARMIN_MIGRATE_NUM_DEFAULT;
 const GARMIN_MIGRATE_START = process.env.GARMIN_MIGRATE_START ?? GARMIN_MIGRATE_START_DEFAULT;
+const AESKEY = process.env.AESKEY ?? AESKEY_DEFAULT;
 
 export const getGaminCNClient = async (): Promise<GarminClientType> => {
     const GCClient = new GarminConnect();
     try {
+        await initDB();
         await GCClient.login(GARMIN_USERNAME, GARMIN_PASSWORD);
+        // read JSON object from file
+        // const sessionStr = fs.readFileSync('sessionCN.json', 'utf-8',)
+
+        // const session = JSON.parse(sessionStr.toString())
+        // GCClient.restore(session);
+
         const userInfo = await GCClient.getUserInfo();
         const { username, emailAddress, locale } = userInfo;
         console.log('Garmin userInfo CN: ', { username, emailAddress, locale });
+        console.log('GCClient.sessionJson', GCClient.sessionJson);
+
+        const data = JSON.stringify(GCClient.sessionJson);
+        console.log('GCClient.data', data);
+        const encryptedSession = CryptoJS.AES.encrypt(data, AESKEY).toString();
+        console.log('encryptedSession', encryptedSession);
+        await saveSessionToDB('CN', encryptedSession);
+        // write JSON string to a file
+        // fs.writeFileSync('sessionCN.json', data);
+
         return GCClient;
     } catch (err) {
         console.error(err);

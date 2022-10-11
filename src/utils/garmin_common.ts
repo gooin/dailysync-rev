@@ -1,6 +1,7 @@
 import fs from 'fs';
 import core from '@actions/core';
 import {
+    DOWNLOAD_DIR,
     FILE_SUFFIX,
     GARMIN_MIGRATE_NUM_DEFAULT,
     GARMIN_MIGRATE_START_DEFAULT,
@@ -13,16 +14,14 @@ import _ from 'lodash';
 
 const unzipper = require('unzipper');
 
-export const downloadDir = './garmin_fit_files';
-
 /**
  * 上传 .fit file
  * @param fitFilePath
  * @param client
  */
 export const uploadGarminActivity = async (fitFilePath: string, client: GarminClientType): Promise<void> => {
-    if (!fs.existsSync(downloadDir)) {
-        fs.mkdirSync(downloadDir);
+    if (!fs.existsSync(DOWNLOAD_DIR)) {
+        fs.mkdirSync(DOWNLOAD_DIR);
     }
     const upload = await client.uploadActivity(fitFilePath);
     console.log('upload to garmin activity', upload);
@@ -34,17 +33,17 @@ export const uploadGarminActivity = async (fitFilePath: string, client: GarminCl
  * @param client GarminClientType
  */
 export const downloadGarminActivity = async (activityId, client: GarminClientType): Promise<string> => {
-    if (!fs.existsSync(downloadDir)) {
-        fs.mkdirSync(downloadDir);
+    if (!fs.existsSync(DOWNLOAD_DIR)) {
+        fs.mkdirSync(DOWNLOAD_DIR);
     }
     const activity = await client.getActivity({ activityId: activityId });
-    await client.downloadOriginalActivityData(activity, downloadDir);
-    const originZipFile = downloadDir + '/' + activityId + '.zip';
+    await client.downloadOriginalActivityData(activity, DOWNLOAD_DIR);
+    const originZipFile = DOWNLOAD_DIR + '/' + activityId + '.zip';
     await fs.createReadStream(originZipFile)
-        .pipe(unzipper.Extract({ path: downloadDir }));
+        .pipe(unzipper.Extract({ path: DOWNLOAD_DIR }));
     // waiting 4s for extract zip file
     await new Promise(resolve => setTimeout(resolve, 4000));
-    const baseFilePath = `${downloadDir}/${activityId}_ACTIVITY`;
+    const baseFilePath = `${DOWNLOAD_DIR}/${activityId}_ACTIVITY`;
     console.log('saved origin FilePath', baseFilePath);
     const fitFilePath = `${baseFilePath}.${FILE_SUFFIX.FIT}`;
     const gpxFilePath = `${baseFilePath}.${FILE_SUFFIX.GPX}`;
@@ -57,7 +56,7 @@ export const downloadGarminActivity = async (activityId, client: GarminClientTyp
         } else if (fs.existsSync(tcxFilePath)) {
             return tcxFilePath;
         } else {
-            const existFiles = fs.readdirSync(downloadDir, { withFileTypes: true })
+            const existFiles = fs.readdirSync(DOWNLOAD_DIR, { withFileTypes: true })
                 .filter(item => !item.isDirectory())
                 .map(item => item.name);
             console.log('fitFilePath not exist, curr existFiles', existFiles);
@@ -76,8 +75,7 @@ export const getGarminStatistics = async (client: GarminClientType): Promise<Rec
     const acts = await client.getActivities(0, 10);
     // console.log('acts', acts);
 
-    
-    //  跑步 typeKey: 'running' 
+    //  跑步 typeKey: 'running'
     //  操场跑步 typeKey: 'track_running'
     //  跑步机跑步 typeKey: 'treadmill_running'
     //  沿街跑步 typeKey: 'street_running'
