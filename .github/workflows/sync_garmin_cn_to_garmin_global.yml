@@ -35,3 +35,6 @@ jobs:
           cache: 'yarn'
       - run: yarn
       - run: yarn sync_cn
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Save Garmin Session      
