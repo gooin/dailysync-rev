@@ -11,7 +11,7 @@ import { GarminClientType } from './type';
 import { number2capital } from './number_tricks';
 import core from '@actions/core';
 import _ from 'lodash';
-import { initDB, saveSessionToDB } from './sqlite';
+import { getSessionFromDB, initDB, saveSessionToDB, updateSessionToDB } from './sqlite';
 
 const CryptoJS = require('crypto-js');
 const fs = require('fs');
@@ -22,31 +22,34 @@ const GARMIN_USERNAME = process.env.GARMIN_USERNAME ?? GARMIN_USERNAME_DEFAULT;
 const GARMIN_PASSWORD = process.env.GARMIN_PASSWORD ?? GARMIN_PASSWORD_DEFAULT;
 const GARMIN_MIGRATE_NUM = process.env.GARMIN_MIGRATE_NUM ?? GARMIN_MIGRATE_NUM_DEFAULT;
 const GARMIN_MIGRATE_START = process.env.GARMIN_MIGRATE_START ?? GARMIN_MIGRATE_START_DEFAULT;
-const AESKEY = process.env.AESKEY ?? AESKEY_DEFAULT;
 
 export const getGaminCNClient = async (): Promise<GarminClientType> => {
     const GCClient = new GarminConnect();
+
     try {
         await initDB();
-        await GCClient.login(GARMIN_USERNAME, GARMIN_PASSWORD);
-        // read JSON object from file
-        // const sessionStr = fs.readFileSync('sessionCN.json', 'utf-8',)
 
-        // const session = JSON.parse(sessionStr.toString())
-        // GCClient.restore(session);
+        const currentSession = await getSessionFromDB('CN');
+        if (!currentSession) {
+            await GCClient.login(GARMIN_USERNAME, GARMIN_PASSWORD);
+            await saveSessionToDB('CN', GCClient.sessionJson);
+        } else {
+            //  Wrap error message in GCClient, prevent terminate in github actions.
+            try {
+                // await GCClient.restore(currentSession);
+                await GCClient.restoreOrLogin(currentSession, GARMIN_USERNAME, GARMIN_PASSWORD);
+                GCClient.on('sessionChange', async (session) => {
+                    console.log('session change!!')
+                    await updateSessionToDB('CN', session);
+                })
+            } catch (e) {}
+
+        }
 
         const userInfo = await GCClient.getUserInfo();
         const { username, emailAddress, locale } = userInfo;
         console.log('Garmin userInfo CN: ', { username, emailAddress, locale });
-        console.log('GCClient.sessionJson', GCClient.sessionJson);
 
-        const data = JSON.stringify(GCClient.sessionJson);
-        console.log('GCClient.data', data);
-        const encryptedSession = CryptoJS.AES.encrypt(data, AESKEY).toString();
-        console.log('encryptedSession', encryptedSession);
-        await saveSessionToDB('CN', encryptedSession);
-        // write JSON string to a file
-        // fs.writeFileSync('sessionCN.json', data);
 
         return GCClient;
     } catch (err) {

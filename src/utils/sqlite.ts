@@ -1,15 +1,15 @@
-import { DB_FILE_PATH, DOWNLOAD_DIR } from '../constant';
+import { AESKEY_DEFAULT, DB_FILE_PATH, DOWNLOAD_DIR } from '../constant';
 import sqlite3 from 'sqlite3';
 import { Database, open } from 'sqlite';
 const CryptoJS = require("crypto-js");
-import fs from 'fs';
+const AESKEY = process.env.AESKEY ?? AESKEY_DEFAULT;
 
 export const initDB = async () => {
     const db = await getDB();
-    await db.exec(`CREATE TABLE IF NOT EXISTS session (
+    await db.exec(`CREATE TABLE IF NOT EXISTS garmin_session (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            region CHAR(20),
-            session  VARCHAR(800)
+            region VARCHAR(20),
+            session  TEXT
         )`);
 };
 export const getDB = async () => {
@@ -19,13 +19,42 @@ export const getDB = async () => {
     });
 };
 
-export const saveSessionToDB = async (type: 'CN' | 'GLOBAL', session: string) => {
+export const saveSessionToDB = async (type: 'CN' | 'GLOBAL', session: Record<string, any>) => {
     const db = await getDB();
-    await db.run(`
-      INSERT INTO session (region,session) VALUES (${type},${session}),
-    `);
+    const encryptedSessionStr = encryptSession(session)
+    await db.run(
+        `INSERT INTO garmin_session (region,session) VALUES (?,?)`,
+        type, encryptedSessionStr
+    );
 };
 
-export const isDBReady = () => {
-
+export const updateSessionToDB = async (type: 'CN' | 'GLOBAL', session: Record<string, any>) => {
+    const db = await getDB();
+    const encryptedSessionStr = encryptSession(session)
+    await db.run(
+        'UPDATE garmin_session SET session = ? WHERE region = ?',
+        encryptedSessionStr,
+        type
+    );
 };
+
+export const getSessionFromDB = async (type: 'CN' | 'GLOBAL'): Promise<Record<string, any> | undefined> => {
+    const db = await getDB();
+    const queryResult = await db.get('SELECT session FROM garmin_session WHERE region = ?', type);
+    if (!queryResult) {
+        return undefined;
+    }
+    const encryptedSessionStr = queryResult?.session;
+    // return {}
+    return decryptSession(encryptedSessionStr);
+};
+
+export const encryptSession = (session: Record<string, any>): string => {
+    const sessionStr = JSON.stringify(session);
+    return CryptoJS.AES.encrypt(sessionStr, AESKEY).toString();
+}
+export const decryptSession = (sessionStr: string): Record<string, any> => {
+    const bytes = CryptoJS.AES.decrypt(sessionStr, AESKEY);
+    const session = bytes.toString(CryptoJS.enc.Utf8);
+    return JSON.parse(session);
+}
