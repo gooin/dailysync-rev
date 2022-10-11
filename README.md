@@ -59,14 +59,16 @@
 
 - 2022-10-11：佳明服务器抽风，没有使用此工具的普通用户也会在账号邮箱地址收到重置密码的邮件，需要重置密码才能继续使用账号
 
-解决方法如下，另外对代码也进行了优化，将登录信息加密存储复用，不必每次执行同步任务都登录一次，所以需要新增一条secrets，见下面解决方法。
+> 解决方法如下，另外对代码也进行了优化，将登录信息加密存储复用，不必每次执行同步任务都登录一次，所以需要新增一条secrets，见下面解决方法。
 
+```
 最近如果收到来自佳明重置密码的邮件，请按照如下方式操作一下（没收到可以先不管，也有可能仅收到国际区的邮件）：
 1、登录ConnectWeb页面：国际区：https://connect.garmin.com/modern/  中国区：https://connect.garmin.cn/modern
 2、然后用邮箱收到的临时密码登录，重置密码
-3、在Github的secrets中更新 `GARMIN_GLOBAL_PASSWORD` 的值为国际区新密码，GARMIN_PASSWORD 的值为中国区新密码
+3、在Github的secrets中更新 GARMIN_GLOBAL_PASSWORD 的值为国际区新密码，GARMIN_PASSWORD 的值为中国区新密码
 4、更新代码，方法见文档FAQ
-5、在Github的secrets中新增一条记录，名称`AESKEY`,内容为一段随机字符串，用于加密账号登录信息，举例（不要复制使用）：`KAD1JLA12SKDJLASDJ`
+5、在Github的secrets中新增一条记录，名称 AESKEY ,内容为一段随机字符串，用于加密账号登录信息，举例（不要复制使用）：KAD1JLA12SKDJLASDJ
+```
 
 
 - 2022-09-01: 新增支持国际区同步新数据到中国区
