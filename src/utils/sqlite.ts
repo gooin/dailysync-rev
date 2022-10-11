@@ -12,6 +12,7 @@ export const initDB = async () => {
             session  TEXT
         )`);
 };
+
 export const getDB = async () => {
     return await open({
         filename: DB_FILE_PATH,

@@ -37,12 +37,15 @@ export const getGaminCNClient = async (): Promise<GarminClientType> => {
             //  Wrap error message in GCClient, prevent terminate in github actions.
             try {
                 // await GCClient.restore(currentSession);
+                console.log('GarminCN: login by saved session');
                 await GCClient.restoreOrLogin(currentSession, GARMIN_USERNAME, GARMIN_PASSWORD);
                 GCClient.on('sessionChange', async (session) => {
-                    console.log('session change!!')
+                    // console.log('session changeed')
                     await updateSessionToDB('CN', session);
                 })
-            } catch (e) {}
+            } catch (e) {
+                console.log('Warn: renew  GarminCN Session..');
+            }
 
         }
 

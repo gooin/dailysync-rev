@@ -10,6 +10,7 @@ import { downloadGarminActivity, uploadGarminActivity } from './garmin_common';
 import { number2capital } from './number_tricks';
 import core from '@actions/core';
 import _ from 'lodash';
+import { getSessionFromDB, initDB, saveSessionToDB, updateSessionToDB } from './sqlite';
 
 const { GarminConnect } = require('@gooin/garmin-connect');
 
@@ -21,7 +22,26 @@ const GARMIN_MIGRATE_START = process.env.GARMIN_MIGRATE_START ?? GARMIN_MIGRATE_
 export const getGaminGlobalClient = async (): Promise<GarminClientType> => {
     const GCClient = new GarminConnect();
     try {
-        await GCClient.login(GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
+        await initDB();
+
+        const currentSession = await getSessionFromDB('GLOBAL');
+        if (!currentSession) {
+            await GCClient.login(GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
+            await saveSessionToDB('GLOBAL', GCClient.sessionJson);
+        } else {
+            //  Wrap error message in GCClient, prevent terminate in github actions.
+            try {
+                // await GCClient.restore(currentSession);
+                console.log('GarminGlobal: login by saved session');
+                await GCClient.restoreOrLogin(currentSession, GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
+                GCClient.on('sessionChange', async (session) => {
+                    await updateSessionToDB('GLOBAL', session);
+                })
+            } catch (e) {
+                console.log('Warn: renew GarminGlobal session..');
+            }
+
+        }
         const userInfo = await GCClient.getUserInfo();
         const { username, emailAddress, locale } = userInfo;
         console.log('Garmin userInfo global', { username, emailAddress, locale });
