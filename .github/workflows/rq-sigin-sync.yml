@@ -25,6 +25,6 @@ jobs:
     - name: Run RQ Sigin Sync
       run: |
         python scripts/rq_sgin.py --email=${{ secrets.RQ_EMAIL }} --password=${{ secrets.RQ_PASSWORD }} --AESKEY=${{ secrets.AESKEY }}
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Save RQ Token
