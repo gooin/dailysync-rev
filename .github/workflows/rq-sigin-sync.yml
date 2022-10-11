@@ -3,28 +3,27 @@ name: rq-sigin-sync
 on:
   workflow_dispatch:
   schedule:
-    - cron: '30 9,10,16 * * *'
+    - cron: "30 9,10,16 * * *"
 env:
   GITHUB_NAME: ${{ secrets.GITHUBS_NAME }}
   GITHUB_EMAIL: ${{ secrets.GITHUBS_EMAIL }}
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python 3.8.2
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.8.2"
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Run RQ Sigin Sync
-      run: |
-        python scripts/rq_sgin.py --email=${{ secrets.RQ_EMAIL }} --password=${{ secrets.RQ_PASSWORD }} --AESKEY=${{ secrets.AESKEY }}
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        commit_message: Save RQ Token
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.8.2
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.8.2"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Run RQ Sigin Sync
+        run: |
+          python scripts/rq_sgin.py --email=${{ secrets.RQ_EMAIL }} --password=${{ secrets.RQ_PASSWORD }} --AESKEY=${{ secrets.AESKEY }}
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Save RQ Token
