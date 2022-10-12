@@ -62,10 +62,10 @@
 > 解决方法如下，另外对代码也进行了优化，将登录信息加密存储复用，不必每次执行同步任务都登录一次，所以需要新增一条secrets，见下面解决方法。
 
 ```
-最近如果收到来自佳明重置密码的邮件，请按照如下方式操作一下（没收到可以先不管，也有可能仅收到国际区的邮件）：
+最近如果收到来自佳明重置密码的邮件（国际区）/短信（中国区），请按照如下方式操作一下（没收到可以先不管，也有可能仅收到国际区的邮件，如果收到就重置对应区的密码）：
 1、登录ConnectWeb页面：国际区：https://connect.garmin.com/modern/  中国区：https://connect.garmin.cn/modern
-2、然后用邮箱收到的临时密码登录，重置密码
-3、在Github的secrets中更新 GARMIN_GLOBAL_PASSWORD 的值为国际区新密码，GARMIN_PASSWORD 的值为中国区新密码
+2、然后用邮箱收到的临时密码登录，重置密码，重置密码可以和原来密码相同，但是为了安全还是建议您更换一个新密码
+3、如果您在第2步更换了新密码，在Github的secrets中更新 GARMIN_GLOBAL_PASSWORD 的值为国际区新密码，GARMIN_PASSWORD 的值为中国区新密码
 4、更新代码，方法见文档FAQ
 5、在Github的secrets中新增一条记录，名称 AESKEY ,内容为一段随机字符串，用于加密账号登录信息，举例（不要复制使用）：KAD1JLA12SKDJLASDJ
 ```
@@ -129,7 +129,7 @@
 |湖南吴彦祖 | https://www.strava.com/athletes/27560743| |
 |古玉沁心 | https://www.strava.com/athletes/guyuqinxin|✨Sponsor |
 
-</details>
+</details>`
 
 ## 如何使用？
 
@@ -182,26 +182,27 @@
 准备自己的帐号密码及要迁移的数据量
 
 **佳明国内账号邮箱地址**：
-GARMIN_USERNAME
+`GARMIN_USERNAME`
 
 **佳明国内账号密码**：
-GARMIN_PASSWORD
+`GARMIN_PASSWORD`
 
 **佳明国际账号邮箱地址**：
-GARMIN_GLOBAL_USERNAME
+`GARMIN_GLOBAL_USERNAME`
 
 **佳明国际账号密码**：
-GARMIN_GLOBAL_PASSWORD
+`GARMIN_GLOBAL_PASSWORD`
 
 **要迁移的活动数量，先填1**:
-GARMIN_MIGRATE_NUM
+`GARMIN_MIGRATE_NUM`
 
 **从第几个活动开始迁移，先填 0**:
-GARMIN_MIGRATE_START
+`GARMIN_MIGRATE_START`
 
 
-**2022-10-11新增必填项：登录信息加密存储KEY，可以随意输入一串字符串，举例（不要复制使用）：KAD1JLA12SKDJLASDJ**:
-AESKEY
+**2022-10-11新增必填项：**:
+`AESKEY`
+ （信息加密存储KEY，可以随意输入一串字符串，举例（不要复制使用）：`KAD1JLA12SKDJLASDJ`）
 
 共计7个
 
@@ -307,6 +308,27 @@ upload to garmin activity {
 
 不用。上面的步骤执行过后，MIGRATE手动迁移已有数据，再有新跑的数据会在SYNC中大约每20分钟左右自动同步一次数据
 
+##### 修改自动同步的频率
+
+当前为 `*/10 * * * *` 每 10 分钟执行一次
+
+您可以按需修改， 参考网址 [https://crontab.guru/examples.html](https://crontab.guru/examples.html)
+
+列举几个常用的：
+
+每小时执行一次： `0 * * * *`
+
+每6小时执行一次： `0 */6 * * *`
+
+每12小时执行一次： `0 */12 * * *`
+
+按您需要修改的文件：
+- 中国区同步国际区： `sync_garmin_cn_to_garmin_global.yml`
+- 国际区同步中国区： `sync_garmin_global_to_garmin_cn.yml`
+
+
+![update_code](./assets/cron.png)
+
 ##### 同步最新的代码库
 
 代码可能有优化更新，如看到下图的情况，请点击下图红框更新到最新的代码，
@@ -379,3 +401,4 @@ upload to garmin activity {
 |     *亮     |  15   |
 |    lr*s    |  50   |
 |    S*e     |  8.8  |
+`
