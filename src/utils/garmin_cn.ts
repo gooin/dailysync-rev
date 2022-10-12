@@ -24,6 +24,10 @@ const GARMIN_MIGRATE_NUM = process.env.GARMIN_MIGRATE_NUM ?? GARMIN_MIGRATE_NUM_
 const GARMIN_MIGRATE_START = process.env.GARMIN_MIGRATE_START ?? GARMIN_MIGRATE_START_DEFAULT;
 
 export const getGaminCNClient = async (): Promise<GarminClientType> => {
+    if (_.isEmpty(GARMIN_USERNAME) || _.isEmpty(GARMIN_PASSWORD)) {
+        return Promise.reject('请填写中国区用户名及密码：GARMIN_USERNAME,GARMIN_PASSWORD');
+    }
+
     const GCClient = new GarminConnect();
 
     try {
@@ -50,7 +54,6 @@ export const getGaminCNClient = async (): Promise<GarminClientType> => {
         const userInfo = await GCClient.getUserInfo();
         const { username, emailAddress, locale } = userInfo;
         console.log('Garmin userInfo CN: ', { username, emailAddress, locale });
-
 
         return GCClient;
     } catch (err) {

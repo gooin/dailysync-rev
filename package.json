@@ -15,7 +15,7 @@
     "watch": "tsc -w"
   },
   "author": "yanzhitao",
-  "license": "GPL 3.0",
+  "license": "GPL-3.0",
   "dependencies": {
     "@actions/core": "^1.9.1",
     "@gooin/garmin-connect": "^1.4.4",
