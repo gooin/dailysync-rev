@@ -36,16 +36,13 @@ export const getGaminCNClient = async (): Promise<GarminClientType> => {
         } else {
             //  Wrap error message in GCClient, prevent terminate in github actions.
             try {
-                // await GCClient.restore(currentSession);
+                await GCClient.restore(currentSession);
                 console.log('GarminCN: login by saved session');
-                await GCClient.restoreOrLogin(currentSession, GARMIN_USERNAME, GARMIN_PASSWORD);
+                // await GCClient.restoreOrLogin(currentSession, GARMIN_USERNAME, GARMIN_PASSWORD);
             } catch (e) {
                 console.log('Warn: renew  GarminCN Session..');
-                // 只在登录默认session登录失败，catch到登录错误，需要重新登录时注册sessionChange事件
-                GCClient.on('sessionChange', async (session) => {
-                    // console.log('session changeed')
-                    await updateSessionToDB('CN', session);
-                })
+                await GCClient.login(GARMIN_USERNAME, GARMIN_PASSWORD);
+                await updateSessionToDB('CN', GCClient.sessionJson);
             }
 
         }

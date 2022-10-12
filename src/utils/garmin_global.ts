@@ -31,16 +31,16 @@ export const getGaminGlobalClient = async (): Promise<GarminClientType> => {
         } else {
             //  Wrap error message in GCClient, prevent terminate in github actions.
             try {
-                // await GCClient.restore(currentSession);
                 console.log('GarminGlobal: login by saved session');
-                await GCClient.restoreOrLogin(currentSession, GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
+                await GCClient.restore(currentSession);
+                // await GCClient.restoreOrLogin(currentSession, GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
 
             } catch (e) {
                 // 只在登录默认session登录失败，catch到登录错误，需要重新登录时注册sessionChange事件
                 console.log('Warn: renew GarminGlobal session..');
-                GCClient.on('sessionChange', async (session) => {
-                    await updateSessionToDB('GLOBAL', session);
-                });
+                await GCClient.login(GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
+                await updateSessionToDB('GLOBAL', GCClient.sessionJson);
+
             }
 
         }
