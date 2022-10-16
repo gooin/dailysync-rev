@@ -20,7 +20,12 @@ const GARMIN_MIGRATE_NUM = process.env.GARMIN_MIGRATE_NUM ?? GARMIN_MIGRATE_NUM_
 const GARMIN_MIGRATE_START = process.env.GARMIN_MIGRATE_START ?? GARMIN_MIGRATE_START_DEFAULT;
 
 export const getGaminGlobalClient = async (): Promise<GarminClientType> => {
+    if (_.isEmpty(GARMIN_GLOBAL_USERNAME) || _.isEmpty(GARMIN_GLOBAL_PASSWORD)) {
+        return Promise.reject('请填写国际区用户名及密码：GARMIN_GLOBAL_USERNAME,GARMIN_GLOBAL_PASSWORD');
+    }
+
     const GCClient = new GarminConnect();
+    
     try {
         await initDB();
 
@@ -31,14 +36,16 @@ export const getGaminGlobalClient = async (): Promise<GarminClientType> => {
         } else {
             //  Wrap error message in GCClient, prevent terminate in github actions.
             try {
-                // await GCClient.restore(currentSession);
                 console.log('GarminGlobal: login by saved session');
-                await GCClient.restoreOrLogin(currentSession, GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
-                GCClient.on('sessionChange', async (session) => {
-                    await updateSessionToDB('GLOBAL', session);
-                })
+                await GCClient.restore(currentSession);
+                // await GCClient.restoreOrLogin(currentSession, GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
+
             } catch (e) {
+                // 只在登录默认session登录失败，catch到登录错误，需要重新登录时注册sessionChange事件
                 console.log('Warn: renew GarminGlobal session..');
+                await GCClient.login(GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
+                await updateSessionToDB('GLOBAL', GCClient.sessionJson);
+
             }
 
         }
