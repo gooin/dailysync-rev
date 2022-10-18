@@ -51,6 +51,9 @@ export const getGaminGlobalClient = async (): Promise<GarminClientType> => {
         }
         const userInfo = await GCClient.getUserInfo();
         const { username, emailAddress, locale } = userInfo;
+        if (!username) {
+            throw Error('佳明国际区登录失败，请检查填入的账号密码或您的网络环境')
+        }
         console.log('Garmin userInfo global', { username, emailAddress, locale });
         return GCClient;
     } catch (err) {

@@ -53,6 +53,9 @@ export const getGaminCNClient = async (): Promise<GarminClientType> => {
 
         const userInfo = await GCClient.getUserInfo();
         const { username, emailAddress, locale } = userInfo;
+        if (!username) {
+            throw Error('佳明中国区登录失败')
+        }
         console.log('Garmin userInfo CN: ', { username, emailAddress, locale });
 
         return GCClient;
