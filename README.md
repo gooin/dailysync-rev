@@ -216,18 +216,26 @@
 
 #### Step3: 手动迁移已有数据
 
-如下图，点击【Actions】--> 【 Migrate Garmin CN to Garmin 】 --> 【Run workflow】执行迁移数据
+对应的Actions，按需选择运行
+
+`Migrate Garmin CN to Garmin Global(中国区到国际区)`
+
+`Migrate Garmin Global to Garmin CN（国际区到中国区）`
+
+这里以中国区到国际区为例，如下图，点击`Actions`--> `Migrate Garmin CN to Garmin Global(中国区到国际区)`  --> `Run workflow` 执行迁移数据
 ![migrate](./assets/migrate.jpg)
+
 点击后刷新页面，可以看到正在执行的任务：
 ![migrating](./assets/migrating.jpg)
-点进去后可以查看日志，如果 Run yarn migrate那一栏看到 userInfo cn 和 userInfo Global, 并且数据持续在滚动刷新，就说明正常运行
+
+点进去后可以查看日志，如果 `Run yarn migrate_garmin_cn_to_global`那一栏看到 `Garmin userInfo CN` 和 `Garmin userInfo global`, 并且数据持续在滚动刷新，就说明正常运行
 ![test_migrate](./assets/test_migrate.png)
 ![log](./assets/log.jpg)
 
 如果上面一切正常，运行结束后，前面会是一个绿色，代表运行完成。
 ![migrated](./assets/migrated.png)
 
-这个时候，去佳明国际区和strava看看，是否有1条数据迁移过来，如果没有，代表有问题，请联系我咨询，如果有，代表正常运行。
+这个时候，去佳明国际区和`strava`看看，是否有1条数据迁移过来，如果没有，代表有问题，请联系我咨询，如果有，代表正常运行。
 
 (这一块如果看文字不是很清楚到话去看看文章开始部分的视频教程，参照看看)
 
@@ -269,20 +277,33 @@ upload to garmin activity {
 
 #### Step4: 自动同步新的运动数据
 
-如图点击开启workflow
+对应的Actions，按需选择运行
+
+`Sync Garmin CN to Garmin Global (中国区到国际区)`
+
+`Sync Garmin Global to Garmin CN（国际区到中国区）`
+
+下面以中国区到国际区为例
+
+如图点击开启`workflow`
 ![enable_workflow](./assets/enable_workflow.jpg)
-开启后无需额外配置，除早上外，其他时候大约每30分钟左右自动同步一次数据，一段时间后可以查看同步记录.
-邮件偶尔会收到执行失败的通知，不用管哈
-如果有问题，请发邮件联系我
+
+**开启后无需额外配置，除早上外，其他时候大约每30分钟左右自动同步一次数据，一段时间后可以查看同步记录.**
 ![sync](./assets/sync.jpg)
+
+至此，所有工作完毕，强烈建议阅读完下方的`FAQ`部分，您后期可能遇到的大部分问题都会有解答。
+
+
 
 #### FAQ:
 
 ##### 数据没有同步成功？
 
-第一步请先检查手机connect，确保运动在connect看到才能进行后续的同步工作。
+可能的原因：
 
-还有可能是定时执行没有执行，可以像执行MIGRATE那样手动执行SYNC脚本手动触发同步。
+1. 请先检查手机`connect`，确保运动在`connect`看到才能进行后续的同步工作。
+2. 定时执行没有执行，可以像执行`MIGRATE`那样手动执行`Sync Garmin CN to Garmin Global (中国区到国际区)`或者`Sync Garmin Global to Garmin CN（国际区到中国区）` 来手动触发同步。可以将Github的地址在手机上存个书签，运动完手动运行一下`Sync`就能立刻同步了。
+3. 检查佳明服务器状态 [https://connect.garmin.com/status](https://connect.garmin.com/status)
 
 ##### 数据同步为什么没有按计划执行，有的时候一小时才执行了2次？
 
@@ -331,10 +352,18 @@ upload to garmin activity {
 
 ![update_code](./assets/cron.png)
 
-##### 同步最新的代码库
-
+##### 同步最新的代码库(更新代码)
 代码可能有优化更新，如看到下图的情况，请点击下图红框更新到最新的代码，
 ![update_code](./assets/update_code.jpg)
+
+##### 收到`Github`执行失败的邮件
+佳明接口偶尔抽风导致失败，不用管。
+![action_failed](./assets/action_failed.png)
+
+##### 关闭自动同步
+如图操作即可
+![disable_sync](./assets/disable_sync.png)
+
 
 ## 数据同步到佳明国际区后，其他的一些可关联的运动分析平台
 
