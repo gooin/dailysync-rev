@@ -34,3 +34,4 @@ jobs:
           cache: 'yarn'
       - run: yarn
       - run: yarn rq
+        timeout-minutes: 5
