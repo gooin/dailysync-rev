@@ -28,11 +28,11 @@
 
 - 约每20分钟左右检查当前中国区账号中是否有新的运动数据，如有则自动下载上传到国际区，并同步到Strava。 对应 `Action`: `Sync Garmin CN to Garmin Global`
 - 如果您常用的是国际区，想要在国内运动软件（悦跑圈/咕咚/keep/郁金香等等）同步运动数据及微信运动中显示 【Garmin手表 骑行xx分钟】（[微信运动效果](./assets/wx_sport.jpg)）
-  此工具可以实现自动反向同步中国区。
+  此工具可以实现自动反向同步中国区。 对应 `Action`: `Sync Garmin Global to Garmin CN`
   - 微信步数同步：
     - `iOS`: 佳明爱运动小程序绑定后，国际区->中国区同步仅能同步活动数据。出去运动不带手机的话，步数会记录在手表中，活动同步后，`Connect`会将步数上传到`健康` App 中，微信与健康应用链接，即可在微信运动中看到步数。
     - `Android`: 暂无可行方法。
-- 如无特殊需求，强烈建议不要将两个同步脚本同时打开，按需开启一个即可！ 对应 `Action`: `Sync Garmin Global to Garmin CN`
+- 如无特殊需求，强烈建议不要将两个同步脚本同时打开，按需开启一个即可！ 
 
 ### 采集数据
 
@@ -59,7 +59,7 @@
 
 #### 关键更新日志
 
-- 2022-10-11：佳明服务器抽风，没有使用此工具的普通用户也会在账号邮箱地址收到重置密码的邮件，需要重置密码才能继续使用账号
+- 2022-10-11：佳明服务器抽风，需要重置密码才能继续使用账号
 
 > 解决方法如下，另外对代码也进行了优化，将登录信息加密存储复用，不必每次执行同步任务都登录一次，所以需要新增一条secrets，见下面解决方法。
 
@@ -69,7 +69,7 @@
 2、然后用邮箱收到的临时密码登录，重置密码，重置密码可以和原来密码相同，但是为了安全还是建议您更换一个新密码
 3、如果您在第2步更换了新密码，在Github的secrets中更新 GARMIN_GLOBAL_PASSWORD 的值为国际区新密码，GARMIN_PASSWORD 的值为中国区新密码
 4、更新代码，方法见文档FAQ
-5、在Github的secrets中新增一条记录，名称 AESKEY ,内容为一段随机字符串，用于加密账号登录信息，举例（不要复制使用）：KAD1JLA12SKDJLASDJ
+5、在Github的secrets中新增一条记录，名称 AESKEY ,内容为任意小于32位长度的字符串，用于加密账号登录信息，举例（不要复制使用）：KAD1JLA12SKDJLASDJ
 ```
 
 
@@ -77,13 +77,13 @@
   - 新增一个`action`：`Sync Garmin Global to Garmin CN`，开启后自动执行。与同步中国区到国际区操作一致。
 - 2022-08-07: 支持国际区迁移数据到中国区
   - 新增一个`action`：`Migrate Garmin Global to Garmin CN`，手动执行。与迁移中国区到国际区操作一致。
-- 2022-06-15: 增加佳明中国区迁移及同步国际区数据功能，同步strava
-- 2022-06-06: 采集RQ统计数据到Google表格
+- 2022-06-15: 增加佳明中国区迁移及同步国际区数据功能，同步 `strava`
+- 2022-06-06: 采集`RQ`统计数据到`Google Sheets`
 
 <details>
 <summary>
 
-#### 在用这个工具的大佬(除了作者)们(点击展开) （[填写您的链接](https://wj.qq.com/s2/10633783/a1ef/)）
+#### 在用这个工具的大佬们(除了作者)欢迎点进链接加加好友~(点击展开) （[填写您的链接](https://wj.qq.com/s2/10633783/a1ef/)）
 
 </summary>
 
@@ -130,6 +130,18 @@
 |AndrewRen | https://www.strava.com/athletes/47354232| |
 |湖南吴彦祖 | https://www.strava.com/athletes/27560743| |
 |古玉沁心 | https://www.strava.com/athletes/guyuqinxin|✨Sponsor |
+|FLynn |	https://www.strava.com/athletes/103444104 | |
+|herui9706 |	https://www.strava.com/athletes/26760320 | |
+|跑得动跑不动 |	https://www.strava.com/athletes/92683851 | |
+|Alexlei |	https://www.strava.com/athletes/85319344 | |
+|Benny |	https://www.strava.com/athletes/106952288 | |
+|挖煤猫 |	https://www.strava.com/athletes/108006082 | |
+|行者阿里 |	https://www.strava.com/athletes/107605370 | |
+|谌雕 |	https://www.strava.com/athletes/100452318 | |
+|米有才 |	 https://www.strava.com/athletes/lu_yuanyuan | |
+|昊子LoveCoCo |	https://www.strava.com/athletes/11280405| ✨Sponsor|
+|HuangXin |	https://www.strava.com/athletes/105468976 | |
+|DougSun |	https://www.strava.com/athletes/dougsun | |
 
 </details>`
 
@@ -203,8 +215,7 @@
 
 
 **2022-10-11新增必填项：**:
-`AESKEY`
- （信息加密存储KEY，可以随意输入一串字符串，举例（不要复制使用）：`KAD1JLA12SKDJLASDJ`）
+`AESKEY` 信息加密存储KEY，可以随意输入任意小于32位长度的字符串，举例（不要复制使用）：`KAD1JLA12SKDJLASDJ`）
 
 共计7个
 

@@ -3,7 +3,7 @@
 
 ## Step1: `github` 新增 `secrets`
 
-AESKEY: `AESKEY`  
+AESKEY(如果在佳明同步那一步添加过就不用再添加了): `AESKEY`  
 
 ​	AESKEY最多不能超过32位，推荐使用32位即使用AES-256加密算法，脚本中AESKEY的作用是加密保存RQ登录返回的user_id与access_token与再次执行脚本时解密数据，为什么要保存到sqlite中呢？因为防止每次执行脚本都要重新登录导致RQ发现是使用脚本执行出现封号情况，保存的数据会自动提交到github的仓库中不过不用担心数据泄露因为目前AES加密算法十分强大，理论上完全没办法破解只要你的AESKEY没泄露。
 
