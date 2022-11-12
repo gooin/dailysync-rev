@@ -12,7 +12,7 @@
 
 **自动 安全 省心**
 
-如果看不到此文档的图片，请移步 [知乎链接](https://zhuanlan.zhihu.com/p/543799435)
+**如果看不到此文档的图片，请移步 [知乎链接](https://zhuanlan.zhihu.com/p/543799435)**
 
 此工具实现了佳明运动活动数据（生理数据如睡眠，身体电量，**步数**
 等除外）的一次性迁移与日常运动数据同步，实现同步运动数据到到Strava [Strava全球热图](https://www.strava.com/heatmap) 。 额外还实现了RQ数据采集记录跑力的长期趋势及自动签到。
@@ -51,7 +51,7 @@
 
 #### 进群讨论
 
-为方便讨论，请加我绿色软件：`nononopass` （[二维码扫码](./assets/wechat_qr.png)） 我拉你进群。
+**因脚本原理为模拟用户登录进行操作，佳明服务有改动就会导致脚本失效，为不影响您的数据同步，强烈建议您加群确保遇到问题能够及时了结及解决。搜索绿色软件账号：`nononopass` （[二维码扫码](./assets/wechat_qr.png)） 我拉你进群。**
 
 #### 支持作者
 
@@ -143,7 +143,7 @@
 |HuangXin |	https://www.strava.com/athletes/105468976 | |
 |DougSun |	https://www.strava.com/athletes/dougsun | |
 
-</details>`
+</details>
 
 ## 如何使用？
 
@@ -169,6 +169,10 @@
 [Strava网址](https://www.strava.com/)
 
 前置条件：**注册好佳明国际区的帐号及Strava账号，并已经将Strava与佳明国际区账号关联，并开启Strava数据权限（下图）**
+
+------
+**如果看不到此文档的图片，请移步 [知乎链接](https://zhuanlan.zhihu.com/p/543799435)**
+------
 
 ![consent](./assets/consent.png)
 
