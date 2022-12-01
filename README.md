@@ -152,14 +152,9 @@
 如果按照视频还是无法达到预期的效果(包括佳明国际区点不进去，跳转到com.cn、github 添加 secrets 没有反应等)，请自行解决不可描述的网络问题。 如果`github`
 上的图片看不到，那大概率是被墙了，看图请移步 [知乎链接](https://zhuanlan.zhihu.com/p/543799435), 文档内容以`github` 版本为准，其他地方可能不是最新的。
 
+## 教程开始
+
 ### 迁移已有运动数据，并开启自动同步功能
-
-流程：
-
-`【运动】 🏃/🚴/🏊‍` --> GarminCN --> This Tool ⚡ --> Garmin Global --> Strava
-
-思路：
-> Strava仅支持关联国际区的佳明账号，所以需要提前自己创建国际区佳明账号，并用此账号关联绑定Strava
 
 
 [佳明国际区网址](https://connect.garmin.com/signin/)
@@ -168,7 +163,8 @@
 
 [Strava网址](https://www.strava.com/)
 
-前置条件：**注册好佳明国际区的帐号及Strava账号，并已经将Strava与佳明国际区账号关联，并开启Strava数据权限（下图）**
+#### 前置条件：
+##### **注册好佳明国际区的帐号及Strava账号，并已经将Strava与佳明国际区账号关联，并开启Strava数据权限（下图）**
 
 ------
 **如果看不到此文档的图片，请移步 [知乎链接](https://zhuanlan.zhihu.com/p/543799435)**
@@ -176,11 +172,16 @@
 
 ![consent](./assets/consent.png)
 
-如果是新注册的国际区账号，请确保账号隐私设置中的`存储和处理` 是 `同意`状态，`设备上传`是`已启用` 状态(下图)
+##### 佳明账号隐私设置
+如果是新注册的账号，包括中国区与国际区，请确保账号隐私设置中的`存储和处理` 是 `同意`状态，`设备上传`是`已启用` 状态(下图)
 ，否则上传数据会报`412`错误码：`User explicity revoked consent for uploading files.`
 ![connect_permission](./assets/connect_permission.png)
 
-如果你的中国区账号开启了两步验证，登录时需要验证码，请按照图中设置关闭
+##### 关闭佳明账号两步验证
+
+如果的佳明账号在登录网页版Connect时，需要填入验证码，说明您开启了两步验证，需要关闭此选项才能使用本工具，如果不需要验证码就能登录，可跳过此步骤。
+
+点击下方链接，请按照图中设置关闭
 
 [https://www.garmin.cn/zh-CN/account/security/mfa](https://www.garmin.cn/zh-CN/account/security/mfa)
 ![mfa](./assets/mfa.jpg)
