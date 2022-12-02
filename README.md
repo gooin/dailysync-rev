@@ -87,62 +87,65 @@
 
 </summary>
 
-| 名称            | Strava运动员链接                                 |           |
-|:--------------|:--------------------------------------------|:----------|
-| Zhitao Yan    | https://www.strava.com/athletes/84396978    | ‍💻Author |
-| Clown jiang   | https://www.strava.com/athletes/105952743   | ✨Sponsor  |
-| 老弟            | https://www.strava.com/athletes/91478457    | ✨Sponsor  |
-| Zax Wen       | https://www.strava.com/athletes/91553718    | ✨Sponsor  |
-| 李二牛           | https://www.strava.com/athletes/43684509    | ✨Sponsor  |
-| 围脖B站@我是冯瑞恒    | https://www.strava.com/athletes/34349982    | ✨Sponsor  |
-| 刘             | https://www.strava.com/athletes/67222235    | ✨Sponsor  |
-| 狼朗            | https://www.strava.com/athletes/43107517    | ✨Sponsor  |
-| 微醺漂移          | https://www.strava.com/athletes/19108713    | ✨Sponsor  |
-| hua xu        | https://www.strava.com/athletes/40855048    |           |
-| L.X           | https://www.strava.com/athletes/86727066    |           |
-| 姜宁            | https://www.strava.com/athletes/54001163    |           |
-| jogging tiger | https://www.strava.com/athletes/105416045   |           |
-| Eph           | https://www.strava.com/athletes/8376311     |           |
-| YunBond       | https://www.strava.com/athletes/33650658    |           |
-| ygnnbpkn      | https://www.strava.com/athletes/107433069   |           |
-| HY.Dong       | https://www.strava.com/athletes/8901566     |    ✨Sponsor       |
-| 陆凡            | https://www.strava.com/athletes/48067019    |      ✨Sponsor     |
-| JiaJian He    |     https://www.strava.com/athletes/13495215|     ✨Sponsor      |
-| 生如胡杨          | https://www.strava.com/athletes/107773658   | ✨Sponsor          |
-| doudouhuang   | https://www.strava.com/athletes/107830101   |           |
-| 解凌曦           | https://www.strava.com/athletes/62080682    |   ✨Sponsor        |
-| 欢乐铁三陈琨        | https://www.strava.com/athletes/107733443   |           |
-| Fseeeee       | https://www.strava.com/athletes/45675087    |           |
-| 神月            | https://www.strava.com/athletes/69135349    |           |
-|清风故人 | https://www.strava.com/athletes/105799254| |
-|lu_yuanyuan | https://www.strava.com/athletes/lu_yuanyuan| |
-|axiuff | https://www.strava.com/athletes/107599333| |
-|iceirislei | https://www.strava.com/athletes/84396978| |
-|江小鱼 | https://www.strava.com/athletes/29648564| |
-|作樂 | https://www.strava.com/athletes/102557902| |
-|Ink Jiang | https://www.strava.com/athletes/107398383| |
-|kk | https://www.strava.com/athletes/108302326| |
-|Kailin Aogu | https://www.strava.com/athletes/108426264| |
-|Jason | https://www.strava.com/athletes/78018552| |
-|七叔uncle | https://www.strava.com/athletes/100219084| |
-|lenmio | https://www.strava.com/athletes/23144564| |
-|王冰 | https://www.strava.com/athletes/96827296| |
-|AndrewRen | https://www.strava.com/athletes/47354232| |
-|湖南吴彦祖 | https://www.strava.com/athletes/27560743| |
-|古玉沁心 | https://www.strava.com/athletes/guyuqinxin|✨Sponsor |
-|FLynn |	https://www.strava.com/athletes/103444104 | |
-|herui9706 |	https://www.strava.com/athletes/26760320 | |
-|跑得动跑不动 |	https://www.strava.com/athletes/92683851 | |
-|Alexlei |	https://www.strava.com/athletes/85319344 | |
-|Benny |	https://www.strava.com/athletes/106952288 | |
-|挖煤猫 |	https://www.strava.com/athletes/108006082 | |
-|行者阿里 |	https://www.strava.com/athletes/107605370 | |
-|谌雕 |	https://www.strava.com/athletes/100452318 | |
-|米有才 |	 https://www.strava.com/athletes/lu_yuanyuan | |
-|昊子LoveCoCo |	https://www.strava.com/athletes/11280405| ✨Sponsor|
-|HuangXin |	https://www.strava.com/athletes/105468976 | |
-|DougSun |	https://www.strava.com/athletes/dougsun | |
-
+| 名称            | Strava运动员链接                                   |           |
+|:--------------|:----------------------------------------------|:----------|
+| Zhitao Yan    | https://www.strava.com/athletes/84396978      | ‍💻Author |
+| Clown jiang   | https://www.strava.com/athletes/105952743     | ✨Sponsor  |
+| 老弟            | https://www.strava.com/athletes/91478457      | ✨Sponsor  |
+| Zax Wen       | https://www.strava.com/athletes/91553718      | ✨Sponsor  |
+| 李二牛           | https://www.strava.com/athletes/43684509      | ✨Sponsor  |
+| 围脖B站@我是冯瑞恒    | https://www.strava.com/athletes/34349982      | ✨Sponsor  |
+| 刘             | https://www.strava.com/athletes/67222235      | ✨Sponsor  |
+| 狼朗            | https://www.strava.com/athletes/43107517      | ✨Sponsor  |
+| 微醺漂移          | https://www.strava.com/athletes/19108713      | ✨Sponsor  |
+| hua xu        | https://www.strava.com/athletes/40855048      |           |
+| L.X           | https://www.strava.com/athletes/86727066      |           |
+| 姜宁            | https://www.strava.com/athletes/54001163      |           |
+| jogging tiger | https://www.strava.com/athletes/105416045     |           |
+| Eph           | https://www.strava.com/athletes/8376311       |           |
+| YunBond       | https://www.strava.com/athletes/33650658      |           |
+| ygnnbpkn      | https://www.strava.com/athletes/107433069     |           |
+| HY.Dong       | https://www.strava.com/athletes/8901566       |    ✨Sponsor       |
+| 陆凡            | https://www.strava.com/athletes/48067019      |      ✨Sponsor     |
+| JiaJian He    | https://www.strava.com/athletes/13495215      |     ✨Sponsor      |
+| 生如胡杨          | https://www.strava.com/athletes/107773658     | ✨Sponsor          |
+| doudouhuang   | https://www.strava.com/athletes/107830101     |           |
+| 解凌曦           | https://www.strava.com/athletes/62080682      |   ✨Sponsor        |
+| 欢乐铁三陈琨        | https://www.strava.com/athletes/107733443     |           |
+| Fseeeee       | https://www.strava.com/athletes/45675087      |           |
+| 神月            | https://www.strava.com/athletes/69135349      |           |
+| 清风故人          | https://www.strava.com/athletes/105799254     | |
+| lu_yuanyuan   | https://www.strava.com/athletes/lu_yuanyuan   | |
+| axiuff        | https://www.strava.com/athletes/107599333     | |
+| iceirislei    | https://www.strava.com/athletes/84396978      | |
+| 江小鱼           | https://www.strava.com/athletes/29648564      | |
+| 作樂            | https://www.strava.com/athletes/102557902     | |
+| Ink Jiang     | https://www.strava.com/athletes/107398383     | |
+| kk            | https://www.strava.com/athletes/108302326     | |
+| Kailin Aogu   | https://www.strava.com/athletes/108426264     | |
+| Jason         | https://www.strava.com/athletes/78018552      | |
+| 七叔uncle       | https://www.strava.com/athletes/100219084     | |
+| lenmio        | https://www.strava.com/athletes/23144564      | |
+| 王冰            | https://www.strava.com/athletes/96827296      | |
+| AndrewRen     | https://www.strava.com/athletes/47354232      | |
+| 湖南吴彦祖         | https://www.strava.com/athletes/27560743      | |
+| 古玉沁心          | https://www.strava.com/athletes/guyuqinxin    |✨Sponsor |
+| FLynn         | 	https://www.strava.com/athletes/103444104    | |
+| herui9706     | 	https://www.strava.com/athletes/26760320     | |
+| 跑得动跑不动        | 	https://www.strava.com/athletes/92683851     | |
+| Alexlei       | 	https://www.strava.com/athletes/85319344     | |
+| Benny         | 	https://www.strava.com/athletes/106952288    | |
+| 挖煤猫           | 	https://www.strava.com/athletes/108006082    | |
+| 行者阿里          | 	https://www.strava.com/athletes/107605370    | |
+| 谌雕            | 	https://www.strava.com/athletes/100452318    | |
+| 米有才           | 	 https://www.strava.com/athletes/lu_yuanyuan | |
+| 昊子LoveCoCo    | 	https://www.strava.com/athletes/11280405     | ✨Sponsor|
+| HuangXin      | 	https://www.strava.com/athletes/105468976    | |
+| DougSun       | 	https://www.strava.com/athletes/dougsun      | |
+| 我是渣跑	         | https://www.strava.com/athletes/37057287      | |
+ | 古蒂            | 	https://www.strava.com/athletes/68463270     | |
+ | 小脑腐           | 	https://www.strava.com/athletes/105403238    | |
+ | Winter        | 	https://www.strava.com/athletes/110758645    | |
 </details>
 
 ## 如何使用？
@@ -369,12 +372,16 @@ upload to garmin activity {
 ![update_code](./assets/cron.png)
 
 ##### 同步最新的代码库(更新代码)
-代码可能有优化更新，如看到下图的情况，请点击下图红框更新到最新的代码，
+代码可能有优化更新，如看到下图的情况，请点击下图红框更新到最新的代码
 ![update_code](./assets/update_code.jpg)
 
 ##### 收到`Github`执行失败的邮件
 佳明接口偶尔抽风导致失败，不用管。
 ![action_failed](./assets/action_failed.png)
+
+##### 收到来自佳明登录提醒的邮件
+本工具原理为模拟用户登录进行下载、上传操作，正常，无需理会。
+![action_failed](./assets/login_email.png)
 
 ##### 关闭自动同步
 如图操作即可
