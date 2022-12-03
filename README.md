@@ -268,6 +268,16 @@
 
 然后按照上面执行过的步骤，参照Step3再执行一次，执行成功后检查佳明国际区及Strava上是否迁移过来。
 
+您可以在Strava页面核对总的运动记录数。  [https://www.strava.com/athlete/training](https://www.strava.com/athlete/training)
+![strava_activities](./assets/strava_activities.png)
+
+如果您数据较多，如几千条的情况，需要多运行几次。
+
+- 修改 `GARMIN_MIGRATE_START` 的值为之前累计的值 `501`
+- 按照 `Step2` 运行
+- 将 `GARMIN_MIGRATE_START` 的值增加 `500`
+- 按照 `Step2` 运行 ，直至所有数据迁移完成
+
 执行迁移的时候，请不要在web端再登录connect账号，同时请**打开日志观察执行情况，中间极有可能佳明的接口出异常导致任务失败**，如果遇到失败的情况，检查日志，看失败的时候`相对总数`是多少条
 
 ```
@@ -312,6 +322,7 @@ upload to garmin activity {
 
 至此，所有工作完毕，强烈建议阅读完下方的`FAQ`部分，您后期可能遇到的大部分问题都会有解答。
 
+如果我的工作帮到了您，可以考虑在最下方扫码赞助我一杯咖啡哦~ 
 
 
 #### FAQ:
