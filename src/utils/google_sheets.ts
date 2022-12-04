@@ -2,7 +2,7 @@ import { JWT } from 'google-auth-library';
 import { google } from 'googleapis';
 
 import { GOOGLE_API_CLIENT_EMAIL_DEFAULT, GOOGLE_API_PRIVATE_KEY_DEFAULT, GOOGLE_SHEET_ID_DEFAULT } from '../constant';
-import core from '@actions/core';
+const core = require('@actions/core');
 import _ from 'lodash';
 
 const GOOGLE_SHEET_ID = process.env.GOOGLE_SHEET_ID ?? GOOGLE_SHEET_ID_DEFAULT;

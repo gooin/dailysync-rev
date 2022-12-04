@@ -11,7 +11,7 @@ import { getGaminCNClient } from './garmin_cn';
 import { getGarminStatistics } from './garmin_common';
 import { getLatestActivityIdInSheets, insertDataToSheets } from './google_sheets';
 import _ from 'lodash';
-import core from '@actions/core';
+const core = require('@actions/core');
 
 const RQ_USERID = process.env.RQ_USERID ?? RQ_USERID_DEFAULT;
 const RQ_COOKIE = process.env.RQ_COOKIE ?? RQ_COOKIE_DEFAULT;
