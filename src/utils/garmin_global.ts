@@ -8,7 +8,7 @@ import { getGaminCNClient } from './garmin_cn';
 import { GarminClientType } from './type';
 import { downloadGarminActivity, uploadGarminActivity } from './garmin_common';
 import { number2capital } from './number_tricks';
-import core from '@actions/core';
+const core = require('@actions/core');
 import _ from 'lodash';
 import { getSessionFromDB, initDB, saveSessionToDB, updateSessionToDB } from './sqlite';
 
@@ -21,11 +21,13 @@ const GARMIN_MIGRATE_START = process.env.GARMIN_MIGRATE_START ?? GARMIN_MIGRATE_
 
 export const getGaminGlobalClient = async (): Promise<GarminClientType> => {
     if (_.isEmpty(GARMIN_GLOBAL_USERNAME) || _.isEmpty(GARMIN_GLOBAL_PASSWORD)) {
-        return Promise.reject('请填写国际区用户名及密码：GARMIN_GLOBAL_USERNAME,GARMIN_GLOBAL_PASSWORD');
+        const errMsg = '请填写国际区用户名及密码：GARMIN_GLOBAL_USERNAME,GARMIN_GLOBAL_PASSWORD';
+        core.setFailed(errMsg);
+        return Promise.reject(errMsg);
     }
 
     const GCClient = new GarminConnect();
-    
+
     try {
         await initDB();
 

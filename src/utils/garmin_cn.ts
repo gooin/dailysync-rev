@@ -9,7 +9,7 @@ import {
 import { downloadGarminActivity, uploadGarminActivity } from './garmin_common';
 import { GarminClientType } from './type';
 import { number2capital } from './number_tricks';
-import core from '@actions/core';
+const core = require('@actions/core');
 import _ from 'lodash';
 import { getSessionFromDB, initDB, saveSessionToDB, updateSessionToDB } from './sqlite';
 
@@ -56,7 +56,6 @@ export const getGaminCNClient = async (): Promise<GarminClientType> => {
         const userInfo = await GCClient.getUserInfo();
         const { username, emailAddress, locale } = userInfo;
         if (!username) {
-            core.setFailed('佳明中国区登录失败');
             throw Error('佳明中国区登录失败')
         }
         console.log('Garmin userInfo CN: ', { username, emailAddress, locale });
