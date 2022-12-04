@@ -1,5 +1,6 @@
 import fs from 'fs';
-import core from '@actions/core';
+
+const core = require('@actions/core');
 import {
     DOWNLOAD_DIR,
     FILE_SUFFIX,
@@ -60,9 +61,9 @@ export const downloadGarminActivity = async (activityId, client: GarminClientTyp
                 .filter(item => !item.isDirectory())
                 .map(item => item.name);
             console.log('fitFilePath not exist, curr existFiles', existFiles);
-            core.setFailed('file not exist ' + baseFilePath);
-            return Promise.reject('file not exist ' + fitFilePath);
+            throw Error('file not exist ' + fitFilePath);
         }
+
     } catch (err) {
         console.error(err);
         core.setFailed(err);
@@ -109,6 +110,8 @@ export const getGarminStatistics = async (client: GarminClientType): Promise<Rec
     const pace = 1 / (averageSpeed / 1000 * 60);
     const pace_min = Math.floor(1 / (averageSpeed / 1000 * 60));
     const pace_second = (pace - pace_min) * 60;
+    // 秒数小于10前面添加0， 如01，避免谷歌表格识别不成分钟数。  5:9 -> 5:09
+    const pace_second_text = pace_second < 10 ? '0' + pace_second.toFixed(0) : pace_second.toFixed(0);
     // console.log('pace', pace);
     // console.log('pace_min', pace_min);
     // console.log('pace_second', pace_second);
@@ -122,7 +125,7 @@ export const getGarminStatistics = async (client: GarminClientType): Promise<Rec
         // averageSpeed 是 m/s
         averageSpeed, // 速度
         averagePace: pace,  // min/km
-        averagePaceText: `${pace_min}:${pace_second.toFixed(0)}`,  // min/km
+        averagePaceText: `${pace_min}:${pace_second_text}`,  // min/km
         averageHR, // 平均心率
         maxHR, // 最大心率
         averageRunningCadenceInStepsPerMinute, // 平均每分钟步频
