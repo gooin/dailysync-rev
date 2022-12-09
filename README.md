@@ -424,11 +424,23 @@ upload to garmin activity {
 - [x] 自动同步新的活动数据到数据到国际区
 - [x] 从国际区反向迁移同步到中国区功能
 - [ ] Strava数据导出上传Garmin
-- [ ] Connect API 异常出错时抛出`github actions`错误，避免内部运行失败但是外部显示成功的问题。
+- [x] Connect API 异常出错时抛出`github actions`错误，避免内部运行失败但是外部显示成功的问题。
 - [ ] Docker本地部署运行版本，不依赖GitHub Action，避免自动运行间隔不固定的问题。
 - [ ] WebUI 管理同步及迁移任务
 - [ ] 乳酸阈值长期趋势读取与分析页面
   - 参考帖子 https://www.reddit.com/r/Garmin/comments/x2mad3/lactate_threshold_accuracy_test_from_052019_to/
+- [ ] 国际区与中国区路线、训练课程同步
+  - api:
+    - 获取所有路线： https://connect.garmin.com/web-gateway/course/owner
+      ```js   
+         {
+            "coursesForUser" : []
+         }
+      ```
+    - 路线详情 https://connect.garmin.com/course-service/course/{id}
+    - 下载GPX https://connect.garmin.com/course-service/course/gpx/{id}
+    - 导入GPX https://connect.garmin.com/modern/proxy/course-service/course/import
+    - 上传课程，可以直接用 路线详情的响应数据，优先测试此方法。  POST https://connect.garmin.com/course-service/course/
 
 ## Star History
 
