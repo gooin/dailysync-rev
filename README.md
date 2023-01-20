@@ -1,5 +1,7 @@
 # 佳明运动数据同步与采集工具
 
+
+
 ![workflow](./assets/workflow.png)
 
 <a style="display:inline-block;background-color:#FC5200;color:#fff;padding:5px 10px 5px 30px;font-size:11px;font-family:Helvetica, Arial, sans-serif;white-space:nowrap;text-decoration:none;background-repeat:no-repeat;background-position:10px center;border-radius:3px;background-image:url('https://badges.strava.com/logo-strava-echelon.png')" href='https://strava.com/athletes/84396978' target="_clean">
@@ -8,7 +10,40 @@
 </a>
 
 
+
 [![](https://img.shields.io/badge/-Telegram-%2326A5E4?style=flat-square&logo=telegram&logoColor=ffffff)](https://t.me/garmindailysync)
+
+
+
+## 本地运行方案
+首先确保运行此脚本的机器能够访问国际互联网, 如国外VPS、家庭全局科学的环境等， 否则无法正常登录佳明国际区
+
+### 安装 `NodeJS`
+下载地址 [https://nodejs.org/en/](https://nodejs.org/en/)
+### 开启 `yarn` 
+`NodeJS` 安装完毕后，新打开一个命令行窗口， 输入命令执行
+```shell
+corepack enable
+```
+### 安装依赖
+在`README.md`同级目录打开命令行，执行
+```shell
+yarn
+```
+### 填入账号密码
+打开 `src/constant.ts`,
+填入您的佳明账号及密码
+### 运行脚本
+
+同步中国区到国际区
+```shell
+yarn sync_cn
+```
+同步国际区到中国区
+```shell
+yarn sync_global
+```
+
 
 **自动 安全 省心**
 
