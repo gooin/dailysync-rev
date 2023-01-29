@@ -18,6 +18,39 @@
 ## 本地运行方案
 首先确保运行此脚本的机器能够访问国际互联网, 如国外VPS、家庭全局科学的环境等， 否则无法正常登录佳明国际区
 
+## 检查网络情况确保正常访问佳明服务
+
+### 测试国际区网络连通性
+```shell
+ping sso.garmin.com
+```
+执行后确保能像如下显示再进行下面步骤，否则请检查网络环境（命令行也需要能访问国际互联网）
+```shell
+root@home:~# ping sso.garmin.com
+PING sso.garmin.com.cdn.cloudflare.net (104.17.113.66) 56(84) bytes of data.
+64 bytes from 104.17.113.66 (104.17.113.66): icmp_seq=1 ttl=63 time=1.92 ms
+64 bytes from 104.17.113.66 (104.17.113.66): icmp_seq=2 ttl=63 time=1.27 ms
+64 bytes from 104.17.113.66 (104.17.113.66): icmp_seq=3 ttl=63 time=2.43 ms
+
+--- sso.garmin.com.cdn.cloudflare.net ping statistics ---
+
+```
+### 测试中国区网络连通性
+```shell
+ping sso.garmin.cn
+```
+```shell
+root@home:~# ping sso.garmin.cn
+PING sso.garmin.cn (61.150.74.194) 56(84) bytes of data.
+64 bytes from 61.150.74.194: icmp_seq=1 ttl=63 time=1.69 ms
+64 bytes from 61.150.74.194: icmp_seq=2 ttl=63 time=2.77 ms
+64 bytes from 61.150.74.194: icmp_seq=3 ttl=63 time=7.12 ms
+
+--- sso.garmin.cn ping statistics ---
+
+```
+
+
 ### 安装 `NodeJS`
 下载地址 [https://nodejs.org/en/](https://nodejs.org/en/)
 ### 开启 `yarn` 
@@ -43,6 +76,8 @@ yarn sync_cn
 ```shell
 yarn sync_global
 ```
+
+## 定时任务(Linux Only)
 
 
 **自动 安全 省心**
