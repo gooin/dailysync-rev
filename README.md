@@ -20,8 +20,9 @@
 
 ## 检查网络情况确保正常访问佳明服务
 
-### 测试国际区网络连通性
+### 测试国际互联网与佳明国际区网络连通性
 ```shell
+ping google.com
 ping sso.garmin.com
 ```
 执行后确保能像如下显示再进行下面步骤，否则请检查网络环境（命令行也需要能访问国际互联网）
@@ -76,8 +77,39 @@ yarn sync_cn
 ```shell
 yarn sync_global
 ```
+#### 常见问题
+如果上面ping都正常，却仍然不能正常运行，请尝试将梯子更换为美国IP
 
 ## 定时任务(Linux Only)
+上面手动执行名称成功迁移后，可以添加定时任务来自动执行
+
+`crontab -e` 打开定时任务编辑，按需添加： 
+
+### 每10分钟检查并同步国际区到中国区【可选】
+```cron
+*/10 * * * * yarn --cwd /home/root/code/DailySync/ sync_global
+```
+### 每10分钟检查并同步中国区到国际区【可选】
+```cron
+*/10 * * * * yarn --cwd /home/root/code/DailySync/ sync_cn
+```
+其中 `/home/root/code/DailySync/`为脚本在机器上的目录地址，更换为您机器上的目录即可
+
+### 修改定时任务执行频率
+当前为 `*/10 * * * *` 每 10 分钟执行一次
+
+您可以按需修改， 参考网址 [https://crontab.guru/examples.html](https://crontab.guru/examples.html)
+
+列举几个常用的：
+
+每小时执行一次： `0 * * * *`
+
+每6小时执行一次： `0 */6 * * *`
+
+每12小时执行一次： `0 */12 * * *`
+
+
+------------
 
 
 **自动 安全 省心**
