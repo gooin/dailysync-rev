@@ -53,21 +53,30 @@ PING sso.garmin.cn (61.150.74.194) 56(84) bytes of data.
 
 
 ### 安装 `NodeJS`
+
 下载地址 [https://nodejs.org/en/](https://nodejs.org/en/)
 ### 开启 `yarn` 
-`NodeJS` 安装完毕后，新打开一个命令行窗口， 输入命令执行
+
+`NodeJS` 安装完毕后，新打开一个管理员命令行窗口， 输入命令执行
+
 ```shell
 corepack enable
 ```
+
 ### 安装依赖
 在`README.md`同级目录打开命令行，执行
+
+Windows在文件管理器中打开脚本所在的目录，在地址栏输入 `cmd` 然后回车，即可打开命令行，这个步骤不需要管理员权限
+
 ```shell
 yarn
 ```
 ### 填入账号密码
 打开 `src/constant.ts`,
 填入您的佳明账号及密码
+
 ### 运行脚本
+注意： 如果执行不能成功，请尝试将梯子更换为美国IP，多更换几个ip试试
 
 同步中国区到国际区
 ```shell
@@ -78,6 +87,7 @@ yarn sync_cn
 yarn sync_global
 ```
 #### 常见问题
+
 如果上面ping都正常，却仍然不能正常运行，请尝试将梯子更换为美国IP
 
 ## 定时任务(Linux Only)
