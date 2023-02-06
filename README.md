@@ -25,7 +25,7 @@
 ping google.com
 ping sso.garmin.com
 ```
-执行后确保能像如下显示再进行下面步骤，否则请检查网络环境（命令行也需要能访问国际互联网）
+执行后确保能像如下显示再进行下面步骤，否则请检查网络环境（命令行也需要能访问国际互联网, 如果google在浏览器能正常访问，但是命令行无法ping通，google搜索关键词“命令行翻墙”，参考配置一下重试）
 ```shell
 root@home:~# ping sso.garmin.com
 PING sso.garmin.com.cdn.cloudflare.net (104.17.113.66) 56(84) bytes of data.
