@@ -18,6 +18,8 @@ export const GARMIN_GLOBAL_PASSWORD_DEFAULT = '';
 // 佳明迁移数量配置
 export const GARMIN_MIGRATE_NUM_DEFAULT = '';
 export const GARMIN_MIGRATE_START_DEFAULT = '';
+// 佳明每次同步时检查的最多的数量
+export const GARMIN_SYNC_NUM_DEFAULT = 10;
 
 export const GARMIN_URL_DEFAULT = {
     'BASE_URL': 'https://connect.garmin.cn',

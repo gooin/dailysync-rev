@@ -5,6 +5,7 @@ import {
     GARMIN_MIGRATE_START_DEFAULT,
     GARMIN_PASSWORD_DEFAULT,
     GARMIN_USERNAME_DEFAULT,
+    GARMIN_SYNC_NUM_DEFAULT
 } from '../constant';
 import { downloadGarminActivity, uploadGarminActivity } from './garmin_common';
 import { GarminClientType } from './type';
@@ -22,6 +23,7 @@ const GARMIN_USERNAME = process.env.GARMIN_USERNAME ?? GARMIN_USERNAME_DEFAULT;
 const GARMIN_PASSWORD = process.env.GARMIN_PASSWORD ?? GARMIN_PASSWORD_DEFAULT;
 const GARMIN_MIGRATE_NUM = process.env.GARMIN_MIGRATE_NUM ?? GARMIN_MIGRATE_NUM_DEFAULT;
 const GARMIN_MIGRATE_START = process.env.GARMIN_MIGRATE_START ?? GARMIN_MIGRATE_START_DEFAULT;
+const GARMIN_SYNC_NUM = process.env.GARMIN_SYNC_NUM ?? GARMIN_SYNC_NUM_DEFAULT;
 
 export const getGaminCNClient = async (): Promise<GarminClientType> => {
     if (_.isEmpty(GARMIN_USERNAME) || _.isEmpty(GARMIN_PASSWORD)) {
@@ -96,7 +98,7 @@ export const syncGarminCN2GarminGlobal = async () => {
     const clientCN = await getGaminCNClient();
     const clientGlobal = await getGaminGlobalClient();
 
-    let cnActs = await clientCN.getActivities(0, 10);
+    let cnActs = await clientCN.getActivities(0, Number(GARMIN_SYNC_NUM));
     const globalActs = await clientGlobal.getActivities(0, 1);
 
     const latestGlobalActStartTime = globalActs[0]?.startTimeLocal ?? '0';
