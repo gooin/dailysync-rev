@@ -179,7 +179,8 @@ yarn sync_global
 
 #### 进群讨论
 
-**因脚本原理为模拟用户登录进行操作，佳明服务有改动就会导致脚本失效，为不影响您的数据同步，强烈建议您加群确保遇到问题能够及时了结及解决。搜索绿色软件账号：`nononopass` （[二维码扫码](./assets/wechat_qr.png)） 我拉你进群。**
+为方便讨论，请加我绿色软件：nononopass （下面扫码）我拉你进群。`nononopass`  我拉你进群。
+![二维码扫码](./assets/wechat_qr.png)
 
 #### 支持作者
 
@@ -360,6 +361,8 @@ yarn sync_global
 填完后确保如下图红框内的都填上了, 红框外的不用管
 
 ![secrets](./assets/secrets_ok1.png)
+必须的权限设置，否则会不成功
+![repo_permission](./assets/repo_permission.png)
 
 #### Step3: 手动迁移已有数据
 
