@@ -111,15 +111,27 @@ yarn sync_global
 
 `crontab -e` 打开定时任务编辑，按需添加： 
 
-### 每10分钟检查并同步国际区到中国区【可选】
+### 每3小时检查并同步国际区到中国区【可选】,注意PATH和SHELL两行也要写上
 ```cron
-*/10 * * * * yarn --cwd /home/root/code/DailySync/ sync_global
+PATH=$PATH:/usr/local/bin:/usr/bin
+SHELL=/bin/bash
+* */3 * * * cd /root/code/dailysync/ && yarn --cwd /root/code/dailysync/ sync_global >> /var/log/dailysync.log 2>&1
 ```
-### 每10分钟检查并同步中国区到国际区【可选】
+### 每3小时检查并同步中国区到国际区【可选】,注意PATH和SHELL两行也要写上
 ```cron
-*/10 * * * * yarn --cwd /home/root/code/DailySync/ sync_cn
+PATH=$PATH:/usr/local/bin:/usr/bin
+SHELL=/bin/bash
+* */3 * * * cd /root/code/dailysync/ && yarn --cwd /root/code/dailysync/ sync_cn >> /var/log/dailysync.log 2>&1
 ```
-其中 `/home/root/code/DailySync/`为脚本在机器上的目录地址，更换为您机器上的目录即可
+其中 `/root/code/dailysync/`为脚本在机器上的目录地址，更换为您机器上的目录即可
+
+![](./assets/crontab-e.png)
+
+### 运行日志查看
+
+```shell
+tail -100f /var/log/dailysync.log
+```
 
 ### 修改定时任务执行频率
 当前为 `*/10 * * * *` 每 10 分钟执行一次
