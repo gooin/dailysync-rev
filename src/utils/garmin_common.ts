@@ -12,6 +12,7 @@ import {
 } from '../constant';
 import { GarminClientType } from './type';
 import _ from 'lodash';
+const decompress = require('decompress');
 
 const unzipper = require('unzipper');
 
@@ -44,31 +45,12 @@ export const downloadGarminActivity = async (activityId, client: GarminClientTyp
         .pipe(unzipper.Extract({ path: DOWNLOAD_DIR }));
     // waiting 4s for extract zip file
     await new Promise(resolve => setTimeout(resolve, 4000));
-    const baseFilePath = `${DOWNLOAD_DIR}/${activityId}_ACTIVITY`;
-    console.log('saved origin FilePath', baseFilePath);
-    const fitFilePath = `${baseFilePath}.${FILE_SUFFIX.FIT}`;
-    const gpxFilePath = `${baseFilePath}.${FILE_SUFFIX.GPX}`;
-    const tcxFilePath = `${baseFilePath}.${FILE_SUFFIX.TCX}`;
-    try {
-        if (fs.existsSync(fitFilePath)) {
-            return fitFilePath;
-        } else if (fs.existsSync(gpxFilePath)) {
-            return gpxFilePath;
-        } else if (fs.existsSync(tcxFilePath)) {
-            return tcxFilePath;
-        } else {
-            const existFiles = fs.readdirSync(DOWNLOAD_DIR, { withFileTypes: true })
-                .filter(item => !item.isDirectory())
-                .map(item => item.name);
-            console.log('fitFilePath not exist, curr existFiles', existFiles);
-            throw Error('file not exist ' + fitFilePath);
-        }
-
-    } catch (err) {
-        console.error(err);
-        core.setFailed(err);
-    }
-    return fitFilePath;
+    const baseFilePath = `${DOWNLOAD_DIR}/`;
+    const unziped = await decompress(originZipFile, DOWNLOAD_DIR);
+    const unzipedFileName = unziped?.[0].path;
+    const path = baseFilePath + unzipedFileName;
+    console.log('downloadGarminActivity - path:', path)
+    return path;
 };
 
 export const getGarminStatistics = async (client: GarminClientType): Promise<Record<string, any>> => {
