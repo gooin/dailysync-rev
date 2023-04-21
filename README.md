@@ -90,6 +90,19 @@ yarn
 ### 填入账号密码
 打开 `src/constant.ts`,
 填入您的佳明账号及密码
+```js
+//中国区
+export const GARMIN_USERNAME_DEFAULT = 'example@example.com';
+export const GARMIN_PASSWORD_DEFAULT = 'password';
+//国际区
+export const GARMIN_GLOBAL_USERNAME_DEFAULT = 'example@example.com';
+export const GARMIN_GLOBAL_PASSWORD_DEFAULT = 'password';
+
+// 佳明迁移数量配置（批量同步历史数据使用）
+export const GARMIN_MIGRATE_NUM_DEFAULT = 100; //每次要迁移的数量，不要填太大
+export const GARMIN_MIGRATE_START_DEFAULT = 0; // 从第几条活动开始
+
+```
 
 ### 运行脚本
 注意： 如果执行不能成功，请尝试将梯子更换为美国IP，多更换几个ip试试
@@ -102,6 +115,15 @@ yarn sync_cn
 ```shell
 yarn sync_global
 ```
+迁移历史数据：中国区到国际区
+```shell
+yarn migrate_garmin_cn_to_global
+```
+迁移历史数据：国际区到中国区
+```shell
+yarn migrate_garmin_global_to_cn
+```
+
 #### 常见问题
 
 如果上面ping都正常，却仍然不能正常运行，请尝试将梯子更换为美国IP
