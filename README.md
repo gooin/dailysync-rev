@@ -14,6 +14,8 @@
 [![](https://img.shields.io/badge/-Telegram-%2326A5E4?style=flat-square&logo=telegram&logoColor=ffffff)](https://t.me/garmindailysync)
 
 
+## Web版本
+[https://dailysync.vyzt.dev/](https://dailysync.vyzt.dev/)
 
 ## 本地运行方案
 首先确保运行此脚本的机器能够访问国际互联网, 如国外VPS、家庭全局科学的环境等， 否则无法正常登录佳明国际区
