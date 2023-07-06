@@ -18,6 +18,13 @@
 如果你不熟悉代码，强烈推荐使用这个版本，在网页上填入账号点击就能同步数据，简洁好用。
 [https://dailysync.vyzt.dev/](https://dailysync.vyzt.dev/)
 
+
+## Github运行方案
+因为项目之前在Github上占用过多资源被封禁，现在已经调整了执行的频率，熟悉代码的话，将代码下载下来，上传到github，通过 github Actions执行
+具体参考下方文档或参考视频教程: https://www.bilibili.com/video/BV1v94y1Q7oR/?spm_id_from=333.999.0.0
+
+
+
 ## 本地运行方案
 首先确保运行此脚本的机器能够访问国际互联网, 如国外VPS、家庭全局科学的环境等， 否则无法正常登录佳明国际区
 
@@ -25,22 +32,39 @@
 
 ### 测试国际互联网网络连通性
 ```shell
-ping google.com
+wget google.com
 ```
-执行后确保能像如下显示再进行下面步骤，否则请检查网络环境（命令行也需要能访问国际互联网, 如果google在浏览器能正常访问，但是命令行无法ping通，google搜索关键词**命令行翻墙**，参考配置一下重试。） 如果用的时Clash，在左侧 General 下，将 TUN Mode 模式开启也可。
+执行后确保相应的数据类似如下再进行下面步骤，否则请检查网络环境（命令行也需要能访问国际互联网, 如果google在浏览器能正常访问，但是命令行无法ping通，google搜索关键词**命令行翻墙**，参考配置一下重试。） 如果用的时Clash，在左侧 General 下，将 TUN Mode 模式开启也可。
 ```shell
-root@home:~# ping google.com
-正在 Ping google.com [198.18.1.9] 具有 32 字节的数据:
-来自 198.18.1.9 的回复: 字节=32 时间<1ms TTL=64
-来自 198.18.1.9 的回复: 字节=32 时间<1ms TTL=64
-来自 198.18.1.9 的回复: 字节=32 时间<1ms TTL=64
-来自 198.18.1.9 的回复: 字节=32 时间<1ms TTL=64
-198.18.1.9 的 Ping 统计信息:
-    数据包: 已发送 = 4，已接收 = 4，丢失 = 0 (0% 丢失)，
-往返行程的估计时间(以毫秒为单位):
-    最短 = 0ms，最长 = 0ms，平均 = 0ms
-```    
+root@home:~# wget google.com
 
+StatusCode        : 200
+StatusDescription : OK
+Content           : <!doctype html><html itemscope="" itemtype="http://schema.org/WebPage" lang="zh-HK"><head><meta con
+                    tent="text/html; charset=UTF-8" http-equiv="Content-Type"><meta content="/images/branding/googleg/1
+                    x/...
+RawContent        : HTTP/1.1 200 OK
+                    Connection: close
+                    Conts...
+Forms             : {f}
+Headers           : {[ https://csp.withgoogle.com/csp/gws/other-hp], [Cache-Control, private, max
+                    -age=0], [Content-Type, text/html; charset=UTF-8]...}
+Images            : {@{innerHTML=; n value=zh-HK name=hl>; outerText=; tagName=I
+                    NPUT; th}...}
+Links             : {@{i id=gb_78; class=gbzt;
+                     href=https://play.google.com/?hl=zh-TW&amp;tab=w8}...}
+ParsedHtml        : mshtml.HTMLDocumentClass
+RawContentLength  : 52716
+```    
+如果是如下显示则代表网络没有配置好，请先按上面说的方法解决再试。
+```shell
+root@home:~# wget google.com
+
+--2023-07-06 20:26:18--  http://google.com/
+Resolving google.com (google.com)... 142.251.42.238
+Connecting to google.com (google.com)|142.251.42.238|:80... failed: Connection timed out.
+Retrying.
+```
 ### 测试佳明国际区网络连通性
 ```shell
 ping sso.garmin.com
