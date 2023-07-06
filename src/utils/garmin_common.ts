@@ -41,14 +41,10 @@ export const downloadGarminActivity = async (activityId, client: GarminClientTyp
     const activity = await client.getActivity({ activityId: activityId });
     await client.downloadOriginalActivityData(activity, DOWNLOAD_DIR);
     const originZipFile = DOWNLOAD_DIR + '/' + activityId + '.zip';
-    await fs.createReadStream(originZipFile)
-        .pipe(unzipper.Extract({ path: DOWNLOAD_DIR }));
-    // waiting 4s for extract zip file
-    await new Promise(resolve => setTimeout(resolve, 4000));
     const baseFilePath = `${DOWNLOAD_DIR}/`;
-    const unziped = await decompress(originZipFile, DOWNLOAD_DIR);
-    const unzipedFileName = unziped?.[0].path;
-    const path = baseFilePath + unzipedFileName;
+    const unzipped = await decompress(originZipFile, DOWNLOAD_DIR);
+    const unzippedFileName = unzipped?.[0].path;
+    const path = baseFilePath + unzippedFileName;
     console.log('downloadGarminActivity - path:', path)
     return path;
 };
