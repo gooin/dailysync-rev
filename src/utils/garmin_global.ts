@@ -27,14 +27,14 @@ export const getGaminGlobalClient = async (): Promise<GarminClientType> => {
         return Promise.reject(errMsg);
     }
 
-    const GCClient = new GarminConnect();
+    const GCClient = new GarminConnect({username: GARMIN_GLOBAL_USERNAME, password: GARMIN_GLOBAL_PASSWORD});
 
     try {
         await initDB();
 
         const currentSession = await getSessionFromDB('GLOBAL');
         if (!currentSession) {
-            await GCClient.login(GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
+            await GCClient.login();
             await saveSessionToDB('GLOBAL', GCClient.sessionJson);
         } else {
             //  Wrap error message in GCClient, prevent terminate in github actions.
@@ -52,12 +52,12 @@ export const getGaminGlobalClient = async (): Promise<GarminClientType> => {
             }
 
         }
-        const userInfo = await GCClient.getUserInfo();
-        const { username, emailAddress, locale } = userInfo;
-        if (!username) {
+        const userInfo = await GCClient.getUserProfile();
+        const { fullName, userName: emailAddress, location } = userInfo;
+        if (!emailAddress) {
             throw Error('佳明国际区登录失败，请检查填入的账号密码或您的网络环境')
         }
-        console.log('Garmin userInfo global', { username, emailAddress, locale });
+        console.log('Garmin userInfo global', { fullName, emailAddress, location });
         return GCClient;
     } catch (err) {
         console.error(err);

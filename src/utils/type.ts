@@ -1,4 +1,3 @@
-const { GarminConnect: GarminConnectCN } = require('@gooin/garmin-connect-cn');
-const { GarminConnect: GarminConnectGlobal } = require('@gooin/garmin-connect');
+const { GarminConnect: GarminConnect } = require('@gooin/garmin-connect');
 
-export type GarminClientType = typeof GarminConnectCN | typeof GarminConnectGlobal;
+export type GarminClientType = typeof GarminConnect
