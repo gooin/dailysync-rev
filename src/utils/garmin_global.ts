@@ -35,14 +35,12 @@ export const getGaminGlobalClient = async (): Promise<GarminClientType> => {
         const currentSession = await getSessionFromDB('GLOBAL');
         if (!currentSession) {
             await GCClient.login();
-            await saveSessionToDB('GLOBAL', GCClient.sessionJson);
+            await saveSessionToDB('GLOBAL', GCClient.exportToken());
         } else {
             //  Wrap error message in GCClient, prevent terminate in github actions.
             try {
                 console.log('GarminGlobal: login by saved session');
-                await GCClient.restore(currentSession);
-                // await GCClient.restoreOrLogin(currentSession, GARMIN_GLOBAL_USERNAME, GARMIN_GLOBAL_PASSWORD);
-
+                await GCClient.loadToken(currentSession.oauth1, currentSession.oauth2);
             } catch (e) {
                 // 只在登录默认session登录失败，catch到登录错误，需要重新登录时注册sessionChange事件
                 console.log('Warn: renew GarminGlobal session..');
@@ -70,8 +68,9 @@ export const migrateGarminGlobal2GarminCN = async (count = 200) => {
     // const actPerGroup = 10;
     const totalAct = Number(GARMIN_MIGRATE_NUM) ?? count;
 
-    const clientCn = await getGaminCNClient();
     const clientGlobal = await getGaminGlobalClient();
+    return
+    const clientCn = await getGaminCNClient();
 
     // 从佳明国际区读取活动数据
     const actSlices = await clientGlobal.getActivities(actIndex, totalAct);
