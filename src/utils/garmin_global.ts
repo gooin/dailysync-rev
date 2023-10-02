@@ -69,7 +69,6 @@ export const migrateGarminGlobal2GarminCN = async (count = 200) => {
     const totalAct = Number(GARMIN_MIGRATE_NUM) ?? count;
 
     const clientGlobal = await getGaminGlobalClient();
-    return
     const clientCn = await getGaminCNClient();
 
     // 从佳明国际区读取活动数据
