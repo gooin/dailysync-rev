@@ -13,6 +13,63 @@
 
 [![](https://img.shields.io/badge/-Telegram-%2326A5E4?style=flat-square&logo=telegram&logoColor=ffffff)](https://t.me/garmindailysync)
 
+## 重要更新
+由于2023年9月26日佳明修改了登录验证的逻辑，之前登录的方式无法使用了。
+
+本仓库与佳明接口交互依赖于 `garmin-connect` 这个三方库，我给仓库提交了一个PR来修复登录佳明的问题，等待作者合入主干 
+https://github.com/Pythe1337N/garmin-connect/pull/56
+
+我的代码
+https://github.com/gooin/garmin-connect-cn/tree/master
+
+
+### 本仓库更新修改方案如下，国庆节后到年底工作很忙，时间有限，如果你恰好懂一点js，欢迎帮忙~ 
+由于作者合入需要时间，我在npm仓库上发布了 [https://www.npmjs.com/package/@gooin/garmin-connect](https://www.npmjs.com/package/@gooin/garmin-connect)
+
+将`package.json`中的
+```json
+    "@gooin/garmin-connect": "^1.4.4",
+    "@gooin/garmin-connect-cn": "^1.0.2",
+```
+替换为
+```json
+    "@gooin/garmin-connect": "^1.6.1-rc.1",
+```
+再运行 `yarn`
+
+`@gooin/garmin-connect：1.6.0` 及以上提供了参数可以传入佳明验证域，一个库传入不同参数就可以指定国际区、中国区
+
+```js
+    const GCClient = new GarminConnect({
+        username: '----email----',
+        password: '-----password----'
+    });
+
+    // TODO: Test China Domain
+    // China Domain
+    const GCClientCN = new GarminConnect({
+        username: '----email----',
+        password: '-----password----'
+    }, 'garmin.cn');
+
+    await GCClient.login();
+
+    // 导出token复用
+    GCClient.exportTokenToFile('./test/tokens')
+    // 导入token复用
+    GCClient.loadTokenByFile('./test/tokens')
+
+    const profile = await GCClient.getUserProfile();
+    console.log('main - profile:', profile)
+
+    const result = await GCClient.getActivities(0, 1);
+    console.log('main - result:', result)
+    await GCClient.downloadOriginalActivityData(result[0],'./test/download');
+    const result1 = await GCClient.uploadActivity('./test/data/1.fit')
+
+```
+
+---- 
 
 ## Web版本
 如果你不熟悉代码，强烈推荐使用这个版本，在网页上填入账号点击就能同步数据，简洁好用。
