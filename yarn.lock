@@ -29,10 +29,10 @@
   resolved "https://registry.npmmirror.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@gooin/garmin-connect@^1.6.1-rc.1":
-  version "1.6.1-rc.1"
-  resolved "https://registry.npmmirror.com/@gooin/garmin-connect/-/garmin-connect-1.6.1-rc.1.tgz#6bbae4d296a648a45bf34995b1d7084076052ac6"
-  integrity sha512-EgYqM4Z2nsATqKjXa8nELbGepUUoXrgvAXCpVMXzZmkKOHemUyFpVfwSPKfDF3injeTzRmG+y8LUpzaRXmOQfA==
+"@gooin/garmin-connect@^1.6.1-rc.2":
+  version "1.6.1-rc.2"
+  resolved "https://registry.npmmirror.com/@gooin/garmin-connect/-/garmin-connect-1.6.1-rc.2.tgz#e2a30f886cab1016c0146f1b19aa2cfcccb63fac"
+  integrity sha512-WaEJPAzsMLGx+SC58DsqCha6bkMKrWbbElKXsijIuJhhLb6MCVqILtvYHuPPT0VgWcWx9SFfWYcAgl0/LmIOHg==
   dependencies:
     app-root-path "^3.1.0"
     axios "^1.5.1"
