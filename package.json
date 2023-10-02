@@ -19,8 +19,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "@gooin/garmin-connect": "^1.4.4",
-    "@gooin/garmin-connect-cn": "^1.0.2",
+    "@gooin/garmin-connect": "^1.6.1-rc.1",
     "axios": "^0.24.0",
     "crypto-js": "^4.1.1",
     "decompress": "^4.2.1",

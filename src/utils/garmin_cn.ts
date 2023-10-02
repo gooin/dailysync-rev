@@ -17,7 +17,7 @@ import { getSessionFromDB, initDB, saveSessionToDB, updateSessionToDB } from './
 const CryptoJS = require('crypto-js');
 const fs = require('fs');
 
-const { GarminConnect } = require('@gooin/garmin-connect-cn');
+const { GarminConnect } = require('@gooin/garmin-connect');
 
 const GARMIN_USERNAME = process.env.GARMIN_USERNAME ?? GARMIN_USERNAME_DEFAULT;
 const GARMIN_PASSWORD = process.env.GARMIN_PASSWORD ?? GARMIN_PASSWORD_DEFAULT;
@@ -32,21 +32,20 @@ export const getGaminCNClient = async (): Promise<GarminClientType> => {
         return Promise.reject(errMsg);
     }
 
-    const GCClient = new GarminConnect();
+    const GCClient = new GarminConnect({username: GARMIN_USERNAME, password: GARMIN_PASSWORD}, 'garmin.cn');
 
     try {
         await initDB();
 
         const currentSession = await getSessionFromDB('CN');
         if (!currentSession) {
-            await GCClient.login(GARMIN_USERNAME, GARMIN_PASSWORD);
-            await saveSessionToDB('CN', GCClient.sessionJson);
+            await GCClient.login();
+            await saveSessionToDB('CN', GCClient.exportToken());
         } else {
             //  Wrap error message in GCClient, prevent terminate in github actions.
             try {
-                await GCClient.restore(currentSession);
                 console.log('GarminCN: login by saved session');
-                // await GCClient.restoreOrLogin(currentSession, GARMIN_USERNAME, GARMIN_PASSWORD);
+                await GCClient.loadToken(currentSession.oauth1, currentSession.oauth2);
             } catch (e) {
                 console.log('Warn: renew  GarminCN Session..');
                 await GCClient.login(GARMIN_USERNAME, GARMIN_PASSWORD);
@@ -55,12 +54,12 @@ export const getGaminCNClient = async (): Promise<GarminClientType> => {
 
         }
 
-        const userInfo = await GCClient.getUserInfo();
-        const { username, emailAddress, locale } = userInfo;
-        if (!username) {
+        const userInfo = await GCClient.getUserProfile();
+        const { fullName, userName: emailAddress, location } = userInfo;
+        if (!fullName) {
             throw Error('佳明中国区登录失败')
         }
-        console.log('Garmin userInfo CN: ', { username, emailAddress, locale });
+        console.log('Garmin userInfo CN: ', { fullName, emailAddress, location });
 
         return GCClient;
     } catch (err) {
