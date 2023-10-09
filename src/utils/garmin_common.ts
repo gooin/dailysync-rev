@@ -25,8 +25,12 @@ export const uploadGarminActivity = async (fitFilePath: string, client: GarminCl
     if (!fs.existsSync(DOWNLOAD_DIR)) {
         fs.mkdirSync(DOWNLOAD_DIR);
     }
-    const upload = await client.uploadActivity(fitFilePath);
-    console.log('upload to garmin activity', upload);
+    try {
+        const upload = await client.uploadActivity(fitFilePath);
+        console.log('upload to garmin activity', upload);
+    } catch (error) {
+        console.log('upload to garmin activity error', error);
+    }
 };
 
 /**
