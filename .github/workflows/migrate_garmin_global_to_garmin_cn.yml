@@ -16,6 +16,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Migrate Garmin Global to Garmin CN
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -24,6 +26,6 @@ jobs:
           cache: 'yarn'
       - run: yarn
       - run: yarn migrate_garmin_global_to_cn
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Save Garmin Session      
+          commit_message: Save Garmin Session
