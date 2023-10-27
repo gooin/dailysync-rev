@@ -166,13 +166,13 @@ yarn migrate_garmin_global_to_cn
 ```cron
 PATH=$PATH:/usr/local/bin:/usr/bin
 SHELL=/bin/bash
-* */3 * * * cd /root/code/dailysync/ && yarn --cwd /root/code/dailysync/ sync_global >> /var/log/dailysync.log 2>&1
+0 */3 * * * cd /root/code/dailysync/ && yarn --cwd /root/code/dailysync/ sync_global >> /var/log/dailysync.log 2>&1
 ```
 ### 每3小时检查并同步中国区到国际区【可选】,注意PATH和SHELL两行也要写上
 ```cron
 PATH=$PATH:/usr/local/bin:/usr/bin
 SHELL=/bin/bash
-* */3 * * * cd /root/code/dailysync/ && yarn --cwd /root/code/dailysync/ sync_cn >> /var/log/dailysync.log 2>&1
+0 */3 * * * cd /root/code/dailysync/ && yarn --cwd /root/code/dailysync/ sync_cn >> /var/log/dailysync.log 2>&1
 ```
 其中 `/root/code/dailysync/`为脚本在机器上的目录地址，更换为您机器上的目录即可
 
