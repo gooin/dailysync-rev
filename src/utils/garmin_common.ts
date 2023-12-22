@@ -21,16 +21,20 @@ const unzipper = require('unzipper');
  * @param fitFilePath
  * @param client
  */
-export const uploadGarminActivity = async (fitFilePath: string, client: GarminClientType): Promise<void> => {
+export const uploadGarminActivity = async (fitFilePath: string, client: GarminClientType): Promise<Object | string> => {
     if (!fs.existsSync(DOWNLOAD_DIR)) {
         fs.mkdirSync(DOWNLOAD_DIR);
     }
+    let res
     try {
         const upload = await client.uploadActivity(fitFilePath);
+        res = upload
         console.log('upload to garmin activity', upload);
     } catch (error) {
         console.log('upload to garmin activity error', error);
+        res = error
     }
+    return res
 };
 
 /**

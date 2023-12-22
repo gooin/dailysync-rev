@@ -81,6 +81,15 @@ export const migrateGarminCN2GarminGlobal = async (count = 200) => {
     // const runningActs = _.filter(actSlices, { activityType: { typeKey: 'running' } });
 
     const runningActs = actSlices;
+
+    let conflictCnt = 0
+    let successCnt = 0
+    let reCnt = 0
+    let failCnt = 0
+
+    let reg409 = new RegExp("409") // 409为重复
+    let reg502 = new RegExp("502") // 502为网络问题导致，可以重新上传
+    let relist: any[] = []
     for (let j = 0; j < runningActs.length; j++) {
         const act = runningActs[j];
         // console.log({ act });
@@ -88,8 +97,45 @@ export const migrateGarminCN2GarminGlobal = async (count = 200) => {
         const filePath = await downloadGarminActivity(act.activityId, clientCN);
         // 上传到佳明国际区
         console.log(`本次开始向国际区上传第 ${number2capital(j + 1)} 条数据，相对总数上传到 ${number2capital(j + 1 + actIndex)} 条，  【 ${act.activityName} 】，开始于 【 ${act.startTimeLocal} 】，活动ID: 【 ${act.activityId} 】`);
-        await uploadGarminActivity(filePath, clientGlobal);
+        let actRes = await uploadGarminActivity(filePath, clientGlobal);
+        if (actRes.toString() !== '[object Object]') {
+            if (reg502.exec(actRes.toString())) {
+                relist.push(act)
+            } else if (reg409.exec(actRes.toString())) {
+                conflictCnt ++
+            } else {
+                failCnt ++
+            }
+        } else if (actRes.toString() === '[object Object]') {
+            successCnt ++
+        }
         // await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+    while(relist.length) {
+        let list = relist
+        relist = []
+        for (let j = 0; j < list.length; j++) {
+            const act = list[j];
+            // 下载佳明原始数据
+            const filePath = await downloadGarminActivity(act.activityId, clientCN);
+            // 上传到佳明国际区
+            console.log(`%c 本次开始向国际区重新上传【 ${act.activityName} 】，开始于 【 ${act.startTimeLocal} 】，活动ID: 【 ${act.activityId} 】`, 'color: lightblue');
+            let actRes = await uploadGarminActivity(filePath, clientGlobal);
+            reCnt ++
+            if (actRes.toString() !== '[object Object]') {
+                if (reg502.exec(actRes.toString())) {
+                    relist.push(act)
+                } else {
+                    failCnt ++
+                }
+            } else if (actRes.toString() === '[object Object]') {
+                successCnt ++
+            }
+        }
+    }
+    console.log(`本次共计上传${runningActs.length}条, 成功${successCnt}条, 失败${failCnt}条, 重复${conflictCnt}条, 重试${reCnt}次`)
+    if (failCnt) {
+        console.log('请查看失败原因,并重新运行命令')
     }
 };
 
