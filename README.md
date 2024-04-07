@@ -98,7 +98,7 @@ PING sso.garmin.cn (61.150.74.194) 56(84) bytes of data.
 
 
 ### 安装 `NodeJS`
-
+环境需求Node版本`18`及以上，推荐最新的LTS版本。
 下载地址 [https://nodejs.org/en/](https://nodejs.org/en/)
 ### 开启 `yarn` 
 
