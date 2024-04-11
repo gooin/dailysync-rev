@@ -1,0 +1,15 @@
+version: '3'
+services:
+  daily-sync:
+    image: 'daily-sync:latest'
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    container_name: daily-sync
+    command: yarn sync_cn
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
