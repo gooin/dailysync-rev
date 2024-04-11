@@ -18,7 +18,47 @@
 如果你不熟悉代码，强烈推荐使用这个版本，在网页上填入账号点击就能同步数据，简洁好用。
 [https://dailysync.vyzt.dev/](https://dailysync.vyzt.dev/)
 
+## Docker版本
+如果你懂一点代码，会使用 docker 可以使用此方案。
 
+### 拉取代码
+目前没有提供打包好的镜像，需要拉取下来自行打包使用
+```shell
+git clone https://gitlab.com/gooin/dailysync.git
+```
+### 修改配置文件
+打开`.env`文件，按注释填入信息
+
+### 修改docker-compsoe.yml 文件
+
+可以通过修改文件中的`command`参数决定每次执行的功能，默认是国际区同步到国区
+
+```shell
+yarn sync_cn
+```
+同步国际区到中国区
+```shell
+yarn sync_global
+```
+迁移历史数据：中国区到国际区
+```shell
+yarn migrate_garmin_cn_to_global
+```
+迁移历史数据：国际区到中国区
+```shell
+yarn migrate_garmin_global_to_cn
+```
+
+### 打包运行一次项目
+```shell
+docker-compose up
+```
+
+### 配置系统定时任务
+参照下文中的 `定时任务(Linux Only)`，把命令替换成使用
+```shell
+docker start daily-sync
+```
 ## Github运行方案
 因为项目之前在Github上占用过多资源被封禁，现在已经调整了执行的频率，熟悉代码的话，将代码下载下来，上传到github，通过 github Actions执行
 具体参考下方文档或参考视频教程: https://www.bilibili.com/video/BV1v94y1Q7oR/?spm_id_from=333.999.0.0
