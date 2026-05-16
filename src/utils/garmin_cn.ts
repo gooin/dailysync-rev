@@ -13,6 +13,7 @@ import { number2capital } from './number_tricks';
 const core = require('@actions/core');
 import _ from 'lodash';
 import { getSessionFromDB, initDB, saveSessionToDB, updateSessionToDB } from './sqlite';
+import { getSessionFromEnv } from './garmin_session_env';
 
 const CryptoJS = require('crypto-js');
 const fs = require('fs');
@@ -37,21 +38,33 @@ export const getGaminCNClient = async (): Promise<GarminClientType> => {
     try {
         await initDB();
 
-        const currentSession = await getSessionFromDB('CN');
-        if (!currentSession) {
-            await GCClient.login();
-            await saveSessionToDB('CN', GCClient.exportToken());
-        } else {
-            //  Wrap error message in GCClient, prevent terminate in github actions.
-            try {
-                console.log('GarminCN: login by saved session');
-                await GCClient.loadToken(currentSession.oauth1, currentSession.oauth2);
-            } catch (e) {
-                console.log('Warn: renew  GarminCN Session..');
-                await GCClient.login(GARMIN_USERNAME, GARMIN_PASSWORD);
-                await updateSessionToDB('CN', GCClient.sessionJson);
+        const envSession = getSessionFromEnv('CN');
+        if (envSession) {
+            console.log('GarminCN: login by env session');
+            await GCClient.loadToken(envSession.oauth1, envSession.oauth2);
+            const currentSession = await getSessionFromDB('CN');
+            if (currentSession) {
+                await updateSessionToDB('CN', GCClient.exportToken());
+            } else {
+                await saveSessionToDB('CN', GCClient.exportToken());
             }
+        } else {
+            const currentSession = await getSessionFromDB('CN');
+            if (!currentSession) {
+                await GCClient.login();
+                await saveSessionToDB('CN', GCClient.exportToken());
+            } else {
+                //  Wrap error message in GCClient, prevent terminate in github actions.
+                try {
+                    console.log('GarminCN: login by saved session');
+                    await GCClient.loadToken(currentSession.oauth1, currentSession.oauth2);
+                } catch (e) {
+                    console.log('Warn: renew  GarminCN Session..');
+                    await GCClient.login(GARMIN_USERNAME, GARMIN_PASSWORD);
+                    await updateSessionToDB('CN', GCClient.sessionJson);
+                }
 
+            }
         }
 
         const userInfo = await GCClient.getUserProfile();
