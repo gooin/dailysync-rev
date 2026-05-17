@@ -10,6 +10,7 @@
     "sync_global": "ts-node src/sync_garmin_global_to_cn.ts",
     "migrate_garmin_global_to_cn": "ts-node src/migrate_garmin_global_to_cn.ts",
     "migrate_garmin_cn_to_global": "ts-node src/migrate_garmin_cn_to_global.ts",
+    "export_garmin_sessions": "ts-node src/export_garmin_sessions.ts",
     "start2": "node dist/index.js",
     "dev": "nodemon dist/index.js",
     "dev2": "nodemon --exec ts-node src/rq.ts",

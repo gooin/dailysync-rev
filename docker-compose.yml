@@ -1,4 +1,3 @@
-version: '3'
 services:
   daily-sync:
     image: 'daily-sync:latest'
@@ -10,8 +9,20 @@ services:
     volumes:
       - ./db:/app/db
     container_name: daily-sync
-    command: yarn sync_cn
     logging:
       driver: "json-file"
       options:
         max-size: "10m"
+
+  export-garmin-sessions:
+    image: 'daily-sync:latest'
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./db:/app/db
+    profiles:
+      - tools
+    command: yarn export_garmin_sessions
