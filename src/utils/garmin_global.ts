@@ -12,6 +12,7 @@ const core = require('@actions/core');
 import _ from 'lodash';
 import { getSessionFromDB, initDB, saveSessionToDB, updateSessionToDB } from './sqlite';
 import { getSessionFromEnv } from './garmin_session_env';
+import { migrateGarminWellnessByDateRange, syncGarminWellnessRecentDays } from './garmin_wellness';
 
 const { GarminConnect } = require('@gooin/garmin-connect');
 
@@ -76,13 +77,14 @@ export const getGaminGlobalClient = async (): Promise<GarminClientType> => {
     }
 };
 
-export const migrateGarminGlobal2GarminCN = async (count = 200) => {
+export const migrateGarminGlobalActivities2GarminCN = async (
+    clientGlobal: GarminClientType,
+    clientCn: GarminClientType,
+    count = 200,
+) => {
     const actIndex = Number(GARMIN_MIGRATE_START) ?? 0;
     // const actPerGroup = 10;
     const totalAct = Number(GARMIN_MIGRATE_NUM) ?? count;
-
-    const clientGlobal = await getGaminGlobalClient();
-    const clientCn = await getGaminCNClient();
 
     // 从佳明国际区读取活动数据
     const actSlices = await clientGlobal.getActivities(actIndex, totalAct);
@@ -102,10 +104,25 @@ export const migrateGarminGlobal2GarminCN = async (count = 200) => {
     }
 };
 
-export const syncGarminGlobal2GarminCN = async () => {
-    const clientCN = await getGaminCNClient();
+export const migrateGarminGlobal2GarminCN = async (count = 200) => {
     const clientGlobal = await getGaminGlobalClient();
+    const clientCn = await getGaminCNClient();
 
+    await migrateGarminGlobalActivities2GarminCN(clientGlobal, clientCn, count);
+};
+
+export const migrateAllGarminGlobal2GarminCN = async (count = 200) => {
+    const clientGlobal = await getGaminGlobalClient();
+    const clientCn = await getGaminCNClient();
+
+    await migrateGarminGlobalActivities2GarminCN(clientGlobal, clientCn, count);
+    await migrateGarminWellnessByDateRange(clientGlobal, clientCn);
+};
+
+export const syncGarminGlobalActivities2GarminCN = async (
+    clientGlobal: GarminClientType,
+    clientCN: GarminClientType,
+) => {
     const cnActs = await clientCN.getActivities(0, 1);
     let globalActs = await clientGlobal.getActivities(0, Number(GARMIN_SYNC_NUM));
 
@@ -131,4 +148,19 @@ export const syncGarminGlobal2GarminCN = async () => {
             }
         }
     }
+};
+
+export const syncGarminGlobal2GarminCN = async () => {
+    const clientCN = await getGaminCNClient();
+    const clientGlobal = await getGaminGlobalClient();
+
+    await syncGarminGlobalActivities2GarminCN(clientGlobal, clientCN);
+};
+
+export const syncAllGarminGlobal2GarminCN = async () => {
+    const clientCN = await getGaminCNClient();
+    const clientGlobal = await getGaminGlobalClient();
+
+    await syncGarminGlobalActivities2GarminCN(clientGlobal, clientCN);
+    await syncGarminWellnessRecentDays(clientGlobal, clientCN);
 };
