@@ -12,6 +12,8 @@
 
 
 [![](https://img.shields.io/badge/-Telegram-%2326A5E4?style=flat-square&logo=telegram&logoColor=ffffff)](https://t.me/garmindailysync)
+## 【2026-6说明】github actions 新fork的无法使用了。
+佳明做了限制，对github actions方式运行会出现429限制登录的情况，目前无法解决，推荐让claude或者其他agent将本项目拉到本地去运行。
 
 ## 【2025-12说明】开启了ECG功能的说明
 开通了ECG功能的佳明账号，因为登录佳明时需要提供验证码，开通ECG后，这个验证码无法关闭，github上要中途要输入一次验证码，本同步脚本无法支持，下方的Web版本做了兼容，可以使用。 
@@ -24,7 +26,7 @@
 gitlab: 
 [https://gitlab.com/gooin/dailysync](https://gitlab.com/gooin/dailysync)
 
-github:（actions方式正常可用）
+github:
 [https://github.com/gooin/dailysync-rev](https://github.com/gooin/dailysync-rev)
 
 ## Docker版本
