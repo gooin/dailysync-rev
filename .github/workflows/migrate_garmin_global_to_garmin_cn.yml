@@ -2,6 +2,19 @@ name: Migrate Garmin Global to Garmin CN
 
 on:
   workflow_dispatch:
+    inputs:
+      migrate_command:
+        description: "迁移命令：支持 Global -> CN 或 CN -> Global"
+        required: true
+        default: "migrate_garmin_global_to_cn"
+        type: choice
+        options:
+          - migrate_garmin_global_to_cn
+          - migrate_all_global_to_cn
+          - migrate_wellness_global_to_cn
+          - migrate_garmin_cn_to_global
+          - migrate_all_cn_to_global
+          - migrate_wellness_cn_to_global
 
 env:
   BARK_KEY: ${{ secrets.BARK_KEY }}
@@ -11,6 +24,12 @@ env:
   GARMIN_GLOBAL_PASSWORD: ${{ secrets.GARMIN_GLOBAL_PASSWORD }}
   GARMIN_MIGRATE_NUM: ${{ secrets.GARMIN_MIGRATE_NUM }}
   GARMIN_MIGRATE_START: ${{ secrets.GARMIN_MIGRATE_START }}
+  # Wellness 健康数据默认关闭；需要迁移步数、睡眠、HRV、压力等数据时，在 Secrets 中设置 GARMIN_SYNC_WELLNESS=true
+  GARMIN_SYNC_WELLNESS: ${{ secrets.GARMIN_SYNC_WELLNESS }}
+  # 历史迁移健康数据天数；未配置或 0 表示不迁移历史健康数据
+  GARMIN_WELLNESS_MIGRATE_DAYS: ${{ secrets.GARMIN_WELLNESS_MIGRATE_DAYS }}
+  # 历史迁移从今天往前跳过多少天开始；0 表示从今天开始
+  GARMIN_WELLNESS_MIGRATE_START_DAYS: ${{ secrets.GARMIN_WELLNESS_MIGRATE_START_DAYS }}
 
 jobs:
   build:
@@ -25,7 +44,7 @@ jobs:
           node-version: '18'
           cache: 'yarn'
       - run: yarn
-      - run: yarn migrate_garmin_global_to_cn
+      - run: yarn ${{ github.event.inputs.migrate_command || 'migrate_garmin_global_to_cn' }}
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Save Garmin Session

@@ -38,19 +38,70 @@ github:
 git clone https://github.com/gooin/dailysync-rev.git
 ```
 ### 修改配置文件
-打开`.env`文件，按注释填入信息
+打开`.env`文件，按注释填入信息。Docker 运行会通过 `docker-compose.yml` 的 `env_file` 读取 `.env`；本地 `yarn` 运行也会自动读取项目根目录的 `.env`。
+
+```dotenv
+# 佳明中国区账号密码，对应 https://connect.garmin.cn/
+GARMIN_USERNAME=example@example.com
+GARMIN_PASSWORD=password
+
+# 佳明国际区账号密码，对应 https://connect.garmin.com/
+GARMIN_GLOBAL_USERNAME=example@example.com
+GARMIN_GLOBAL_PASSWORD=password
+
+# 活动历史迁移配置：每次迁移多少条活动，以及从第几条活动开始
+GARMIN_MIGRATE_NUM=100
+GARMIN_MIGRATE_START=0
+
+# Wellness 健康数据同步配置，默认关闭；需要同步步数、睡眠、HRV、压力等健康数据时改为 true
+# 注意：目标账号需要先人工绑定/连接一台支持健康数据的 Garmin 设备，否则上传会报 419
+GARMIN_SYNC_WELLNESS=false
+
+# 日常同步时检查最近几天的健康数据
+GARMIN_WELLNESS_SYNC_DAYS=1
+
+# 历史迁移健康数据天数；0 表示不迁移历史健康数据
+GARMIN_WELLNESS_MIGRATE_DAYS=0
+
+# 历史迁移从今天往前跳过多少天开始；0 表示从今天开始
+GARMIN_WELLNESS_MIGRATE_START_DAYS=0
+```
 
 ### 修改docker-compsoe.yml 文件
 
-可以通过修改文件中的`command`参数决定每次执行的功能，默认是国区同步到国际区
+可以通过修改文件中的`command`参数决定每次执行的功能。普通 `sync_*` 只同步活动数据；`sync_all_*` 是复合同步入口，会先同步活动数据，再在 `GARMIN_SYNC_WELLNESS=true` 时同步 Wellness 健康数据。
 
+历史迁移同理：`migrate_garmin_*` 只迁移活动数据；`migrate_wellness_*` 只迁移 Wellness 健康数据；`migrate_all_*` 会迁移活动数据和 Wellness 健康数据。
+
+同步中国区到国际区（仅活动数据）
 ```shell
 yarn sync_cn
 ```
-同步国际区到中国区
+同步国际区到中国区（仅活动数据）
 ```shell
 yarn sync_global
 ```
+
+同步中国区到国际区（活动数据 + Wellness 健康数据）
+```shell
+yarn sync_all_cn_to_global
+```
+
+同步国际区到中国区（活动数据 + Wellness 健康数据）
+```shell
+yarn sync_all_global_to_cn
+```
+
+同步中国区到国际区（仅 Wellness 健康数据，按 `GARMIN_WELLNESS_SYNC_DAYS` 检查最近几天）
+```shell
+yarn sync_wellness_cn_to_global
+```
+
+同步国际区到中国区（仅 Wellness 健康数据，按 `GARMIN_WELLNESS_SYNC_DAYS` 检查最近几天）
+```shell
+yarn sync_wellness_global_to_cn
+```
+
 迁移历史数据：中国区到国际区
 ```shell
 yarn migrate_garmin_cn_to_global
@@ -58,6 +109,26 @@ yarn migrate_garmin_cn_to_global
 迁移历史数据：国际区到中国区
 ```shell
 yarn migrate_garmin_global_to_cn
+```
+
+迁移历史全量数据：中国区到国际区（活动数据 + Wellness 健康数据）
+```shell
+yarn migrate_all_cn_to_global
+```
+
+迁移历史全量数据：国际区到中国区（活动数据 + Wellness 健康数据）
+```shell
+yarn migrate_all_global_to_cn
+```
+
+迁移历史 Wellness 健康数据：中国区到国际区（按 `GARMIN_WELLNESS_MIGRATE_DAYS` 和 `GARMIN_WELLNESS_MIGRATE_START_DAYS`）
+```shell
+yarn migrate_wellness_cn_to_global
+```
+
+迁移历史 Wellness 健康数据：国际区到中国区（按 `GARMIN_WELLNESS_MIGRATE_DAYS` 和 `GARMIN_WELLNESS_MIGRATE_START_DAYS`）
+```shell
+yarn migrate_wellness_global_to_cn
 ```
 
 ### 打包运行一次项目
@@ -73,6 +144,29 @@ docker start daily-sync
 ## Github运行方案
 因为项目之前在Github上占用过多资源被封禁，现在已经调整了执行的频率，熟悉代码的话，将代码下载下来，上传到github，通过 github Actions执行
 具体参考下方文档或参考视频教程: https://www.bilibili.com/video/BV1v94y1Q7oR/?spm_id_from=333.999.0.0
+
+Github Actions 需要在仓库 `Settings -> Secrets and variables -> Actions` 中配置同名 Secrets。手动运行 Sync workflow 时，可以选择 `sync_*`、`sync_all_*` 或 `sync_wellness_*`；定时运行默认仍执行普通 `sync_*`，只同步活动数据。
+
+```text
+GARMIN_USERNAME              # 佳明中国区账号
+GARMIN_PASSWORD              # 佳明中国区密码
+GARMIN_GLOBAL_USERNAME       # 佳明国际区账号
+GARMIN_GLOBAL_PASSWORD       # 佳明国际区密码
+GARMIN_MIGRATE_NUM           # 历史活动迁移数量，迁移 workflow 使用
+GARMIN_MIGRATE_START         # 历史活动迁移起始位置，迁移 workflow 使用
+BARK_KEY                     # 可选，Bark 失败通知
+```
+
+Wellness 健康数据默认关闭。需要同步步数、睡眠、HRV、压力等健康数据时，再额外配置，并运行 `sync_all_*` 或 `sync_wellness_*` 命令：
+
+```text
+GARMIN_SYNC_WELLNESS=true                       # 开启健康数据同步
+GARMIN_WELLNESS_SYNC_DAYS=1                     # 日常同步最近几天
+GARMIN_WELLNESS_MIGRATE_DAYS=30                 # 历史迁移健康数据天数；0 表示不迁移
+GARMIN_WELLNESS_MIGRATE_START_DAYS=0            # 从今天往前跳过多少天开始
+```
+
+注意：目标账号需要先人工绑定或连接一台支持健康数据的 Garmin 设备。若日志出现 `419 Wellness device is not active for this user`，请先在目标账号中连接设备并打开 Garmin Connect，让健康数据功能完成初始化。
 
 ## 使用前账号准备与配置
 
@@ -168,21 +262,7 @@ Windows在文件管理器中打开脚本所在的目录，在地址栏输入 `cm
 yarn
 ```
 ### 填入账号密码
-打开 `src/constant.ts`,
-填入您的佳明账号及密码
-```js
-//中国区
-export const GARMIN_USERNAME_DEFAULT = 'example@example.com';
-export const GARMIN_PASSWORD_DEFAULT = 'password';
-//国际区
-export const GARMIN_GLOBAL_USERNAME_DEFAULT = 'example@example.com';
-export const GARMIN_GLOBAL_PASSWORD_DEFAULT = 'password';
-
-// 佳明迁移数量配置（批量同步历史数据使用）
-export const GARMIN_MIGRATE_NUM_DEFAULT = 100; //每次要迁移的数量，不要填太大
-export const GARMIN_MIGRATE_START_DEFAULT = 0; // 从第几条活动开始
-
-```
+打开 `.env`，按上方“修改配置文件”中的注释填入佳明账号、迁移配置以及可选的 Wellness 健康数据配置。不建议把账号密码写入 `src/constant.ts`。
 
 ### 运行脚本
 注意： 如果执行不能成功，请尝试将梯子更换为美国IP，多更换几个ip试试
@@ -195,6 +275,22 @@ yarn sync_cn
 ```shell
 yarn sync_global
 ```
+同步中国区到国际区（活动数据 + Wellness 健康数据）
+```shell
+yarn sync_all_cn_to_global
+```
+同步国际区到中国区（活动数据 + Wellness 健康数据）
+```shell
+yarn sync_all_global_to_cn
+```
+同步中国区到国际区（仅 Wellness 健康数据）
+```shell
+yarn sync_wellness_cn_to_global
+```
+同步国际区到中国区（仅 Wellness 健康数据）
+```shell
+yarn sync_wellness_global_to_cn
+```
 迁移历史数据：中国区到国际区
 ```shell
 yarn migrate_garmin_cn_to_global
@@ -202,6 +298,22 @@ yarn migrate_garmin_cn_to_global
 迁移历史数据：国际区到中国区
 ```shell
 yarn migrate_garmin_global_to_cn
+```
+迁移历史全量数据：中国区到国际区（活动数据 + Wellness 健康数据）
+```shell
+yarn migrate_all_cn_to_global
+```
+迁移历史全量数据：国际区到中国区（活动数据 + Wellness 健康数据）
+```shell
+yarn migrate_all_global_to_cn
+```
+迁移历史 Wellness 健康数据：中国区到国际区
+```shell
+yarn migrate_wellness_cn_to_global
+```
+迁移历史 Wellness 健康数据：国际区到中国区
+```shell
+yarn migrate_wellness_global_to_cn
 ```
 
 #### 常见问题
