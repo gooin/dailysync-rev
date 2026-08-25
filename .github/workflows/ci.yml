@@ -1,0 +1,31 @@
+name: CI
+
+# 合并前构建验证：PR 与 main 推送时检查 TypeScript 编译 + Docker 镜像构建，防止改坏代码/依赖后合并
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  typecheck:
+    name: TypeScript compile check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'yarn'
+      - run: yarn --frozen-lockfile
+      - run: npx tsc --noEmit
+
+  docker-build:
+    name: Docker image build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Docker image
+        run: docker build -t dailysync-rev:ci .
