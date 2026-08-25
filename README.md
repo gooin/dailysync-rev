@@ -85,7 +85,7 @@ GARMIN_WELLNESS_MIGRATE_START_DAYS=0
 
 ### 修改docker-compose.yml 文件
 
-可以通过修改文件中的`command`参数决定每次执行的功能。普通 `sync_*` 只同步活动数据；`sync_all_*` 是复合同步入口，会先同步活动数据，再在 `GARMIN_SYNC_WELLNESS=true` 时同步 Wellness 健康数据。
+修改 `docker-compose.yml` 中 `services.daily-sync.command` 的值即可决定每次启动执行的功能，默认是国区同步到国际区（`yarn sync_cn`）。普通 `sync_*` 只同步活动数据；`sync_all_*` 是复合同步入口，会先同步活动数据，再在 `GARMIN_SYNC_WELLNESS=true` 时同步 Wellness 健康数据。
 
 历史迁移同理：`migrate_garmin_*` 只迁移活动数据；`migrate_wellness_*` 只迁移 Wellness 健康数据；`migrate_all_*` 会迁移活动数据和 Wellness 健康数据。
 
