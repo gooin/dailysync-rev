@@ -228,12 +228,16 @@ export const syncGarminCNActivities2GarminGlobal = async (
             const { status } = await uploadGarminActivity(filePath, clientGlobal);
             if (status === 'uploaded') {
                 actualNewActivityCount++;
-                // 正序处理（旧→新），最后一条非失败即本批最新，作为新的同步游标
-                lastProcessedStartTime = cnAct.startTimeLocal;
+                // 游标取本批所有已处理条目中的最新一条（跨页时不能只取最后处理的条目，否则会倒退）
+                if (!lastProcessedStartTime || cnAct.startTimeLocal > lastProcessedStartTime) {
+                    lastProcessedStartTime = cnAct.startTimeLocal;
+                }
             } else if (status === 'duplicate') {
                 duplicateCount++;
                 // 目标端已有同时间+同时长的活动，视为已同步
-                lastProcessedStartTime = cnAct.startTimeLocal;
+                if (!lastProcessedStartTime || cnAct.startTimeLocal > lastProcessedStartTime) {
+                    lastProcessedStartTime = cnAct.startTimeLocal;
+                }
             } else {
                 failedCount++;
             }
