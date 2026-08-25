@@ -5,4 +5,5 @@ COPY package.json yarn.lock* tsconfig.json ./
 RUN yarn --frozen-lockfile
 COPY src ./src
 VOLUME /app/db
-CMD ["yarn", "sync_global"]
+VOLUME /app/log
+CMD ["yarn", "sync_cn"]

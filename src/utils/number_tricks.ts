@@ -14,3 +14,15 @@ export const number2emoji = (number: number) => {
 export const number2capital = (number: number) => {
     return String(number).split('').map(i => capitals[Number(i)]).join('');
 };
+
+/**
+ * 将 env 里的字符串安全转成整数，非法值（空串、'10;'、undefined 等）回退到 fallback。
+ * 不能用 Number(x) ?? fallback：Number('10;') = NaN，而 ?? 只拦 null/undefined，NaN 会穿透。
+ */
+export const toSafeInt = (value: any, fallback: number): number => {
+    if (value === null || value === undefined || value === '') {
+        return fallback;
+    }
+    const n = Number(value);
+    return Number.isFinite(n) ? n : fallback;
+};

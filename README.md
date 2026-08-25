@@ -12,6 +12,8 @@
 
 
 [![](https://img.shields.io/badge/-Telegram-%2326A5E4?style=flat-square&logo=telegram&logoColor=ffffff)](https://t.me/garmindailysync)
+## 【2026-6说明】github actions 新fork的无法使用了。
+佳明做了限制，对github actions方式运行会出现429限制登录的情况，目前无法解决，推荐让claude或者其他agent将本项目拉到本地去运行。
 
 ## 【2025-12说明】开启了ECG功能的说明
 开通了ECG功能的佳明账号，因为登录佳明时需要提供验证码，开通ECG后，这个验证码无法关闭，github上要中途要输入一次验证码，本同步脚本无法支持，下方的Web版本做了兼容，可以使用。 
@@ -24,7 +26,7 @@
 gitlab: 
 [https://gitlab.com/gooin/dailysync](https://gitlab.com/gooin/dailysync)
 
-github:（actions方式正常可用）
+github:
 [https://github.com/gooin/dailysync-rev](https://github.com/gooin/dailysync-rev)
 
 ## Docker版本
@@ -64,6 +66,16 @@ GARMIN_WELLNESS_MIGRATE_DAYS=0
 # 历史迁移从今天往前跳过多少天开始；0 表示从今天开始
 GARMIN_WELLNESS_MIGRATE_START_DAYS=0
 ```
+
+| 参数 | 说明 | 默认 |
+|---|---|---|
+| `GARMIN_USERNAME_DEFAULT` / `GARMIN_PASSWORD_DEFAULT` | 国区账号密码 | 空 |
+| `GARMIN_GLOBAL_USERNAME_DEFAULT` / `GARMIN_GLOBAL_PASSWORD_DEFAULT` | 国际区账号密码 | 空 |
+| `GARMIN_MIGRATE_NUM_DEFAULT` | 迁移每页条数（自动翻页直到迁完） | 100 |
+| `GARMIN_MIGRATE_START_DEFAULT` | 起始偏移（断点续传用，一般 0） | 0 |
+| `GARMIN_MIGRATE_AUTO_PAGE` | 自动翻页开关：`true`/不填=自动翻页直到迁完；`false`=只跑一批（从 START 起 NUM 条，调试用） | true |
+
+注意：`.env` 的值不要带引号或分号——`docker run --env-file` 不会剥引号、分号会被当成值的一部分（会变成错误密码或 NaN 参数）。
 
 ### 修改docker-compsoe.yml 文件
 
@@ -108,6 +120,20 @@ yarn migrate_garmin_cn_to_global
 ```shell
 yarn migrate_garmin_global_to_cn
 ```
+> 迁移命令默认自动翻页直到迁完所有历史数据（重复的活动自动跳过），`GARMIN_MIGRATE_NUM_DEFAULT` 为每页条数，一般无需修改；断点续传时才需要改 `GARMIN_MIGRATE_START_DEFAULT` 起始偏移。调试时可设置 `GARMIN_MIGRATE_AUTO_PAGE=false` 只跑一批（从 START 起 NUM 条），避免每次跑全量。
+
+### 迁移日志
+迁移运行时的完整日志会同时写入 `log/` 目录（容器内为 `/app/log`，compose 已自动挂载到宿主机 `./log`）：
+
+| 文件 | 内容 |
+|---|---|
+| `log/migrate_cn_to_global_<时间戳>.log` | 国区→国际区 完整日志（登录、进度、汇总） |
+| `log/migrate_cn_to_global_<时间戳>_failed.log` | 仅失败的条目明细 |
+| `log/migrate_global_to_cn_<时间戳>.log` / `_failed.log` | 反方向同上 |
+
+格式：每行一条，前缀为 ISO 时间，如 `[2026-08-25T09:36:31.502Z] 上传失败: 【西安市 跑步】 ...`。使用 `docker run` 时需手动挂载 `-v "$PWD/log:/app/log"`。
+
+迁移进度每页打一行（页面耗时较长时每 60 秒心跳一行），另输出失败条目与结束汇总——终端、docker logs、CI、日志文件的输出行为完全一致。
 
 迁移历史全量数据：中国区到国际区（活动数据 + Wellness 健康数据）
 ```shell
@@ -260,7 +286,22 @@ Windows在文件管理器中打开脚本所在的目录，在地址栏输入 `cm
 yarn
 ```
 ### 填入账号密码
-打开 `.env`，按上方“修改配置文件”中的注释填入佳明账号、迁移配置以及可选的 Wellness 健康数据配置。不建议把账号密码写入 `src/constant.ts`。
+推荐复制并打开 `.env`，按上方“修改配置文件”中的注释填入佳明账号、迁移配置以及可选的 Wellness 健康数据配置（或者也可以在 `src/constant.ts` 中配置默认值）：
+
+```dotenv
+# 佳明国区账号密码
+GARMIN_USERNAME=example@example.com
+GARMIN_PASSWORD=password
+# 佳明国际区账号密码
+GARMIN_GLOBAL_USERNAME=example@example.com
+GARMIN_GLOBAL_PASSWORD=password
+
+# 佳明迁移配置
+GARMIN_MIGRATE_NUM=100
+GARMIN_MIGRATE_START=0
+GARMIN_MIGRATE_AUTO_PAGE=true
+```
+
 
 ### 运行脚本
 注意： 如果执行不能成功，请尝试将梯子更换为美国IP，多更换几个ip试试
@@ -344,6 +385,8 @@ SHELL=/bin/bash
 ```shell
 tail -100f /var/log/dailysync.log
 ```
+
+迁移命令（`migrate_*`）还会自动把日志写到项目目录 `log/` 下：`migrate_<方向>_<时间戳>.log` 为完整日志，`migrate_<方向>_<时间戳>_failed.log` 为失败明细（每行 `[ISO时间] 内容` 格式），参见上文「迁移日志」小节。
 
 ### 修改定时任务执行频率
 当前为 `*/10 * * * *` 每 10 分钟执行一次
