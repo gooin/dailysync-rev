@@ -6,9 +6,12 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
+    command: yarn migrate_garmin_cn_to_global
     volumes:
       - ./db:/app/db
+      - ./log:/app/log
     container_name: daily-sync
+    tty: true
     logging:
       driver: "json-file"
       options:

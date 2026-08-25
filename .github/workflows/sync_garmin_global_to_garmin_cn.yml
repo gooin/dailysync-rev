@@ -2,6 +2,19 @@ name: Sync Garmin Global to Garmin CN
 
 on:
   workflow_dispatch:
+    inputs:
+      sync_command:
+        description: "同步命令：普通 sync 只同步活动；sync_all 同步活动+Wellness；sync_wellness 只同步 Wellness"
+        required: true
+        default: "sync_global"
+        type: choice
+        options:
+          - sync_global
+          - sync_all_global_to_cn
+          - sync_wellness_global_to_cn
+          - sync_cn
+          - sync_all_cn_to_global
+          - sync_wellness_cn_to_global
   schedule:
     #  每6小时检查一次
     - cron: "0 */6 * * *"
@@ -19,6 +32,10 @@ env:
   GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
   GARMIN_GLOBAL_USERNAME: ${{ secrets.GARMIN_GLOBAL_USERNAME }}
   GARMIN_GLOBAL_PASSWORD: ${{ secrets.GARMIN_GLOBAL_PASSWORD }}
+  # Wellness 健康数据默认关闭；需要同步步数、睡眠、HRV、压力等数据时，在 Secrets 中设置 GARMIN_SYNC_WELLNESS=true
+  GARMIN_SYNC_WELLNESS: ${{ secrets.GARMIN_SYNC_WELLNESS }}
+  # 日常同步时检查最近几天的健康数据；未配置时默认为 1
+  GARMIN_WELLNESS_SYNC_DAYS: ${{ secrets.GARMIN_WELLNESS_SYNC_DAYS }}
 
 jobs:
   build:
@@ -33,8 +50,8 @@ jobs:
           node-version: "18"
           cache: "yarn"
       - run: yarn
-      - run: yarn sync_global
-        timeout-minutes: 5
+      - run: yarn ${{ github.event.inputs.sync_command || 'sync_global' }}
+        timeout-minutes: 15
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Save Garmin Session
