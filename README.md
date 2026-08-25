@@ -38,9 +38,9 @@ github:
 git clone https://github.com/gooin/dailysync-rev.git
 ```
 ### 修改配置文件
-打开`.env`文件，按注释填入信息
+复制模板文件为 `.env`（`cp .env.example .env`），按注释填入信息
 
-### 修改docker-compsoe.yml 文件
+### 修改docker-compose.yml 文件
 
 可以通过修改文件中的`command`参数决定每次执行的功能，默认是国区同步到国际区
 
