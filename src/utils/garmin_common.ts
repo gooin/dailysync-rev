@@ -38,6 +38,12 @@ export const uploadGarminActivity = async (fitFilePath: string, client: GarminCl
         return { status: 'error', error };
     } finally {
         console.error = originalConsoleError;
+        // 上传结束后清理解压出来的 .fit 临时文件，避免 garmin_fit_files 目录无限累积
+        try {
+            fs.unlinkSync(fitFilePath);
+        } catch (e) {
+            // 文件已被删除或不存在时忽略
+        }
     }
 };
 
@@ -82,6 +88,12 @@ export const downloadGarminActivity = async (activityId, client: GarminClientTyp
     const originZipFile = DOWNLOAD_DIR + '/' + activityId + '.zip';
     const baseFilePath = `${DOWNLOAD_DIR}/`;
     const unzipped = await decompress(originZipFile, DOWNLOAD_DIR);
+    // 解压完成后清理原始 zip（.fit 由 uploadGarminActivity 上传后清理）
+    try {
+        fs.unlinkSync(originZipFile);
+    } catch (e) {
+        // 删除失败忽略，不影响后续流程
+    }
     const unzippedFileName = unzipped?.[0].path;
     const path = baseFilePath + unzippedFileName;
     console.log('downloadGarminActivity - path:', path)
@@ -100,6 +112,9 @@ export const getGarminStatistics = async (client: GarminClientType): Promise<Rec
 
     // 包含running关键字的都算
     const recentRunningAct = _.filter(acts, act => act?.activityType?.typeKey?.includes('running'))[0];
+    if (!recentRunningAct) {
+        throw new Error('最近 10 条活动中没有跑步记录，无法获取跑步统计数据');
+    }
     console.log('recentRunningAct type: ', recentRunningAct.activityType?.typeKey);
 
     const {

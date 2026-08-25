@@ -13,7 +13,7 @@ import { GarminClientType } from './type';
 import { number2capital, toSafeInt } from './number_tricks';
 const core = require('@actions/core');
 import _ from 'lodash';
-import { getSessionFromDB, initDB, saveSessionToDB, updateSessionToDB } from './sqlite';
+import { getSessionFromDB, getSyncCursor, initDB, saveSessionToDB, setSyncCursor, updateSessionToDB } from './sqlite';
 import { getSessionFromEnv } from './garmin_session_env';
 import { migrateGarminWellnessByDateRange, syncGarminWellnessRecentDays } from './garmin_wellness';
 
@@ -90,9 +90,9 @@ export const migrateGarminCNActivities2GarminGlobal = async (
     clientGlobal: GarminClientType,
     count = 200,
 ) => {
-    // GARMIN_MIGRATE_NUM 作为每页条数，GARMIN_MIGRATE_START 作为起始偏移
+    // GARMIN_MIGRATE_NUM 作为每页条数；GARMIN_MIGRATE_START 从 1 开始计数（1=最新一条活动），内部换算成 API 需要的 0-based 偏移
     const batchSize = toSafeInt(GARMIN_MIGRATE_NUM, count);
-    const startOffset = toSafeInt(GARMIN_MIGRATE_START, 0);
+    const startOffset = Math.max(0, toSafeInt(GARMIN_MIGRATE_START, 1) - 1);
 
     if (!clientCN || !clientGlobal) {
         throw new Error('佳明登录失败，无法开始迁移');
@@ -184,29 +184,78 @@ export const syncGarminCNActivities2GarminGlobal = async (
     clientCN: GarminClientType,
     clientGlobal: GarminClientType,
 ) => {
-    let cnActs = await clientCN.getActivities(0, Number(GARMIN_SYNC_NUM));
-    const globalActs = await clientGlobal.getActivities(0, 1);
+    // 增量同步游标：上次成功同步到的国区活动开始时间（存于 db/garmin.db）；
+    // 无游标（首次运行）时以目标端最新活动为基准；之后从游标位置翻页取新增活动，不再有"只检查最近 N 条"的限制
+    const cursor = await getSyncCursor('CN2GLOBAL');
+    const latestSyncedStartTime = cursor?.lastSyncStartTime
+        ?? (await clientGlobal.getActivities(0, 1))[0]?.startTimeLocal
+        ?? '0';
+    if (!cursor?.lastSyncStartTime) {
+        console.log(`首次同步，基准为目标端最新活动开始时间: 【 ${latestSyncedStartTime} 】`);
+    }
 
-    const latestGlobalActStartTime = globalActs[0]?.startTimeLocal ?? '0';
-    const latestCnActStartTime = cnActs[0]?.startTimeLocal ?? '0';
-    if (latestCnActStartTime === latestGlobalActStartTime) {
-        console.log(`没有要同步的活动内容, 最近的活动:  【 ${cnActs[0].activityName} 】, 开始于: 【 ${latestCnActStartTime} 】`);
-    } else {
-        // fix: #18
-        _.reverse(cnActs);
-        let actualNewActivityCount = 1;
-        for (let i = 0; i < cnActs.length; i++) {
-            const cnAct = cnActs[i];
-            if (cnAct.startTimeLocal > latestGlobalActStartTime) {
-                // 下载佳明原始数据
-                const filePath = await downloadGarminActivity(cnAct.activityId, clientCN);
-                // 上传到佳明国际区
-                console.log(`本次开始向国际区上传第 ${number2capital(actualNewActivityCount)} 条数据，【 ${cnAct.activityName} 】，开始于 【 ${cnAct.startTimeLocal} 】，活动ID: 【 ${cnAct.activityId} 】`);
-                await uploadGarminActivity(filePath, clientGlobal);
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                actualNewActivityCount++;
-            }
+    // GARMIN_SYNC_NUM 作为每页条数；自动翻页直到游标位置，一次新增任意多条都不会漏同步
+    const batchSize = toSafeInt(GARMIN_SYNC_NUM, 10);
+    let pageIndex = 0;
+    let actualNewActivityCount = 0;
+    let duplicateCount = 0;
+    let failedCount = 0;
+    let lastProcessedStartTime: string | undefined;
+    let latestSourceAct: any;
+    // 防止接口异常时死循环：最多 500 页
+    outer:
+    for (let page = 0; page < 500; page++) {
+        const cnActs = await clientCN.getActivities(pageIndex, batchSize);
+        if (!cnActs || cnActs.length === 0) {
+            break;
         }
+        if (!latestSourceAct) {
+            latestSourceAct = cnActs[0]; // 列表按时间倒序，第一页第一条即最新活动
+        }
+        // 页内最旧一条已 <= 游标：更早的活动都已同步过，不用再取下一页
+        const reachedCursor = (cnActs[cnActs.length - 1]?.startTimeLocal ?? '0') <= latestSyncedStartTime;
+        // fix: #18 —— 列表按时间倒序，翻回正序从旧到新上传
+        _.reverse(cnActs);
+        for (const cnAct of cnActs) {
+            if (cnAct.startTimeLocal <= latestSyncedStartTime) {
+                // 页内混合了已同步过的旧活动，跳过
+                continue;
+            }
+            // 下载佳明原始数据
+            const filePath = await downloadGarminActivity(cnAct.activityId, clientCN);
+            // 上传到佳明国际区
+            console.log(`本次开始向国际区上传第 ${number2capital(actualNewActivityCount + 1)} 条数据，【 ${cnAct.activityName} 】，开始于 【 ${cnAct.startTimeLocal} 】，活动ID: 【 ${cnAct.activityId} 】`);
+            const { status } = await uploadGarminActivity(filePath, clientGlobal);
+            if (status === 'uploaded') {
+                actualNewActivityCount++;
+                // 游标取本批所有已处理条目中的最新一条（跨页时不能只取最后处理的条目，否则会倒退）
+                if (!lastProcessedStartTime || cnAct.startTimeLocal > lastProcessedStartTime) {
+                    lastProcessedStartTime = cnAct.startTimeLocal;
+                }
+            } else if (status === 'duplicate') {
+                duplicateCount++;
+                // 目标端已有同时间+同时长的活动，视为已同步
+                if (!lastProcessedStartTime || cnAct.startTimeLocal > lastProcessedStartTime) {
+                    lastProcessedStartTime = cnAct.startTimeLocal;
+                }
+            } else {
+                failedCount++;
+            }
+            await new Promise(resolve => setTimeout(resolve, 1000));
+        }
+        pageIndex += cnActs.length;
+        if (reachedCursor || cnActs.length < batchSize) {
+            break;
+        }
+    }
+
+    if (failedCount === 0 && lastProcessedStartTime) {
+        await setSyncCursor('CN2GLOBAL', lastProcessedStartTime);
+        console.log(`同步完成：新增 ${actualNewActivityCount} 条（重复 ${duplicateCount} 条），已记录同步游标 【 ${lastProcessedStartTime} 】`);
+    } else if (failedCount === 0) {
+        console.log(`没有要同步的活动内容, 最近的活动:  【 ${latestSourceAct?.activityName ?? '未知'} 】, 开始于: 【 ${latestSourceAct?.startTimeLocal ?? '-'} 】`);
+    } else {
+        console.log(`同步结束：新增 ${actualNewActivityCount} 条，重复 ${duplicateCount} 条，失败 ${failedCount} 条；存在失败，同步游标未推进，下次同步将重试失败条目`);
     }
 };
 

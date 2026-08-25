@@ -74,8 +74,9 @@ GARMIN_WELLNESS_MIGRATE_START_DAYS=0
 | `GARMIN_GLOBAL_USERNAME` / `GARMIN_GLOBAL_USERNAME_DEFAULT` | 国际区账号 | 空 |
 | `GARMIN_GLOBAL_PASSWORD` / `GARMIN_GLOBAL_PASSWORD_DEFAULT` | 国际区密码 | 空 |
 | `GARMIN_MIGRATE_NUM` / `GARMIN_MIGRATE_NUM_DEFAULT` | 迁移每页条数（自动翻页直到迁完） | 100 |
-| `GARMIN_MIGRATE_START` / `GARMIN_MIGRATE_START_DEFAULT` | 起始偏移（断点续传用，一般 0） | 0 |
+| `GARMIN_MIGRATE_START` / `GARMIN_MIGRATE_START_DEFAULT` | 从第几条活动开始迁移（1=最新一条，0 或不填=全部；断点续传时填上次迁到的序号） | 0 |
 | `GARMIN_MIGRATE_AUTO_PAGE` | 自动翻页开关：`true`/不填=自动翻页直到迁完；`false`=只跑一批（从 START 起 NUM 条，调试用） | true |
+| `GARMIN_SYNC_NUM` / `GARMIN_SYNC_NUM_DEFAULT` | 增量同步每页拉取的条数。同步是增量的：每次同步完成后把最后同步到的活动时间记录在 `db/garmin.db`，下次从该游标位置翻页取新增活动，一次新增任意多条都不会漏；只影响单次拉取条数，不再有"只检查最近 10 条"的限制 | 10 |
 | `GARMIN_SYNC_WELLNESS` / `GARMIN_SYNC_WELLNESS_DEFAULT` | Wellness 健康数据同步开关（`true`/`false`，默认关闭） | false |
 | `GARMIN_WELLNESS_SYNC_DAYS` / `GARMIN_WELLNESS_SYNC_DAYS_DEFAULT` | 日常同步时检查最近几天的健康数据 | 1 |
 | `GARMIN_WELLNESS_MIGRATE_DAYS` / `GARMIN_WELLNESS_MIGRATE_DAYS_DEFAULT` | 历史迁移健康数据天数（0 表示不迁移） | 0 |
@@ -85,7 +86,7 @@ GARMIN_WELLNESS_MIGRATE_START_DAYS=0
 
 ### 修改docker-compose.yml 文件
 
-可以通过修改文件中的`command`参数决定每次执行的功能。普通 `sync_*` 只同步活动数据；`sync_all_*` 是复合同步入口，会先同步活动数据，再在 `GARMIN_SYNC_WELLNESS=true` 时同步 Wellness 健康数据。
+修改 `docker-compose.yml` 中 `services.daily-sync.command` 的值即可决定每次启动执行的功能，默认是国区同步到国际区（`yarn sync_cn`）。普通 `sync_*` 只同步活动数据；`sync_all_*` 是复合同步入口，会先同步活动数据，再在 `GARMIN_SYNC_WELLNESS=true` 时同步 Wellness 健康数据。
 
 历史迁移同理：`migrate_garmin_*` 只迁移活动数据；`migrate_wellness_*` 只迁移 Wellness 健康数据；`migrate_all_*` 会迁移活动数据和 Wellness 健康数据。
 
