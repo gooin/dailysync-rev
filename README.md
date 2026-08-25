@@ -40,6 +40,16 @@ git clone https://github.com/gooin/dailysync-rev.git
 ### 修改配置文件
 打开`.env`文件，按注释填入信息
 
+| 参数 | 说明 | 默认 |
+|---|---|---|
+| `GARMIN_USERNAME_DEFAULT` / `GARMIN_PASSWORD_DEFAULT` | 国区账号密码 | 空 |
+| `GARMIN_GLOBAL_USERNAME_DEFAULT` / `GARMIN_GLOBAL_PASSWORD_DEFAULT` | 国际区账号密码 | 空 |
+| `GARMIN_MIGRATE_NUM_DEFAULT` | 迁移每页条数（自动翻页直到迁完） | 100 |
+| `GARMIN_MIGRATE_START_DEFAULT` | 起始偏移（断点续传用，一般 0） | 0 |
+| `GARMIN_MIGRATE_AUTO_PAGE` | 自动翻页开关：`true`/不填=自动翻页直到迁完；`false`=只跑一批（从 START 起 NUM 条，调试用） | true |
+
+注意：`.env` 的值不要带引号或分号——`docker run --env-file` 不会剥引号、分号会被当成值的一部分（会变成错误密码或 NaN 参数）。
+
 ### 修改docker-compsoe.yml 文件
 
 可以通过修改文件中的`command`参数决定每次执行的功能，默认是国区同步到国际区
