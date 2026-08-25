@@ -6,12 +6,17 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
-    command: yarn migrate_garmin_cn_to_global
     volumes:
       - ./db:/app/db
       - ./log:/app/log
     container_name: daily-sync
     tty: true
+    # 每次容器启动执行的功能（默认国区同步到国际区），可选：
+    #   yarn sync_cn                     同步：国区 → 国际区（默认）
+    #   yarn sync_global                 同步：国际区 → 国区
+    #   yarn migrate_garmin_cn_to_global 迁移历史数据：国区 → 国际区
+    #   yarn migrate_garmin_global_to_cn 迁移历史数据：国际区 → 国区
+    command: yarn sync_cn
     logging:
       driver: "json-file"
       options:
