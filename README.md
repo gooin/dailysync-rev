@@ -38,27 +38,29 @@ github:
 git clone https://github.com/gooin/dailysync-rev.git
 ```
 ### 修改配置文件
-打开`.env`文件，按注释填入信息
+复制模板文件为 `.env`（`cp .env.example .env`），按注释填入信息
 
-### 修改docker-compsoe.yml 文件
+### 修改docker-compose.yml 文件
 
-可以通过修改文件中的`command`参数决定每次执行的功能，默认是国区同步到国际区
+修改 `docker-compose.yml` 中 `services.daily-sync.command` 的值即可决定每次启动执行的功能，默认是国区同步到国际区（`yarn sync_cn`）：
 
-```shell
-yarn sync_cn
-```
-同步国际区到中国区
-```shell
-yarn sync_global
-```
-迁移历史数据：中国区到国际区
-```shell
-yarn migrate_garmin_cn_to_global
-```
-迁移历史数据：国际区到中国区
-```shell
-yarn migrate_garmin_global_to_cn
-```
+| command 值 | 功能 |
+|---|---|
+| `yarn sync_cn`（默认） | 同步：国区 → 国际区 |
+| `yarn sync_global` | 同步：国际区 → 国区 |
+| `yarn migrate_garmin_cn_to_global` | 迁移历史数据：国区 → 国际区 |
+| `yarn migrate_garmin_global_to_cn` | 迁移历史数据：国际区 → 国区 |
+
+### .env 可配置参数
+
+| 参数 | 类型 | 作用 |
+|---|---|---|
+| `GARMIN_USERNAME_DEFAULT` | string | 佳明国区登录账号 |
+| `GARMIN_PASSWORD_DEFAULT` | string | 佳明国区登录密码 |
+| `GARMIN_GLOBAL_USERNAME_DEFAULT` | string | 佳明国际区登录账号 |
+| `GARMIN_GLOBAL_PASSWORD_DEFAULT` | string | 佳明国际区登录密码 |
+| `GARMIN_MIGRATE_NUM_DEFAULT` | number | 迁移时每批处理条数（不要填太大） |
+| `GARMIN_MIGRATE_START_DEFAULT` | number | 迁移时从第几条活动开始（默认 0） |
 
 ### 打包运行一次项目
 ```shell
