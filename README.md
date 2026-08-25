@@ -20,7 +20,7 @@
 
 ## Web版本
 如果你不熟悉代码，强烈推荐使用这个版本，在网页上填入账号点击就能同步数据，简洁好用。
-[https://dailysync.vyzt.dev/](https://dailysync.vyzt.dev/)
+[https://dailysync.cn/](https://dailysync.cn/)
 
 ## 其他仓库备份
 gitlab: 
