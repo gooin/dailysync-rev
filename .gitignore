@@ -6,6 +6,7 @@ garmin_wellness_files
 .env
 db/*.db
 ./src/constant.my.ts
+.env
 
 # Virtual environment
 bin/

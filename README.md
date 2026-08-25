@@ -38,7 +38,7 @@ github:
 git clone https://github.com/gooin/dailysync-rev.git
 ```
 ### 修改配置文件
-打开`.env`文件，按注释填入信息。Docker 运行会通过 `docker-compose.yml` 的 `env_file` 读取 `.env`；本地 `yarn` 运行也会自动读取项目根目录的 `.env`。
+复制模板文件为 `.env`（`cp .env.example .env`），按注释填入信息。Docker 运行会通过 `docker-compose.yml` 的 `env_file` 读取 `.env`；本地 `yarn` 运行也会自动读取项目根目录的 `.env`。
 
 ```dotenv
 # 佳明中国区账号密码，对应 https://connect.garmin.cn/
@@ -69,15 +69,21 @@ GARMIN_WELLNESS_MIGRATE_START_DAYS=0
 
 | 参数 | 说明 | 默认 |
 |---|---|---|
-| `GARMIN_USERNAME_DEFAULT` / `GARMIN_PASSWORD_DEFAULT` | 国区账号密码 | 空 |
-| `GARMIN_GLOBAL_USERNAME_DEFAULT` / `GARMIN_GLOBAL_PASSWORD_DEFAULT` | 国际区账号密码 | 空 |
-| `GARMIN_MIGRATE_NUM_DEFAULT` | 迁移每页条数（自动翻页直到迁完） | 100 |
-| `GARMIN_MIGRATE_START_DEFAULT` | 起始偏移（断点续传用，一般 0） | 0 |
+| `GARMIN_USERNAME` / `GARMIN_USERNAME_DEFAULT` | 国区账号 | 空 |
+| `GARMIN_PASSWORD` / `GARMIN_PASSWORD_DEFAULT` | 国区密码 | 空 |
+| `GARMIN_GLOBAL_USERNAME` / `GARMIN_GLOBAL_USERNAME_DEFAULT` | 国际区账号 | 空 |
+| `GARMIN_GLOBAL_PASSWORD` / `GARMIN_GLOBAL_PASSWORD_DEFAULT` | 国际区密码 | 空 |
+| `GARMIN_MIGRATE_NUM` / `GARMIN_MIGRATE_NUM_DEFAULT` | 迁移每页条数（自动翻页直到迁完） | 100 |
+| `GARMIN_MIGRATE_START` / `GARMIN_MIGRATE_START_DEFAULT` | 起始偏移（断点续传用，一般 0） | 0 |
 | `GARMIN_MIGRATE_AUTO_PAGE` | 自动翻页开关：`true`/不填=自动翻页直到迁完；`false`=只跑一批（从 START 起 NUM 条，调试用） | true |
+| `GARMIN_SYNC_WELLNESS` / `GARMIN_SYNC_WELLNESS_DEFAULT` | Wellness 健康数据同步开关（`true`/`false`，默认关闭） | false |
+| `GARMIN_WELLNESS_SYNC_DAYS` / `GARMIN_WELLNESS_SYNC_DAYS_DEFAULT` | 日常同步时检查最近几天的健康数据 | 1 |
+| `GARMIN_WELLNESS_MIGRATE_DAYS` / `GARMIN_WELLNESS_MIGRATE_DAYS_DEFAULT` | 历史迁移健康数据天数（0 表示不迁移） | 0 |
+| `GARMIN_WELLNESS_MIGRATE_START_DAYS` / `GARMIN_WELLNESS_MIGRATE_START_DAYS_DEFAULT` | 历史健康数据迁移跳过的起始天数（0 表示从今天开始） | 0 |
 
 注意：`.env` 的值不要带引号或分号——`docker run --env-file` 不会剥引号、分号会被当成值的一部分（会变成错误密码或 NaN 参数）。
 
-### 修改docker-compsoe.yml 文件
+### 修改docker-compose.yml 文件
 
 可以通过修改文件中的`command`参数决定每次执行的功能。普通 `sync_*` 只同步活动数据；`sync_all_*` 是复合同步入口，会先同步活动数据，再在 `GARMIN_SYNC_WELLNESS=true` 时同步 Wellness 健康数据。
 

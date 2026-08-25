@@ -18,7 +18,11 @@ const loadDotEnv = () => {
         }
 
         const name = trimmedLine.slice(0, separatorIndex).trim();
-        const value = trimmedLine.slice(separatorIndex + 1).trim().replace(/;$/, '');
+        // 剥掉尾分号与首尾单双引号（docker run --env-file 不会剥引号，本地直跑需要）
+        const value = trimmedLine.slice(separatorIndex + 1).trim()
+            .replace(/;$/, '')
+            .replace(/^['"]/, '')
+            .replace(/['"]$/, '');
         if (!process.env[name]) {
             process.env[name] = value;
         }

@@ -1,20 +1,12 @@
 import fs from 'fs';
 
-const core = require('@actions/core');
 import {
     DOWNLOAD_DIR,
-    FILE_SUFFIX,
-    GARMIN_MIGRATE_NUM_DEFAULT,
-    GARMIN_MIGRATE_START_DEFAULT,
-    GARMIN_PASSWORD_DEFAULT,
     GARMIN_URL_DEFAULT,
-    GARMIN_USERNAME_DEFAULT,
 } from '../constant';
 import { GarminClientType } from './type';
 import _ from 'lodash';
 const decompress = require('decompress');
-
-const unzipper = require('unzipper');
 
 /**
  * 上传 .fit file
