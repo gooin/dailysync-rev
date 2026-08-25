@@ -85,9 +85,9 @@ export const migrateGarminGlobalActivities2GarminCN = async (
     clientCn: GarminClientType,
     count = 200,
 ) => {
-    // GARMIN_MIGRATE_NUM 作为每页条数，GARMIN_MIGRATE_START 作为起始偏移
+    // GARMIN_MIGRATE_NUM 作为每页条数；GARMIN_MIGRATE_START 从 1 开始计数（1=最新一条活动），内部换算成 API 需要的 0-based 偏移
     const batchSize = toSafeInt(GARMIN_MIGRATE_NUM, count);
-    const startOffset = toSafeInt(GARMIN_MIGRATE_START, 0);
+    const startOffset = Math.max(0, toSafeInt(GARMIN_MIGRATE_START, 1) - 1);
 
     if (!clientGlobal || !clientCn) {
         throw new Error('佳明登录失败，无法开始迁移');
