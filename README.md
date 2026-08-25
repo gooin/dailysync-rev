@@ -40,6 +40,16 @@ git clone https://github.com/gooin/dailysync-rev.git
 ### 修改配置文件
 打开`.env`文件，按注释填入信息
 
+| 参数 | 说明 | 默认 |
+|---|---|---|
+| `GARMIN_USERNAME_DEFAULT` / `GARMIN_PASSWORD_DEFAULT` | 国区账号密码 | 空 |
+| `GARMIN_GLOBAL_USERNAME_DEFAULT` / `GARMIN_GLOBAL_PASSWORD_DEFAULT` | 国际区账号密码 | 空 |
+| `GARMIN_MIGRATE_NUM_DEFAULT` | 迁移每页条数（自动翻页直到迁完） | 100 |
+| `GARMIN_MIGRATE_START_DEFAULT` | 起始偏移（断点续传用，一般 0） | 0 |
+| `GARMIN_MIGRATE_AUTO_PAGE` | 自动翻页开关：`true`/不填=自动翻页直到迁完；`false`=只跑一批（从 START 起 NUM 条，调试用） | true |
+
+注意：`.env` 的值不要带引号或分号——`docker run --env-file` 不会剥引号、分号会被当成值的一部分（会变成错误密码或 NaN 参数）。
+
 ### 修改docker-compsoe.yml 文件
 
 可以通过修改文件中的`command`参数决定每次执行的功能，默认是国区同步到国际区
@@ -59,6 +69,20 @@ yarn migrate_garmin_cn_to_global
 ```shell
 yarn migrate_garmin_global_to_cn
 ```
+> 迁移命令默认自动翻页直到迁完所有历史数据（重复的活动自动跳过），`GARMIN_MIGRATE_NUM_DEFAULT` 为每页条数，一般无需修改；断点续传时才需要改 `GARMIN_MIGRATE_START_DEFAULT` 起始偏移。调试时可设置 `GARMIN_MIGRATE_AUTO_PAGE=false` 只跑一批（从 START 起 NUM 条），避免每次跑全量。
+
+### 迁移日志
+迁移运行时的完整日志会同时写入 `log/` 目录（容器内为 `/app/log`，compose 已自动挂载到宿主机 `./log`）：
+
+| 文件 | 内容 |
+|---|---|
+| `log/migrate_cn_to_global_<时间戳>.log` | 国区→国际区 完整日志（登录、进度、汇总） |
+| `log/migrate_cn_to_global_<时间戳>_failed.log` | 仅失败的条目明细 |
+| `log/migrate_global_to_cn_<时间戳>.log` / `_failed.log` | 反方向同上 |
+
+格式：每行一条，前缀为 ISO 时间，如 `[2026-08-25T09:36:31.502Z] 上传失败: 【西安市 跑步】 ...`。使用 `docker run` 时需手动挂载 `-v "$PWD/log:/app/log"`。
+
+迁移进度每页打一行（页面耗时较长时每 60 秒心跳一行），另输出失败条目与结束汇总——终端、docker logs、CI、日志文件的输出行为完全一致。
 
 ### 打包运行一次项目
 ```shell
@@ -178,9 +202,9 @@ export const GARMIN_PASSWORD_DEFAULT = 'password';
 export const GARMIN_GLOBAL_USERNAME_DEFAULT = 'example@example.com';
 export const GARMIN_GLOBAL_PASSWORD_DEFAULT = 'password';
 
-// 佳明迁移数量配置（批量同步历史数据使用）
-export const GARMIN_MIGRATE_NUM_DEFAULT = 100; //每次要迁移的数量，不要填太大
-export const GARMIN_MIGRATE_START_DEFAULT = 0; // 从第几条活动开始
+// 佳明迁移配置（批量同步历史数据使用）
+export const GARMIN_MIGRATE_NUM_DEFAULT = 100; // 每页条数（迁移会自动翻页直到迁完，一般 20~100 即可）
+export const GARMIN_MIGRATE_START_DEFAULT = 0; // 起始偏移（一般 0 从头迁，断点续传才改）
 
 ```
 
@@ -234,6 +258,8 @@ SHELL=/bin/bash
 ```shell
 tail -100f /var/log/dailysync.log
 ```
+
+迁移命令（`migrate_*`）还会自动把日志写到项目目录 `log/` 下：`migrate_<方向>_<时间戳>.log` 为完整日志，`migrate_<方向>_<时间戳>_failed.log` 为失败明细（每行 `[ISO时间] 内容` 格式），参见上文「迁移日志」小节。
 
 ### 修改定时任务执行频率
 当前为 `*/10 * * * *` 每 10 分钟执行一次
