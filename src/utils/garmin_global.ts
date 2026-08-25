@@ -13,6 +13,7 @@ const core = require('@actions/core');
 import _ from 'lodash';
 import { getSessionFromDB, initDB, saveSessionToDB, updateSessionToDB } from './sqlite';
 import { getSessionFromEnv } from './garmin_session_env';
+import { migrateGarminWellnessByDateRange, syncGarminWellnessRecentDays } from './garmin_wellness';
 
 const { GarminConnect } = require('@gooin/garmin-connect');
 
@@ -79,16 +80,19 @@ export const getGaminGlobalClient = async (): Promise<GarminClientType> => {
     }
 };
 
-export const migrateGarminGlobal2GarminCN = async (count = 200) => {
+export const migrateGarminGlobalActivities2GarminCN = async (
+    clientGlobal: GarminClientType,
+    clientCn: GarminClientType,
+    count = 200,
+) => {
     // GARMIN_MIGRATE_NUM 作为每页条数，GARMIN_MIGRATE_START 作为起始偏移
     const batchSize = toSafeInt(GARMIN_MIGRATE_NUM, count);
     const startOffset = toSafeInt(GARMIN_MIGRATE_START, 0);
 
-    const clientGlobal = await getGaminGlobalClient();
-    const clientCn = await getGaminCNClient();
     if (!clientGlobal || !clientCn) {
         throw new Error('佳明登录失败，无法开始迁移');
     }
+
 
     // 先拉一次全量列表拿总数用于进度展示（该接口对 limit 不截断，999 足够大）
     const totalActs = await clientGlobal.getActivities(startOffset, 999);
@@ -159,10 +163,25 @@ export const migrateGarminGlobal2GarminCN = async (count = 200) => {
     console.log(`迁移结束：共处理 ${processedTotal} 条（成功 ${uploadedCount}，重复跳过 ${duplicateCount}，失败 ${failedCount}），失败明细见 log/${MIGRATE_GLOBAL2CN_LOG_NAME}_*_failed.log`);
 };
 
-export const syncGarminGlobal2GarminCN = async () => {
-    const clientCN = await getGaminCNClient();
+export const migrateGarminGlobal2GarminCN = async (count = 200) => {
     const clientGlobal = await getGaminGlobalClient();
+    const clientCn = await getGaminCNClient();
 
+    await migrateGarminGlobalActivities2GarminCN(clientGlobal, clientCn, count);
+};
+
+export const migrateAllGarminGlobal2GarminCN = async (count = 200) => {
+    const clientGlobal = await getGaminGlobalClient();
+    const clientCn = await getGaminCNClient();
+
+    await migrateGarminGlobalActivities2GarminCN(clientGlobal, clientCn, count);
+    await migrateGarminWellnessByDateRange(clientGlobal, clientCn);
+};
+
+export const syncGarminGlobalActivities2GarminCN = async (
+    clientGlobal: GarminClientType,
+    clientCN: GarminClientType,
+) => {
     const cnActs = await clientCN.getActivities(0, 1);
     let globalActs = await clientGlobal.getActivities(0, Number(GARMIN_SYNC_NUM));
 
@@ -188,4 +207,19 @@ export const syncGarminGlobal2GarminCN = async () => {
             }
         }
     }
+};
+
+export const syncGarminGlobal2GarminCN = async () => {
+    const clientCN = await getGaminCNClient();
+    const clientGlobal = await getGaminGlobalClient();
+
+    await syncGarminGlobalActivities2GarminCN(clientGlobal, clientCN);
+};
+
+export const syncAllGarminGlobal2GarminCN = async () => {
+    const clientCN = await getGaminCNClient();
+    const clientGlobal = await getGaminGlobalClient();
+
+    await syncGarminGlobalActivities2GarminCN(clientGlobal, clientCN);
+    await syncGarminWellnessRecentDays(clientGlobal, clientCN);
 };
