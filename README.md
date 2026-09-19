@@ -19,8 +19,12 @@
 开通了ECG功能的佳明账号，因为登录佳明时需要提供验证码，开通ECG后，这个验证码无法关闭，github上要中途要输入一次验证码，本同步脚本无法支持，下方的Web版本做了兼容，可以使用。 
 
 ## Web版本
-如果你不熟悉代码，强烈推荐使用这个版本，在网页上填入账号点击就能同步数据，简洁好用。
+如果你不熟悉代码，强烈推荐使用这个版本，在网页上填入账号点击就能同步数据，简洁好用，**运动数据同步永久免费**。也增加了目前独有的炫酷3D热图，注册可领取7天Max试用，生成热图查看。
 [https://dailysync.cn/](https://dailysync.cn/)
+<img width="480" height="300" alt="dailysync cn 1" src="https://github.com/user-attachments/assets/9a5533bc-b96f-461b-84ac-bd2c090f40c4" />
+<img width="500" height="300" alt="dailysync cn 2" src="https://github.com/user-attachments/assets/8ba6fee0-f542-4b9f-a600-fff6e82d8668" />
+## App 下载
+https://dailysync.cn/download
 
 ## 其他仓库备份
 gitlab: 
